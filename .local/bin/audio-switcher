@@ -1,0 +1,91 @@
+#!/usr/bin/env sh
+
+# Function to cycle to the next sink
+cycle_to_next_sink() {
+    # Get all sink names
+    sink_names=$(pactl --format=json list sinks | jq -r '.[].name')
+
+    # Get the current default sink
+    current_sink=$(pactl get-default-sink)
+
+    # Create an array of sinks
+    IFS=$'\n' read -d '' -r -a sinks <<< "$sink_names"
+
+    # Find the index of the current sink
+    current_index=-1
+    for i in "${!sinks[@]}"; do
+        if [ "${sinks[i]}" = "$current_sink" ]; then
+            current_index=$i
+            break
+        fi
+    done
+
+    # Initialize variables for the loop
+    tries=0
+    max_tries=${#sinks[@]}
+    next_index=$current_index
+
+    while [ $tries -lt $max_tries ]; do
+        # Calculate the next index
+        next_index=$(( (next_index + 1) % ${#sinks[@]} ))
+
+        # Set the next sink as default
+        pactl set-default-sink "${sinks[next_index]}"
+
+        # Get the actual default sink after setting
+        actual_next_sink=$(pactl get-default-sink)
+        echo "Attempted to switch to sink: ${sinks[next_index]}"
+        echo "Actual sink after switch: $actual_next_sink"
+
+        # If the sink changed, break the loop
+        if [ "$actual_next_sink" != "$current_sink" ]; then
+            echo "Successfully switched to: $actual_next_sink"
+            break
+        fi
+
+        echo "Sink didn't change, trying next..."
+        tries=$((tries + 1))
+    done
+
+    if [ $tries -eq $max_tries ]; then
+        echo "Tried all sinks, but couldn't change. Staying on: $current_sink"
+    fi
+}
+
+# Function to play a chime sound
+play_chime() {
+    # Check if the chime command is available
+    if command -v speaker-test &> /dev/null; then
+        speaker-test -t sine -f 250 -l 1 & sleep .2 && kill -9 $!
+    else
+        echo "speaker-test command not found."
+    fi
+}
+
+# Check if the --cycle option is provided
+if [ "$1" = "--cycle" ]; then
+    cycle_to_next_sink
+    play_chime
+    exit 0
+fi
+
+# If no option is provided, use the original tofi selection method
+selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | tofi --config "$HOME/.config/tofi/small-config")
+
+# If nothing was selected, exit
+if [ -z "$selected_nick" ]; then
+    exit 1
+fi
+
+# Find the corresponding sink name for the selected node.nick
+sink_name=$(pactl --format=json list sinks | jq -r ".[] | select(.properties.\"node.nick\" == \"$selected_nick\") | .name")
+
+# If a matching sink was found, set it as the default sink
+if [ -n "$sink_name" ]; then
+    pactl set-default-sink "$sink_name"
+    actual_sink=$(pactl get-default-sink)
+    echo "Default sink set to: $actual_sink"
+else
+    echo "No matching sink found for: $selected_nick"
+    exit 1
+fi
