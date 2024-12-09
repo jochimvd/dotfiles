@@ -1,0 +1,20 @@
+prompt-text = "> "
+
+text-color = #FFF
+prompt-color = #A793EA
+selection-color = #D6EA93
+background-color = #0F1E25dd
+
+border-color = #E3E1C9
+
+width = 640
+height = 480
+border-width = 2
+outline-width = 0
+corner-radius = 25
+
+font = JetBrainsMono Nerd Font
+font-variations = "wght 600"
+font-size = 16
+
+result-spacing = 4
