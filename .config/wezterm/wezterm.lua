@@ -15,4 +15,17 @@ config.window_decorations = "TITLE | RESIZE"
 
 config.enable_wayland = false
 
+config.default_prog = {
+    "/bin/zsh",
+    "--login",
+    "-c",
+    [[
+    if command -v tmux >/dev/null 2>&1; then
+      tmux attach || tmux new;
+    else
+      exec zsh;
+    fi
+    ]],
+  }
+
 return config
