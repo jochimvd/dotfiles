@@ -1,0 +1,195 @@
+@define-color text #FFF;
+@define-color primary_color #FFF;
+@define-color secondary_color rgba(0, 0, 0, 0.85);
+@define-color tertiary_color #585B70;
+@define-color accent_color #2D6349;
+@define-color powerbutton #F38BA8;
+
+
+@keyframes blink-accent {
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0;
+    }
+
+    70% {
+        opacity: 1;
+        color: @accent_color;
+    }
+
+    100% {
+        opacity: 1;
+        color: @accent_color;
+    }
+}
+
+* {
+    font-family: 'JetBrainsMono Nerd Font', Cantarell, Symbols Nerd Font;
+    font-weight: bolder;
+    font-size: 14px;
+}
+
+window#waybar {
+    color: @text;
+    background-color: @secondary_color;
+    transition: background-color .5s;
+}
+
+tooltip {
+    opacity: 0.9;
+    background-color: @secondary_color;
+    border: 1px solid @tertiary_color;
+    color: @text;
+}
+
+#workspaces button {
+    border: none;
+    border-radius: 5px;
+    padding: 0 5px;
+    color: @tertiary_color;
+    margin: 4px 0 4px 6px;
+    transition: color 200ms ease-in-out, background 200ms ease-in-out;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+#workspaces button:hover {
+    box-shadow: inherit;
+    text-shadow: inherit;
+    margin: 4px 0 4px 6px;
+    color: @secondary_color;
+    background: @primary_color;
+}
+
+#workspaces button.active {
+    color: @primary_color;
+}
+
+#workspaces button.active:hover {
+    color: @secondary_color;
+}
+
+#workspaces button.urgent {
+    animation: blink-accent 1s steps(10) infinite alternate;
+}
+
+#tray-icons .drawer {
+    padding: 0 9px;
+}
+
+#battery,
+#bluetooth,
+#network,
+#pulseaudio,
+#idle_inhibitor,
+#custom-power,
+#custom-notification {
+    font-size: 16px;
+}
+
+#clock,
+#battery,
+#bluetooth,
+#network,
+#pulseaudio,
+#idle_inhibitor,
+#custom-power,
+#custom-notification {
+    transition: color 200ms ease-in-out;
+    padding: 0 9px;
+    margin: 5px 0;
+    color: @text;
+}
+
+#workspaces {
+    margin-left: 5px;
+}
+
+#clock {
+    color: @text;
+}
+
+#pulseaudio {
+    color: @primary_color;
+}
+
+#pulseaudio.muted {
+    color: @tertiary_color;
+}
+
+#pulseaudio#microphone {
+    color: red;
+}
+
+#network {
+    color: @primary_color;
+}
+
+#network.disconnected {
+    color: @tertiary_color;
+}
+
+#bluetooth {
+    color: @primary_color;
+}
+
+#bluetooth.discoverable,
+#bluetooth.discovering {
+    animation: blink-accent 1s steps(10) infinite alternate;
+}
+
+#bluetooth.disabled {
+    color: @tertiary_color;
+}
+
+#battery {
+    color: @primary_color;
+}
+
+/* Using steps() instead of linear as a timing function to limit cpu usage */
+#battery.warning:not(.charging) {
+    animation: blink-accent 1s steps(10) infinite alternate;
+}
+
+#custom-notification {
+    color: @primary_color;
+}
+
+#custom-power {
+    color: @powerbutton;
+    margin-right: 10px;
+}
+
+#idle_inhibitor {
+    color: @tertiary_color;
+}
+
+#idle_inhibitor.activated {
+    color: @primary_color;
+}
+
+#pulseaudio-slider slider {
+    min-height: 0px;
+    min-width: 0px;
+    opacity: 0;
+    background-image: none;
+    border: none;
+    box-shadow: none;
+}
+
+#pulseaudio-slider trough {
+    min-height: 5px;
+    min-width: 80px;
+    border-radius: 5px;
+    background-color: @tertiary_color;
+    border-color: @tertiary_color;
+}
+
+#pulseaudio-slider highlight {
+    min-width: 5px;
+    border-radius: 5px;
+    background-color: @primary_color;
+    border: none;
+}
