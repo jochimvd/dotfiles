@@ -1,4 +1,3 @@
-@define-color text #FFF;
 @define-color primary_color #FFF;
 @define-color secondary_color rgba(0, 0, 0, 0.85);
 @define-color tertiary_color #585B70;
@@ -30,7 +29,7 @@ window#waybar {
     font-family: 'JetBrainsMono Nerd Font', Cantarell, Symbols Nerd Font;
     font-weight: normal;
     font-size: 14px;
-    color: @text;
+    color: @primary_color;
     background-color: @secondary_color;
     transition: background-color .5s;
 }
@@ -39,7 +38,6 @@ tooltip {
     opacity: 0.9;
     background-color: @secondary_color;
     border: 1px solid @tertiary_color;
-    color: @text;
 }
 
 #workspaces {
@@ -87,11 +85,11 @@ tooltip {
 #pulseaudio,
 #battery,
 #custom-notification,
+#privacy,
 #custom-power {
     /* font-size: 16px; */
     transition: color 200ms ease-in-out;
     padding: 0 9px;
-    color: @text;
 }
 
 #clock {
@@ -99,20 +97,12 @@ tooltip {
     color: @text;
 }
 
-#idle_inhibitor {
+#idle_inhibitor.deactivated {
     color: @tertiary_color;
-}
-
-#idle_inhibitor.activated {
-    color: @primary_color;
 }
 
 #tray-icons .drawer {
     padding: 0 9px;
-}
-
-#pulseaudio {
-    color: @primary_color;
 }
 
 #pulseaudio.input.source-muted {
@@ -121,10 +111,6 @@ tooltip {
 
 #pulseaudio.output.muted {
     color: @tertiary_color;
-}
-
-#bluetooth {
-    color: @primary_color;
 }
 
 #bluetooth.discoverable,
@@ -136,16 +122,8 @@ tooltip {
     color: @tertiary_color;
 }
 
-#network {
-    color: @primary_color;
-}
-
 #network.disconnected {
     color: @tertiary_color;
-}
-
-#battery {
-    color: @primary_color;
 }
 
 /* Using steps() instead of linear as a timing function to limit cpu usage */
@@ -153,8 +131,8 @@ tooltip {
     animation: blink-accent 1s steps(10) infinite alternate;
 }
 
-#custom-notification {
-    color: @primary_color;
+#privacy {
+    color: @accent_color;
 }
 
 #custom-power {

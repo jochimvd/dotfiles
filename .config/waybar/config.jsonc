@@ -17,6 +17,7 @@
     "pulseaudio#output",
     "battery",
     "custom/notification",
+    "privacy",
     "custom/power"
   ],
   "hyprland/window": {
@@ -27,6 +28,29 @@
     "disable-scroll": true,
     "all-outputs": false,
     "on-click": "activate"
+  },
+  "clock": {
+    "format": "{:%a %d %b  %H:%M}",
+    "format-alt": "{:%H:%M  %d/%m/%Y}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    },
+    "actions": {
+      "on-click-right": "mode",
+      "on-scroll-up": "shift_up",
+      "on-scroll-down": "shift_down"
+    }
   },
   "group/tray-icons": {
     "orientation": "inherit",
@@ -40,8 +64,8 @@
     ]
   },
   "tray": {
-    "spacing": 10,
-    "icon-size": 16
+    "spacing": 12,
+    "icon-size": 14
   },
   "idle_inhibitor": {
     "format": "{icon}",
@@ -151,28 +175,22 @@
     "on-click-right": "swaync-client -d -sw",
     "escape": true
   },
-  "clock": {
-    "format": "{:%a %d %b  %H:%M}",
-    "format-alt": "{:%H:%M  %d/%m/%Y}",
-    "tooltip-format": "<tt><small>{calendar}</small></tt>",
-    "calendar": {
-      "mode": "month",
-      "mode-mon-col": 3,
-      "weeks-pos": "right",
-      "on-scroll": 1,
-      "format": {
-        "months": "<span color='#ffead3'><b>{}</b></span>",
-        "days": "<span color='#ecc6d9'><b>{}</b></span>",
-        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
-        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+  "privacy": {
+    "icon-spacing": 4,
+    "icon-size": 14,
+    "transition-duration": 250,
+    "modules": [
+      {
+        "type": "screenshare",
+        "tooltip": true,
+        "tooltip-icon-size": 18
+      },
+      {
+        "type": "audio-in",
+        "tooltip": true,
+        "tooltip-icon-size": 18
       }
-    },
-    "actions": {
-      "on-click-right": "mode",
-      "on-scroll-up": "shift_up",
-      "on-scroll-down": "shift_down"
-    }
+    ]
   },
   "custom/power": {
     "format": "󰐥",
