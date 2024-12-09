@@ -13,8 +13,8 @@
     "group/tray-icons",
     "bluetooth",
     "network",
-    "pulseaudio#microphone",
-    "pulseaudio",
+    "pulseaudio#input",
+    "pulseaudio#output",
     "battery",
     "custom/notification",
     "custom/power"
@@ -78,7 +78,7 @@
     "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL -e nmtui'",
     "on-right-click": "hyprctl dispatch exec nm-applet"
   },
-  "pulseaudio#microphone": {
+  "pulseaudio#input": {
     "format": "{format_source} {source_volume}%",
     "format-source": "󰍬",
     "format-source-muted": "󰍭",
@@ -88,7 +88,7 @@
     "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%",
     "tooltip-format": "{format_source} {source_volume}% {source_desc}"
   },
-  "pulseaudio": {
+  "pulseaudio#output": {
     "scroll-step": 5,
     "on-click": "audio-switcher --cycle",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
