@@ -15,11 +15,6 @@ alias l='ls -CF'
 # application aliases
 alias v="$EDITOR"
 alias vim="$EDITOR"
-alias p="paru"
-alias nb="newsboat"
-alias za="zathura"
-alias code="vscodium"
-alias ytdl="yt-dlp --no-mtime"
 
 # git aliases
 alias g="git"
