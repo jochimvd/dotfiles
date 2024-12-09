@@ -19,4 +19,3 @@ export PATH="$PATH:${$(find ~/.local/bin -maxdepth 1 -type d -printf %p:)%%:}"
 export LESSHISTFILE="-"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 export _ZL_DATA="$XDG_CACHE_HOME/zsh/.zlua"
-
