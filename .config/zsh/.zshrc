@@ -1,6 +1,12 @@
 # Source external files
 [[ -r ${ZDOTDIR:-$HOME}/.zaliases ]] && source ${ZDOTDIR:-$HOME}/.zaliases
 
+# Check if running on MacOS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # Set PATH, MANPATH, etc., for Homebrew.
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 export PATH="$PATH:$HOME/bin"
 . "$HOME/.cargo/env"
 
@@ -10,8 +16,8 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 
 # Download Zinit, if it's not there yet
 if [ ! -d "$ZINIT_HOME" ]; then
-   mkdir -p "$(dirname $ZINIT_HOME)"
-   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+    mkdir -p "$(dirname $ZINIT_HOME)"
+    git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
 # Source/Load zinit
