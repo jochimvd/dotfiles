@@ -26,13 +26,10 @@
     }
 }
 
-* {
-    font-family: 'JetBrainsMono Nerd Font', Cantarell, Symbols Nerd Font;
-    font-weight: bolder;
-    font-size: 14px;
-}
-
 window#waybar {
+    font-family: 'JetBrainsMono Nerd Font', Cantarell, Symbols Nerd Font;
+    font-weight: normal;
+    font-size: 14px;
     color: @text;
     background-color: @secondary_color;
     transition: background-color .5s;
@@ -43,6 +40,15 @@ tooltip {
     background-color: @secondary_color;
     border: 1px solid @tertiary_color;
     color: @text;
+}
+
+#workspaces {
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+#window {
+    margin: 0 9px;
 }
 
 #workspaces button {
@@ -75,40 +81,34 @@ tooltip {
     animation: blink-accent 1s steps(10) infinite alternate;
 }
 
-#tray-icons .drawer {
-    padding: 0 9px;
-}
-
-#battery,
+#idle_inhibitor,
 #bluetooth,
 #network,
 #pulseaudio,
-#idle_inhibitor,
-#custom-power,
-#custom-notification {
-    font-size: 16px;
-}
-
-#clock,
 #battery,
-#bluetooth,
-#network,
-#pulseaudio,
-#idle_inhibitor,
-#custom-power,
-#custom-notification {
+#custom-notification,
+#custom-power {
+    /* font-size: 16px; */
     transition: color 200ms ease-in-out;
     padding: 0 9px;
-    margin: 5px 0;
     color: @text;
-}
-
-#workspaces {
-    margin-left: 5px;
 }
 
 #clock {
+    font-weight: bold;
     color: @text;
+}
+
+#idle_inhibitor {
+    color: @tertiary_color;
+}
+
+#idle_inhibitor.activated {
+    color: @primary_color;
+}
+
+#tray-icons .drawer {
+    padding: 0 9px;
 }
 
 #pulseaudio {
@@ -123,14 +123,6 @@ tooltip {
     color: red;
 }
 
-#network {
-    color: @primary_color;
-}
-
-#network.disconnected {
-    color: @tertiary_color;
-}
-
 #bluetooth {
     color: @primary_color;
 }
@@ -141,6 +133,14 @@ tooltip {
 }
 
 #bluetooth.disabled {
+    color: @tertiary_color;
+}
+
+#network {
+    color: @primary_color;
+}
+
+#network.disconnected {
     color: @tertiary_color;
 }
 
@@ -159,37 +159,5 @@ tooltip {
 
 #custom-power {
     color: @powerbutton;
-    margin-right: 10px;
-}
-
-#idle_inhibitor {
-    color: @tertiary_color;
-}
-
-#idle_inhibitor.activated {
-    color: @primary_color;
-}
-
-#pulseaudio-slider slider {
-    min-height: 0px;
-    min-width: 0px;
-    opacity: 0;
-    background-image: none;
-    border: none;
-    box-shadow: none;
-}
-
-#pulseaudio-slider trough {
-    min-height: 5px;
-    min-width: 80px;
-    border-radius: 5px;
-    background-color: @tertiary_color;
-    border-color: @tertiary_color;
-}
-
-#pulseaudio-slider highlight {
-    min-width: 5px;
-    border-radius: 5px;
-    background-color: @primary_color;
-    border: none;
+    margin-right: 9px;
 }
