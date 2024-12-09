@@ -115,12 +115,12 @@ tooltip {
     color: @primary_color;
 }
 
-#pulseaudio.muted {
+#pulseaudio.input.source-muted {
     color: @tertiary_color;
 }
 
-#pulseaudio#microphone {
-    color: red;
+#pulseaudio.output.muted {
+    color: @tertiary_color;
 }
 
 #bluetooth {
