@@ -7,20 +7,14 @@
 
 @keyframes blink-accent {
     0% {
-        opacity: 0;
+        color: inherit;
     }
 
-    30% {
-        opacity: 0;
-    }
-
-    70% {
-        opacity: 1;
-        color: @accent_color;
+    60% {
+        color: inherit;
     }
 
     100% {
-        opacity: 1;
         color: @accent_color;
     }
 }

@@ -138,23 +138,25 @@
       "warning": 20
     },
     "format": "{icon} {capacity}%",
-    "format-icons": [
-      "󰂎",
-      "󰁺",
-      "󰁻",
-      "󰁼",
-      "󰁽",
-      "󰁾",
-      "󰁿",
-      "󰂀",
-      "󰂁",
-      "󰂂",
-      "󰁹"
-    ],
-    // "format-plugged": "",
-    "format-charging": "󰂄",
-    "format-warning": "󰂃",
-    "tooltip-format": "{capacity}% capacity"
+    "format-icons": {
+      "discharging": [
+        "󰂎",
+        "󰁺",
+        "󰁻",
+        "󰁼",
+        "󰁽",
+        "󰁾",
+        "󰁿",
+        "󰂀",
+        "󰂁",
+        "󰂂",
+        "󰁹"
+      ],
+      "discharging-warning": "󰂃",
+      "charging": "󰂄"
+      // "plugged": ""
+    },
+    "tooltip-format": "{timeTo}"
   },
   "custom/notification": {
     "tooltip": "{}",
