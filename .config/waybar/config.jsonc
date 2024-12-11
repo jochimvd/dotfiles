@@ -153,6 +153,8 @@
     },
     "format": "{icon} {capacity}%",
     "format-icons": {
+      "full": "󰁹",
+      "charging": "󰂄",
       "discharging": [
         "󰂎",
         "󰁺",
@@ -166,9 +168,7 @@
         "󰂂",
         "󰁹"
       ],
-      "discharging-warning": "󰂃",
-      "charging": "󰂄"
-      // "plugged": ""
+      "discharging-warning": "󰂃"
     },
     "tooltip-format": "{timeTo}"
   },
