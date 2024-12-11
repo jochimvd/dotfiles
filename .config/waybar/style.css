@@ -1,7 +1,7 @@
 @define-color primary_color #FFF;
 @define-color secondary_color rgba(0, 0, 0, 0.85);
 @define-color tertiary_color #585B70;
-@define-color accent_color #2D6349;
+@define-color accent_color #E7CE47;
 @define-color powerbutton #F38BA8;
 
 
@@ -10,7 +10,7 @@
         color: inherit;
     }
 
-    60% {
+    50% {
         color: inherit;
     }
 
@@ -19,8 +19,11 @@
     }
 }
 
+* {
+    font-family: 'JetBrainsMono Nerd Font';
+}
+
 window#waybar {
-    font-family: 'JetBrainsMono Nerd Font', Cantarell, Symbols Nerd Font;
     font-weight: normal;
     font-size: 14px;
     color: @primary_color;
@@ -35,28 +38,29 @@ tooltip {
 }
 
 #workspaces {
+    margin: 0 10px;
     font-weight: bold;
-    margin-left: 5px;
-}
-
-#window {
-    margin: 0 9px;
+    /* set color on button parent to make "color: inherit" work for the .urgent animation */
+    color: @tertiary_color;
 }
 
 #workspaces button {
     border: none;
     border-radius: 5px;
     padding: 0 5px;
+    margin: 4px 5px 4px 0;
     color: @tertiary_color;
-    margin: 4px 0 4px 6px;
     transition: color 200ms ease-in-out, background 200ms ease-in-out;
+}
+
+#workspaces button:last-child {
+    margin-right: 0;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
 #workspaces button:hover {
     box-shadow: inherit;
     text-shadow: inherit;
-    margin: 4px 0 4px 6px;
     color: @secondary_color;
     background: @primary_color;
 }
@@ -81,22 +85,44 @@ tooltip {
 #custom-notification,
 #privacy,
 #custom-power {
-    /* font-size: 16px; */
+    margin: 0 10px;
     transition: color 200ms ease-in-out;
-    padding: 0 9px;
 }
 
+/* attemt to nicely space out the icons */
+#idle_inhibitor {
+    padding: 0 3px 0 2px;
+}
+
+#bluetooth {
+    padding: 0 3px 0 1px;
+}
+
+#network {
+    padding: 0 5px 0 0px;
+}
+
+#custom-notification {
+    padding: 0 3px 0 0px;
+}
+
+#custom-power {
+    padding: 0 3px 0 1px;
+}
+
+
 #clock {
+    /* prevent elements from touching the clock */
+    margin: 0 10px;
     font-weight: bold;
-    color: @text;
 }
 
 #idle_inhibitor.deactivated {
     color: @tertiary_color;
 }
 
-#tray-icons .drawer {
-    padding: 0 9px;
+#tray {
+    margin-right: 10px;
 }
 
 #pulseaudio.input.source-muted {
@@ -130,6 +156,6 @@ tooltip {
 }
 
 #custom-power {
+    margin-right: 20px;
     color: @powerbutton;
-    margin-right: 9px;
 }
