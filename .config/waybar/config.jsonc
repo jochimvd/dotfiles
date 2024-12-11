@@ -7,7 +7,8 @@
     "hyprland/window"
   ],
   "modules-center": [
-    "clock"
+    "clock#date",
+    "clock#time"
   ],
   "modules-right": [
     "group/tray-icons",
@@ -29,10 +30,9 @@
     "format": "{title}",
     "separate-outputs": true
   },
-  "clock": {
-    "interval": 1,
-    "format": "{:%a %d %b  %H:%M}",
-    "format-alt": "{:%H:%M:%S  %d/%m/%Y}",
+  "clock#date": {
+    "format": "{:%a %d %b}",
+    "format-alt": "{:%d/%m/%Y}",
     "locale": "en_GB.UTF-8",
     "tooltip-format": "<tt><small>{calendar}</small></tt>",
     "calendar": {
@@ -43,7 +43,7 @@
       "format": {
         "months": "<span color='#FFF'><b>{}</b></span>",
         "days": "<span color='#FFF'>{}</span>",
-        "weeks": "<span color='#FFF'><b>W{}</b></span>",
+        "weeks": "<span color='#FFF'><b> {}</b></span>",
         "weekdays": "<span color='#E7CE47'><b>{}</b></span>",
         "today": "<span color='#E7CE47'><b><u>{}</u></b></span>"
       }
@@ -53,6 +53,19 @@
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     }
+  },
+  "clock#time": {
+    "interval": 1,
+    "format": "{:%H:%M}",
+    "format-alt": "{:%H:%M:%S (%Z)}",
+    "locale": "en_GB.UTF-8",
+    "tooltip-format": "{tz_list}",
+    "timezones": [
+      "Europe/Brussels",
+      "Asia/Kolkata",
+      "America/New_York",
+      "Etc/UTC"
+    ]
   },
   "group/tray-icons": {
     "orientation": "inherit",
