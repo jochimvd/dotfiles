@@ -48,13 +48,9 @@ tooltip {
     border: none;
     border-radius: 5px;
     padding: 0 5px;
-    margin: 4px 5px 4px 0;
+    margin: 4px 2px 4px 0;
     color: @tertiary_color;
     transition: color 200ms ease-in-out, background 200ms ease-in-out;
-}
-
-#workspaces button:last-child {
-    margin-right: 0;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
