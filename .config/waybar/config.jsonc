@@ -155,6 +155,7 @@
     "format-icons": {
       "full": "󰁹",
       "charging": "󰂄",
+      "plugged": "󰚥",
       "discharging": [
         "󰂎",
         "󰁺",
