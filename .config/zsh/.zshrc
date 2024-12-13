@@ -8,7 +8,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 export PATH="$PATH:$HOME/bin"
-. "$HOME/.cargo/env"
 
 
 # Set the directory we want to store zinit and plugins
@@ -78,8 +77,6 @@ setopt extended_history     # save timestamp of command
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(oh-my-posh init zsh --config ${XDG_CONFIG_HOME:-$HOME/.config}/ohmyposh/config.toml)"
-
-. "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
 
 
