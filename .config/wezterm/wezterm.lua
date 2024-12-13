@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local config = {}
 
 config.font = wezterm.font({ family = "JetBrainsMono Nerd Font", scale = 1.2 })
-config.color_scheme = "Catppuccin Mocha"
+config.color_scheme = 'Tokyo Night'
 
 config.default_cursor_style = 'BlinkingBlock'
 config.cursor_blink_ease_in = 'Constant'
