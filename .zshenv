@@ -12,8 +12,8 @@ export XDG_BIN_HOME="$HOME/.local/bin"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
 
-# adds ~/.local/bin and subfolders to $PATH
-export PATH="$PATH:${$(find ~/.local/bin -maxdepth 1 -type d -printf %p:)%%:}"
+# adds ~/bin and ~/.local/bin to $PATH
+export PATH="$PATH:$HOME/bin:$HOME/.local/bin"
 
 # cleaning up the home folder
 export LESSHISTFILE="-"
