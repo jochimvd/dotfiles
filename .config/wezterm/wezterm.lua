@@ -21,7 +21,7 @@ config.default_prog = {
     "-c",
     [[
     if command -v tmux >/dev/null 2>&1; then
-      tmux attach || tmux new;
+      tmux new;
     else
       exec zsh;
     fi
