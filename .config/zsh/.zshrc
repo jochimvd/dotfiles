@@ -76,13 +76,3 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(oh-my-posh init zsh --config ${XDG_CONFIG_HOME:-$HOME/.config}/ohmyposh/config.toml)"
 eval "$(atuin init zsh)"
-
-
-zle-line-init() {
-echo -ne "\e[2 q"
-}
-
-zle -N zle-line-init
-
-
-# [[ $(tty) == /dev/tty1 ]] && exec Hyprland
