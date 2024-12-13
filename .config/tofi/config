@@ -1,9 +1,9 @@
 prompt-text = "> "
 
-text-color = #FFF
-prompt-color = #A793EA
-selection-color = #D6EA93
-background-color = #0F1E25dd
+text-color = #FFFFFF
+prompt-color = #E7CE47
+selection-color = #E7CE47
+background-color = #000000cc
 
 width = 100%
 height = 100%
