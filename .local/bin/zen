@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-flatpak run io.github.zen_browser.zen
+zen-browser || flatpak run io.github.zen_browser.zen
