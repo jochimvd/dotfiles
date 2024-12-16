@@ -10,12 +10,12 @@
 } */
 
 .floating-notifications.background .notification-row {
-    margin: 10px;
+    margin: 25px;
 }
 
 .floating-notifications.background .notification-row .notification-background {
     border-radius: 0.5rem;
-    background-color: alpha(#000000, 0.5);
+    background-color: alpha(#000000, 0.75);
     color: #FFFFFF;
     border: 1px solid alpha(#E7CE47, 0.75);
 }
@@ -77,8 +77,8 @@
 
 .control-center {
     border-radius: 0.5rem;
-    margin: 10px;
-    background-color: alpha(#000000, 0.5);
+    margin: 25px;
+    background-color: alpha(#000000, 0.75);
     color: #FFFFFF;
     padding: 1rem;
     border: 1px solid alpha(#FFFFFF, 0.25);
