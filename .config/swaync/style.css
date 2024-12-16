@@ -29,6 +29,21 @@
     border: 1px solid #F38BA8;
 }
 
+.notification-row .notification-background .notification .notification-default-action .notification-content .image {
+    /* Notification Primary Image */
+    -gtk-icon-effect: none;
+    border-radius: 0.5rem;
+    /* Size in px */
+    margin: 4px;
+}
+  
+.notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
+    /* Notification app icon (only visible when the primary image is set) */
+    -gtk-icon-effect: none;
+    -gtk-icon-shadow: 0 1px 4px black;
+    margin: 6px;
+}
+
 .floating-notifications.background .notification-row .notification-background .notification .notification-content .summary {
     margin: 0.5rem;
     color: #FFFFFF;
@@ -125,7 +140,7 @@
 .control-center .notification-row .notification-background .notification .notification-content {
     color: #FFFFFF;
 }
-
+  
 .control-center .notification-row .notification-background .notification .notification-content .summary {
     margin: 0.5rem;
     color: #cdd6f4;
