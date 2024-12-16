@@ -122,6 +122,7 @@
     "format-source": "󰍬",
     "format-source-muted": "󰍭",
     // "on-click": "pavucontrol -t 4",
+    "reverse-scrolling": true,
     "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
     "on-scroll-up": "pactl set-source-volume @DEFAULT_SOURCE@ +5%",
     "on-scroll-down": "pactl set-source-volume @DEFAULT_SOURCE@ -5%",
@@ -129,6 +130,7 @@
   },
   "pulseaudio#output": {
     "scroll-step": 5,
+    "reverse-scrolling": true,
     "on-click": "audio-switcher --cycle",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     "on-click-middle": "audio-switcher",
