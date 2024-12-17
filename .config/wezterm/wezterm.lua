@@ -13,7 +13,7 @@ config.scrollback_lines = 5000
 
 config.window_decorations = "TITLE | RESIZE"
 
-config.enable_wayland = false
+config.enable_wayland = true
 
 config.default_prog = {
     "/bin/zsh",
