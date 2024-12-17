@@ -128,6 +128,11 @@
     border: 1px solid alpha(#FFFFFF, 0.25);
 }
 
+.control-center .notification-group .notification-group-buttons,
+.notification-group .notification-group-headers {
+    margin: 1rem 1rem 0.5rem 1rem;
+}
+
 .control-center .notification-row .notification-background .notification {
     padding: 0.5rem;
     border-radius: 0.5rem;
