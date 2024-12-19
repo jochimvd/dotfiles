@@ -11,7 +11,7 @@ install_deps() {
         hyprpaper hypridle hyprlock hyprpicker waybar swaync \
         nautilus gnome-keyring seahorse \
         network-manager-applet blueman udiskie \
-        cliphist \
+        cliphist satty \
         btop || { echo "Failed to install official packages"; exit 1; }
 
     # AUR packages
