@@ -307,7 +307,7 @@ NOTIF_TIMEOUT=5000
 CURRENT=0
 FREEZE=0
 [ -z "$XDG_PICTURES_DIR" ] && type xdg-user-dir &> /dev/null && XDG_PICTURES_DIR=$(xdg-user-dir PICTURES)
-FILENAME="$(date +'%Y-%m-%d-%H%M%S_hyprshot.png')"
+FILENAME="$(date +'%Y-%m-%d_%H%M%S_hyprshot.png')"
 [ -z "$HYPRSHOT_DIR" ] && SAVEDIR=${XDG_PICTURES_DIR:=~} || SAVEDIR=${HYPRSHOT_DIR}
 
 args $0 "$@"
