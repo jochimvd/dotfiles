@@ -3,12 +3,14 @@
 DPATH=$(dirname "$(realpath "$0")")
 
 install_paru() {
-    sudo pacman -S --needed base-devel
-    git clone https://aur.archlinux.org/paru.git /tmp/paru || { echo "Failed to clone paru"; exit 1; }
-    cd /tmp/paru
-    makepkg -si
-    cd -
-    rm -rf /tmp/paru
+    if ! command -v paru &> /dev/null; then
+        sudo pacman -S --needed base-devel
+        git clone https://aur.archlinux.org/paru.git /tmp/paru || { echo "Failed to clone paru"; exit 1; }
+        cd /tmp/paru
+        makepkg -si
+        cd -
+        rm -rf /tmp/paru
+    fi
 }
 
 install_deps() {
