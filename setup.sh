@@ -2,16 +2,27 @@
 
 DPATH=$(dirname "$(realpath "$0")")
 
+install_paru() {
+    sudo pacman -S --needed base-devel
+    git clone https://aur.archlinux.org/paru.git /tmp/paru || { echo "Failed to clone paru"; exit 1; }
+    cd /tmp/paru
+    makepkg -si
+    cd -
+    rm -rf /tmp/paru
+}
+
 install_deps() {
     # Official packages
     paru -Syu --needed \
-        neovim tmux fzf \
+        wezterm neovim tmux fzf \
         zsh eza zoxide atuin bat \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
+        xdg-desktop-portal-hyprland qt5-wayland qt6-wayland \
         nautilus gnome-keyring seahorse \
         network-manager-applet blueman udiskie \
-        cliphist satty \
+        grim slurp satty \
+        cliphist \
         btop || { echo "Failed to install official packages"; exit 1; }
 
     # AUR packages
@@ -58,6 +69,7 @@ change_shell() {
 }
 
 main() {
+    install_paru
     install_deps
     create_dirs
     create_links
