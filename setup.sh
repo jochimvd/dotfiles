@@ -8,7 +8,7 @@ install_deps() {
         neovim tmux fzf \
         zsh eza zoxide atuin bat \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
-        hyprpaper hypridle hyprlock hyprpicker waybar swaync \
+        hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
         nautilus gnome-keyring seahorse \
         network-manager-applet blueman udiskie \
         cliphist satty \
