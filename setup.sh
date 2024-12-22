@@ -17,7 +17,7 @@ install_deps() {
     # Official packages
     paru -Syu --needed \
         wezterm neovim tmux fzf \
-        zsh eza zoxide atuin bat \
+        zsh eza zoxide atuin bat jq \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
         xdg-desktop-portal-hyprland qt5-wayland qt6-wayland \
