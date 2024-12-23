@@ -16,7 +16,7 @@ install_paru() {
 install_deps() {
     # Official packages
     paru -Syu --needed \
-        wezterm neovim tmux fzf \
+        wezterm-git neovim tmux fzf \
         zsh eza zoxide atuin bat jq \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
@@ -30,7 +30,7 @@ install_deps() {
     # AUR packages
     paru -Syu --needed \
         tofi oh-my-posh-bin \
-        uwsm hyprpolkitagent-git \
+        uwsm hyprpolkitagent \
         zen-browser-avx2-bin || { echo "Failed to install AUR packages"; exit 1; }
 }
 
