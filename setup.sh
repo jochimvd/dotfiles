@@ -30,8 +30,7 @@ install_deps() {
     # AUR packages
     paru -Syu --needed \
         tofi oh-my-posh-bin \
-        uwsm hyprpolkitagent \
-        zen-browser-avx2-bin || { echo "Failed to install AUR packages"; exit 1; }
+        uwsm hyprpolkitagent || { echo "Failed to install AUR packages"; exit 1; }
 }
 
 create_dirs() {
