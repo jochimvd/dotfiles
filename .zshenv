@@ -1,7 +1,7 @@
 # default apps
 export EDITOR="nvim"
 export VISUAL="nvim"
-export TERMINAL="wezterm"
+export TERMINAL="ghostty"
 export BROWSER="zen"
 
 # default folders

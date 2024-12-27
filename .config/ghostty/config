@@ -1,0 +1,3 @@
+theme = tokyonight
+window-padding-color = extend
+window-decoration = false

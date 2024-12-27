@@ -16,7 +16,7 @@ install_paru() {
 install_deps() {
     # Official packages
     paru -Syu --needed \
-        wezterm-git neovim tmux fzf \
+        ghostty neovim tmux fzf \
         zsh eza zoxide atuin bat jq \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
@@ -42,7 +42,7 @@ create_dirs() {
 }
 
 create_links() {
-    CONFIG_DIRS=("hypr" "ohmyposh" "swaync" "tmux" "tofi" "uwsm" "waybar" "wezterm" "zsh")
+    CONFIG_DIRS=("ghostty" "hypr" "ohmyposh" "swaync" "tmux" "tofi" "uwsm" "waybar" "wezterm" "zsh")
 
     for dir in "${CONFIG_DIRS[@]}"; do
         rm -rf ~/.config/$dir
