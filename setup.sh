@@ -42,7 +42,7 @@ create_dirs() {
 }
 
 create_links() {
-    CONFIG_DIRS=("ghostty" "hypr" "ohmyposh" "swaync" "tmux" "tofi" "uwsm" "waybar" "zsh")
+    CONFIG_DIRS=("atuin" "ghostty" "hypr" "ohmyposh" "swaync" "tmux" "tofi" "uwsm" "waybar" "zsh")
 
     for dir in "${CONFIG_DIRS[@]}"; do
         rm -rf ~/.config/$dir
