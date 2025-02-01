@@ -1,0 +1,6 @@
+[*.lua]
+indent_style = space
+insent_size = 2
+quote_type = double
+
+
