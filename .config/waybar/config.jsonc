@@ -133,7 +133,7 @@
     "reverse-scrolling": true,
     "on-click": "audio-switcher --cycle",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "on-click-middle": "audio-switcher",
+    "on-click-middle": "audio-switcher --chime",
     "format": "{icon} {volume}%",
     "format-icons": {
       "headphone": "󰋋",
