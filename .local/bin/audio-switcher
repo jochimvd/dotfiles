@@ -103,6 +103,9 @@ while [ $# -gt 0 ]; do
     case "$1" in
         --cycle)
             cycle_to_next_sink
+            exit 0
+            ;;
+        --chime)
             play_chime
             exit 0
             ;;
