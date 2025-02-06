@@ -6,7 +6,11 @@ return {
       require("mini.statusline").setup()
       require("mini.icons").setup()
       require("mini.pick").setup()
-      require("mini.files").setup()
+      require("mini.files").setup({
+        windows = {
+          preview = true
+        }
+      })
     end
   }
 }
