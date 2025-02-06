@@ -1,0 +1,290 @@
+#!/bin/bash
+
+# timer: A simple command-line utility to time tasks.
+#
+# This script manages multiple timers by storing each timer’s state
+# in its own file under an XDG‑compliant directory (default: $HOME/.local/state/timers).
+#
+# If no timer name is provided, the timer called "default" is used.
+
+# --------------------------
+# Global Setup and Constants
+# --------------------------
+
+# Set up XDG state directory and timers directory.
+XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+TIMERS_DIR="$XDG_STATE_HOME/timers"
+mkdir -p "$TIMERS_DIR"
+
+# Default timer name
+TIMER_NAME="default"
+STATE_FILE=""
+short_mode=0
+
+# --------------------------
+# Helper Function to Determine Invocation Name
+# --------------------------
+
+# If the script is in the PATH, then use the basename.
+get_invocation_name() {
+    local base
+    base=$(basename "$0")
+    for dir in $(echo "$PATH" | tr ':' ' '); do
+        if [ -x "$dir/$base" ]; then
+            echo "$base"
+            return
+        fi
+    done
+    echo "$0"
+}
+
+# --------------------------
+# Usage Function
+# --------------------------
+
+usage() {
+    local inv_name
+    inv_name=$(get_invocation_name)
+    cat <<EOF
+Usage: $inv_name <command> [options] [TIMER_NAME]
+
+Commands:
+  start             Start the specified timer.
+  stop              Stop a running timer and accumulate time.
+  toggle            Toggle the timer (start if stopped, stop if running).
+  reset             Reset the specified timer.
+  show [--short]    Display the elapsed time for a running timer.
+                    With --short: displays time in HH:mm format.
+                    Without --short: shows a detailed breakdown.
+  list              List all timers with their current status and elapsed time.
+  cleanup           Delete all timer state files (clears all timers).
+
+Options:
+  TIMER_NAME        Optional name for the timer (default: "default").
+  --short           For the show command, display a short output.
+
+Examples:
+  $inv_name start work     # Start a timer named "work"
+  $inv_name stop           # Stop the default timer
+  $inv_name show --short   # Show short form elapsed time for the default timer
+  $inv_name list           # List all timers
+  $inv_name cleanup        # Clear all timers
+
+Environment:
+  XDG_STATE_HOME    Base directory for state files (default: \$HOME/.local/state)
+EOF
+    exit 1
+}
+
+# --------------------------
+# Timer Functions
+# --------------------------
+
+# Load state from the file for the specified timer.
+load_state() {
+    STATE_FILE="${TIMERS_DIR}/timer_state_${TIMER_NAME}"
+    if [ -f "$STATE_FILE" ]; then
+        source "$STATE_FILE"
+    else
+        elapsed=0     # Total elapsed time (in seconds)
+        running=0     # 1 if timer is running, 0 otherwise
+        start_time=0  # Epoch time when timer was last started
+    fi
+}
+
+# Save the current state to the timer’s state file.
+save_state() {
+    {
+        echo "elapsed=$elapsed"
+        echo "running=$running"
+        echo "start_time=$start_time"
+    } > "$STATE_FILE"
+}
+
+do_start() {
+    now=$(date +%s)
+    if [ "$running" -eq 1 ]; then
+        echo "Timer '$TIMER_NAME' is already running."
+    else
+        start_time=$now
+        running=1
+        echo "Timer '$TIMER_NAME' started."
+    fi
+    save_state
+}
+
+do_stop() {
+    now=$(date +%s)
+    if [ "$running" -ne 1 ]; then
+        echo "Timer '$TIMER_NAME' is not running."
+    else
+        diff=$(( now - start_time ))
+        elapsed=$(( elapsed + diff ))
+        running=0
+        start_time=0
+        echo "Timer '$TIMER_NAME' stopped. Added ${diff} second(s)."
+    fi
+    save_state
+}
+
+do_toggle() {
+    if [ "$running" -eq 1 ]; then
+        do_stop
+    else
+        do_start
+    fi
+}
+
+do_reset() {
+    elapsed=0
+    running=0
+    start_time=0
+    save_state
+    echo "Timer '$TIMER_NAME' reset."
+}
+
+do_show() {
+    now=$(date +%s)
+    if [ "$running" -eq 1 ]; then
+        diff=$(( now - start_time ))
+        total=$(( elapsed + diff ))
+        indicator="*"
+        status="Running"
+    else
+        total=$elapsed
+        indicator=""
+        status="Stopped"
+    fi
+
+    hours=$(( total / 3600 ))
+    minutes=$(( (total % 3600) / 60 ))
+    seconds=$(( total % 60 ))
+
+    if [ "$short_mode" -eq 1 ]; then
+        if [ "$total" -eq 0 ]; then
+            # If the timer has not been started, show '--'
+            echo "--"
+        else
+            printf "%s%02d:%02d\n" "$indicator" "$hours" "$minutes"
+        fi
+    else
+        echo "Timer '$TIMER_NAME': ${total} seconds (${hours}h:${minutes}m:${seconds}s) [$status]"
+    fi
+}
+
+do_cleanup() {
+    rm -f "${TIMERS_DIR}/timer_state_"*
+    echo "All timers cleared."
+}
+
+do_list() {
+    shopt -s nullglob
+    local files=("${TIMERS_DIR}"/timer_state_*)
+    if [ "${#files[@]}" -eq 0 ]; then
+        echo "No timers found."
+        return
+    fi
+
+    printf "%-20s %-10s %-10s\n" "TIMER NAME" "STATUS" "ELAPSED"
+    printf "%-20s %-10s %-10s\n" "----------" "------" "-------"
+
+    for file in "${files[@]}"; do
+        [ -f "$file" ] || continue
+        local tname
+        tname=$(basename "$file")
+        tname="${tname#timer_state_}"
+        # Use a subshell to source the state file without affecting globals.
+        local timer_line
+        timer_line=$(bash -c '
+            source "'"$file"'"
+            now=$(date +%s)
+            if [ "$running" -eq 1 ]; then
+                diff=$(( now - start_time ))
+                total=$(( elapsed + diff ))
+                status="Running"
+            else
+                total=$elapsed
+                status="Stopped"
+            fi
+            hours=$(( total / 3600 ))
+            minutes=$(( (total % 3600) / 60 ))
+            seconds=$(( total % 60 ))
+            printf "%02d:%02d:%02d||%s" "$hours" "$minutes" "$seconds" "$status"
+        ')
+        local elapsed_time status
+        elapsed_time=$(echo "$timer_line" | cut -d"|" -f1)
+        status=$(echo "$timer_line" | cut -d"|" -f3)
+        printf "%-20s %-10s %-10s\n" "$tname" "$status" "$elapsed_time"
+    done
+    shopt -u nullglob
+}
+
+# --------------------------
+# Argument Parsing
+# --------------------------
+
+if [ "$#" -lt 1 ]; then
+    usage
+fi
+
+command="$1"
+shift
+
+if [ "$command" = "cleanup" ]; then
+    if [ "$#" -ne 0 ]; then usage; fi
+    do_cleanup
+    exit 0
+fi
+
+if [ "$command" = "list" ]; then
+    if [ "$#" -ne 0 ]; then usage; fi
+    do_list
+    exit 0
+fi
+
+if [ "$command" = "show" ]; then
+    if [ "$#" -gt 2 ]; then usage; fi
+    if [ "$#" -ge 1 ]; then
+        if [ "$1" = "--short" ]; then
+            short_mode=1
+            shift
+        fi
+    fi
+    if [ "$#" -ge 1 ]; then
+        TIMER_NAME="$1"
+        shift
+    fi
+else
+    if [ "$#" -gt 1 ]; then usage; fi
+    if [ "$#" -eq 1 ]; then
+        TIMER_NAME="$1"
+        shift
+    fi
+fi
+
+# --------------------------
+# Main Command Dispatcher
+# --------------------------
+
+load_state
+
+case "$command" in
+    start)
+        do_start
+        ;;
+    stop)
+        do_stop
+        ;;
+    toggle)
+        do_toggle
+        ;;
+    reset)
+        do_reset
+        ;;
+    show)
+        do_show
+        ;;
+    *)
+        usage
+        ;;
+esac
