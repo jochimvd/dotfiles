@@ -54,14 +54,13 @@ Commands:
   toggle            Toggle the timer (start if stopped, stop if running).
   reset             Reset the specified timer.
   show [--short]    Display the elapsed time for a running timer.
-                    With --short: displays time in HH:mm format.
-                    Without --short: shows a detailed breakdown.
   list              List all timers with their current status and elapsed time.
   cleanup           Delete all timer state files (clears all timers).
 
 Options:
   TIMER_NAME        Optional name for the timer (default: "default").
-  --short           For the show command, display a short output.
+  --short           For the show command, displays time in HH:mm format.
+                      An asterisk (*) indicates the timer is running.
 
 Examples:
   $inv_name start work     # Start a timer named "work"
