@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # timer: A simple command-line utility to time tasks.
 #
