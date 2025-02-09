@@ -74,4 +74,5 @@ vim.diagnostic.config({
 vim.lsp.enable({
   "lua_ls",
   "basedpyright",
+  "gopls",
 })
