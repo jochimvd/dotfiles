@@ -6,7 +6,7 @@ return {
       require("smear_cursor").toggle() -- Disables on startup
       vim.keymap.set("n", "<leader>ts", function()
         require("smear_cursor").toggle()
-      end, { desc = "[T]oggle [S]mear Cursor" })
+      end, { desc = "Toggle Smear Cursor" })
     end
   }
 }

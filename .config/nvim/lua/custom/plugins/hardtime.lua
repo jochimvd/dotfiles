@@ -8,7 +8,7 @@ return {
     },
     config = function(_, opts)
       require("hardtime").setup(opts)
-      vim.keymap.set("n", "<leader>th", "<cmd>Hardtime toggle<CR>", { desc = "[T]oggle [H]ardtime" })
+      vim.keymap.set("n", "<leader>th", "<cmd>Hardtime toggle<CR>", { desc = "Toggle Hardtime" })
     end
   }
 }
