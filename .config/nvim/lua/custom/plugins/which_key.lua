@@ -10,6 +10,17 @@ return {
         mappings = vim.g.have_nerd_font,
       },
     },
+    config = function(_, opts)
+      local wk = require("which-key")
+      wk.setup(opts)
+
+      wk.add({
+        { "<leader>f", group = "Find" },
+        { "<leader>g", group = "Git" },
+        { "<leader>s", group = "Search" },
+        { "<leader>t", group = "Toggle" },
+      })
+    end,
     keys = {
       {
         "<leader>?",
