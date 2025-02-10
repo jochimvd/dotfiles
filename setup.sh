@@ -16,8 +16,9 @@ install_paru() {
 install_deps() {
     # Official packages
     paru -Syu --needed \
-        ghostty neovim tmux fzf \
-        zsh eza zoxide atuin bat jq fd man-db \
+        ghostty tmux lazygit \
+        zsh eza zoxide atuin bat fzf jq fd \
+        man-db man-pages \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
         xdg-desktop-portal-hyprland qt5-wayland qt6-wayland \
@@ -29,6 +30,7 @@ install_deps() {
 
     # AUR packages
     paru -Syu --needed \
+        tlrc-bin \
         tofi oh-my-posh-bin \
         uwsm hyprpolkitagent || { echo "Failed to install AUR packages"; exit 1; }
 }
