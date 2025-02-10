@@ -38,20 +38,36 @@ vim.api.nvim_create_autocmd("LspAttach", {
       })
     end
 
+    -- Diagnostics Toggles
+    vim.keymap.set("n", "<leader>td", function()
+      vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+    end, { desc = "Toggle Diagnostic" })
+
+    vim.keymap.set("n", "<leader>tdv", function()
+      local new_config = not vim.diagnostic.config().virtual_lines
+      vim.diagnostic.config({ virtual_lines = new_config })
+    end, { desc = "Toggle Virtual Lines" })
+
     -- Toggle inlay hints
     if client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
-      vim.keymap.set("n", "<leader>ti", function()
+      vim.keymap.set("n", "<leader>tdi", function()
         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = args.buf })
-      end, { desc = "[T]oggle [I]nlay Hints" })
+      end, { desc = "Toggle Inlay Hints" })
     end
+
+    -- LSP file rename hook
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "MiniFilesActionRename",
+      callback = function(event)
+        Snacks.rename.on_rename_file(event.data.from, event.data.to)
+      end,
+    })
   end
 })
 
-vim.keymap.set("n", "<leader>td", function()
-  local new_config = not vim.diagnostic.config().virtual_lines
-  vim.diagnostic.config({ virtual_lines = new_config })
-end, { desc = "[T]oggle [D]iagnostic virtual_lines" })
 
+
+-- Diagnostic configuration
 vim.diagnostic.config({
   virtual_text = true,
   signs = {
