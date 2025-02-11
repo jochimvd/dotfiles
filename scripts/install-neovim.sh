@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Install build dependencies
-sudo pacman -S base-devel cmake ninja curl || { echo "Failed to install build dependencies"; exit 1; }
+sudo pacman -S --needed base-devel cmake ninja curl || { echo "Failed to install build dependencies"; exit 1; }
 
 # Install Neovim from source
 mkdir -p ~/Repos
