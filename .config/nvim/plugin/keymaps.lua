@@ -8,6 +8,6 @@ set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic list" })
 
-set("n", "-", "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0)<CR>", { desc = "Open Mini.files" })
+set("n", "-", "<cmd>lua MiniFiles.open(vim.api.nvim_buf_get_name(0))<CR>", { desc = "Open Mini.files" })
 
 set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
