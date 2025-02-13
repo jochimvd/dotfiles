@@ -21,8 +21,6 @@ opt.splitright = true
 
 opt.shada = { "'10", "<0", "s10", "h" }
 
-opt.clipboard = "unnamedplus"
-
 opt.swapfile = false
 
 opt.wrap = true
