@@ -15,10 +15,11 @@ return {
       wk.setup(opts)
 
       wk.add({
-        { "<leader>f", group = "Find" },
-        { "<leader>g", group = "Git" },
-        { "<leader>s", group = "Search" },
-        { "<leader>t", group = "Toggle" },
+        { "<leader>f",  group = "Find" },
+        { "<leader>g",  group = "Git" },
+        { "<leader>s",  group = "Search" },
+        { "<leader>t",  group = "Toggle" },
+        { "<leader>td", group = "Diagnostics" },
       })
     end,
     keys = {

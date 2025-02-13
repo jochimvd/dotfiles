@@ -14,7 +14,20 @@ return {
         use_nvim_cmp_as_default = true,
         nerd_font_variant = 'mono'
       },
-      signature = { enabled = true }
+      signature = { enabled = true },
+
+      -- lazydev integration
+      sources = {
+        -- add lazydev to completion providers
+        default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100,
+          },
+        },
+      },
     },
   }
 }
