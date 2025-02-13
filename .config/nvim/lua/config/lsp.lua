@@ -1,3 +1,5 @@
+---@module 'snacks'
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
   callback = function(args)
@@ -39,9 +41,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     -- Diagnostics Toggles
-    vim.keymap.set("n", "<leader>td", function()
+    vim.keymap.set("n", "<leader>tdd", function()
       vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-    end, { desc = "Toggle Diagnostic" })
+    end, { desc = "Toggle Diagnostics" })
 
     vim.keymap.set("n", "<leader>tdv", function()
       local new_config = not vim.diagnostic.config().virtual_lines
