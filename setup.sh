@@ -22,8 +22,8 @@ install_deps() {
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
         hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
         xdg-desktop-portal-hyprland qt5-wayland qt6-wayland \
-        nautilus gnome-keyring seahorse \
-        network-manager-applet blueman udiskie \
+        rofi-wayland nautilus gnome-keyring seahorse \
+        pavucontrol network-manager-applet blueman udiskie \
         grim slurp satty \
         cliphist \
         btop || { echo "Failed to install official packages"; exit 1; }
@@ -44,7 +44,7 @@ create_dirs() {
 }
 
 create_links() {
-    CONFIG_DIRS=("atuin" "ghostty" "hypr" "nvim" "ohmyposh" "swaync" "tmux" "tofi" "uwsm" "waybar" "zsh")
+    CONFIG_DIRS=("atuin" "ghostty" "hypr" "nvim" "ohmyposh" "rofi" "swaync" "tmux" "tofi" "uwsm" "waybar" "zsh")
 
     for dir in "${CONFIG_DIRS[@]}"; do
         rm -rf ~/.config/$dir
