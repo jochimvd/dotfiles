@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-EMOJI=$(sed '1,/^### DATA ###$/d' "$0" | tofi --config "$HOME/.config/tofi/small-config" "$@" | cut -d ' ' -f 1 | tr -d '\n')
+EMOJI=$(sed '1,/^### DATA ###$/d' "$0" | rofi -dmenu -theme "$HOME/.config/rofi/config.rasi" "$@" | cut -d ' ' -f 1 | tr -d '\n')
 echo -n "$EMOJI" | wl-copy
 exit
 
