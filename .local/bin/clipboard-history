@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+# clipboard manager using rofi
+# requires rofi, cliphist and wl-clipboard to function
+
+cliphist list | rofi -dmenu -theme "$HOME/.config/rofi/config.rasi" | cliphist decode | wl-copy
