@@ -74,7 +74,7 @@ play_chime() {
 
 # Function to select a sink using a menu
 select_sink() {
-    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | tofi --config "$HOME/.config/tofi/small-config")
+    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | rofi -dmenu -theme $XDG_CONFIG_HOME/rofi/config.rasi)
 
     if [ -z "$selected_nick" ]; then
         exit 1
@@ -103,6 +103,7 @@ while [ $# -gt 0 ]; do
     case "$1" in
         --cycle)
             cycle_to_next_sink
+            play_chime
             exit 0
             ;;
         --chime)
