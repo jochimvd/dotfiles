@@ -1,5 +1,45 @@
 #!/usr/bin/env bash
 
+# Initialize THRESHOLD as unset
+unset THRESHOLD
+
+# Parse command line options
+while getopts ":t:h" opt; do
+  case ${opt} in
+    t )
+      THRESHOLD=$OPTARG
+      # Validate threshold is a number between 1 and 100
+      if ! [[ "$THRESHOLD" =~ ^[0-9]+$ ]] || [ "$THRESHOLD" -lt 1 ] || [ "$THRESHOLD" -gt 100 ]; then
+        echo "Error: Threshold must be a number between 1 and 100"
+        exit 1
+      fi
+      ;;
+    h )
+      echo "Usage: $0 [-t threshold_percentage]"
+      echo "Options:"
+      echo "  -t PERCENT  Set battery threshold percentage for notifications"
+      echo "  -h          Display this help message"
+      echo "Example: $0 -t 15 (will notify when battery is below 15%)"
+      echo "If no threshold is set, the script will only display battery levels without notifications."
+      exit 0
+      ;;
+    \? )
+      echo "Invalid option: -$OPTARG" 1>&2
+      echo "Use -h for help"
+      exit 1
+      ;;
+    : )
+      echo "Option -$OPTARG requires an argument" 1>&2
+      echo "Use -h for help"
+      exit 1
+      ;;
+  esac
+done
+
+if [[ -n "$THRESHOLD" ]]; then
+    echo "Using battery threshold: $THRESHOLD%"
+fi
+
 DBUS_CONN="org.bluez"
 DBUS_PATH="/org/bluez/hci0"
 DBUS_GET_PROP="org.freedesktop.DBus.Properties.Get"
@@ -152,11 +192,21 @@ for ID in "${DEVICES_ARR[@]}"; do
 
             if [[ -z $VALUE ]]; then
                 VALUE="N/A"
+                BATTERY_LEVEL="N/A"
             else
-                VALUE="$((16#$VALUE))%"
+                BATTERY_LEVEL=$((16#$VALUE))
+                VALUE="$BATTERY_LEVEL%"
+                
+                # Check if threshold is set and battery level is below threshold
+                if [[ -n "$THRESHOLD" && "$BATTERY_LEVEL" != "N/A" && "$BATTERY_LEVEL" -lt "$THRESHOLD" ]]; then
+                    notify-send -u critical "Keyboard Battery Low" "The $NAME keyboard $TYPE half battery is at $VALUE."
+                fi
             fi
 
             echo "    $VALUE $TYPE"
         done
     done
 done
+
+
+
