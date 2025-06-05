@@ -11,6 +11,8 @@ if [ ! -d ~/Repos/neovim ]; then
 fi
 
 cd ~/Repos/neovim
-git pull
+git fetch --all --prune
+git checkout stable
+sudo make distclean
 make CMAKE_BUILD_TYPE=Release
 sudo make install
