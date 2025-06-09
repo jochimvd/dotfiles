@@ -11,7 +11,7 @@ if [ ! -d ~/Repos/neovim ]; then
 fi
 
 cd ~/Repos/neovim
-git fetch --all --prune
+git fetch --prune --tags --force
 git checkout stable
 sudo make distclean
 make CMAKE_BUILD_TYPE=Release
