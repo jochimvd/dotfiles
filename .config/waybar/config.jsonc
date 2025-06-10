@@ -130,11 +130,11 @@
   },
   "pulseaudio#output": {
     "reverse-scrolling": true,
-    "on-click": "audio-switcher --cycle",
+    "on-click": "pavucontrol -t 3",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-click-middle": "audio-switcher --cycle",
     "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
-    "on-click-middle": "pavucontrol -t 3",
     "format": "{icon} {volume}%",
     "format-icons": {
       "headphone": "󰋋",
