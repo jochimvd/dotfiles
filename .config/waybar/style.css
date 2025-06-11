@@ -73,6 +73,8 @@ tooltip {
     animation: blink-accent 1s steps(10) infinite alternate;
 }
 
+#cpu,
+#memory,
 #idle_inhibitor,
 #bluetooth,
 #network,
@@ -96,6 +98,11 @@ tooltip {
 
 #network {
     padding: 0 5px 0 0px;
+}
+
+#network.upload,
+#network.download {
+    padding: 0;
 }
 
 #custom-notification {
