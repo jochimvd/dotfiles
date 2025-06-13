@@ -40,25 +40,25 @@ export KEYTIMEOUT=1
 
 # Function to change cursor style based on ZLE keymap
 function zle-keymap-select () {
+    cursor_block='\e[2 q'
+    cursor_beam='\e[6 q'
+
     case $KEYMAP in
         vicmd)
-            echo -ne '\e[2 q'  # block
+            echo -ne $cursor_block
             ;;
         viins|main)
-            echo -ne '\e[6 q'  # caret
-            ;;
-        viop|visual)
-            echo -ne '\e[4 q'  # underline
+            echo -ne $cursor_beam
             ;;
         *)
-            echo -ne '\e[6 q'  # caret
+            echo -ne $cursor_beam
             ;;
     esac
 }
 
 zle -N zle-keymap-select
 
-# Set the cursor style when entering the shell
+# Set the cursor style for each new prompt
 function precmd() {
     echo -ne '\e[6 q'
 }
