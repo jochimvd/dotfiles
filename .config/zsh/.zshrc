@@ -38,6 +38,31 @@ zinit cdreplay -q
 bindkey -v
 export KEYTIMEOUT=1
 
+# Function to change cursor style based on ZLE keymap
+function zle-keymap-select () {
+    case $KEYMAP in
+        vicmd)
+            echo -ne '\e[2 q'  # block
+            ;;
+        viins|main)
+            echo -ne '\e[6 q'  # caret
+            ;;
+        viop|visual)
+            echo -ne '\e[4 q'  # underline
+            ;;
+        *)
+            echo -ne '\e[6 q'  # caret
+            ;;
+    esac
+}
+
+zle -N zle-keymap-select
+
+# Set the cursor style when entering the shell
+function precmd() {
+    echo -ne '\e[6 q'
+}
+
 
 # Edit line in Vim with ctrl-e
 autoload edit-command-line; zle -N edit-command-line
