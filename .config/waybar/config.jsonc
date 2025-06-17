@@ -225,7 +225,7 @@
     "tooltip": false
   },
   "memory": {
-    "format": " {used:0.1f}G",
+    "format": "󰘚 {percentage}%",
     "tooltip": false
   },
   "network#upload": {
