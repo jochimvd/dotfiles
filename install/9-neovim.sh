@@ -2,17 +2,24 @@
 
 paru -S --noconfirm --needed base-devel cmake ninja curl
 
-# Install Neovim from source
-mkdir -p ~/.local/share/src
+NVIM_SRC_DIR="$HOME/.local/share/src/neovim"
+mkdir -p "$(dirname "$NVIM_SRC_DIR")"
 
-if [ ! -d ~/.local/share/src/neovim ]; then
-    git clone https://github.com/neovim/neovim ~/.local/share/src/neovim
+if [ -d "$NVIM_SRC_DIR" ]; then
+    read -p "Neovim source directory found. Recompile? (y/N) " -n 1 -r
+
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo "Skipping Neovim compilation."
+        exit 0
+    fi
+else
+    git clone https://github.com/neovim/neovim "$NVIM_SRC_DIR"
 fi
 
-cd ~/.local/share/src/neovim
+cd "$NVIM_SRC_DIR"
 git fetch --prune --tags --force
 git checkout stable
 sudo make distclean
 make CMAKE_BUILD_TYPE=Release
 sudo make install
-cd -
+cd - > /dev/null
