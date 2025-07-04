@@ -2,7 +2,7 @@
 
 # Power menu script using tofi
 
-CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | tofi --config "$HOME"/.config/tofi/powermenu-config)
+CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | rofi -dmenu -theme "$XDG_CONFIG_HOME/rofi/config.rasi")
 
 case "$CHOSEN" in
 	"Lock") lockscreen ;;
@@ -12,4 +12,3 @@ case "$CHOSEN" in
 	"Log Out") hyprctl dispatch exit ;;
 	*) exit 1 ;;
 esac
-
