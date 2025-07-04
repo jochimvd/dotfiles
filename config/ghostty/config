@@ -2,3 +2,4 @@ theme = tokyonight
 window-padding-color = extend
 window-decoration = false
 shell-integration-features = no-cursor
+confirm-close-surface = false
