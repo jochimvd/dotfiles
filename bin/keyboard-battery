@@ -207,6 +207,3 @@ for ID in "${DEVICES_ARR[@]}"; do
         done
     done
 done
-
-
-
