@@ -38,3 +38,6 @@ alias gf="git fetch"
 
 # search for packages
 alias parus="paru -Slq | fzf --multi --preview 'paru -Sii {1}' --preview-window=up:75% | xargs -ro paru -S"
+
+# update arch mirrors
+alias update-mirrorlist="rate-mirrors arch | sudo tee /etc/pacman.d/mirrorlist"
