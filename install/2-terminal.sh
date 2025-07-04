@@ -6,7 +6,8 @@ paru -S --noconfirm --needed \
     oh-my-posh-bin \
     man-db man-pages tlrc-bin \
     wget curl inetutils \
-    cliphist btop
+    cliphist btop \
+    rate-mirrors
 
 # change shell
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
