@@ -1,8 +1,8 @@
 #!/bin/sh
 
-# Power menu script using tofi
+# Power menu script using rofi
 
-CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | rofi -dmenu -theme "$XDG_CONFIG_HOME/rofi/config.rasi")
+CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | rofi -i -dmenu -theme "$XDG_CONFIG_HOME/rofi/config.rasi")
 
 case "$CHOSEN" in
 	"Lock") lockscreen ;;
