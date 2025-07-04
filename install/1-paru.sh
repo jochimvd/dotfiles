@@ -5,6 +5,6 @@ if ! command -v paru &> /dev/null; then
     git clone https://aur.archlinux.org/paru.git /tmp/paru || { echo "Failed to clone paru"; exit 1; }
     cd /tmp/paru
     makepkg -si
-    cd -
+    cd - > /dev/null
     rm -rf /tmp/paru
 fi
