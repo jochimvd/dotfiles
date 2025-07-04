@@ -1,5 +1,3 @@
-#!/bin/sh
-
 # settings for common commands
 alias cp="cp -iv"
 alias mv="mv -iv"
@@ -9,8 +7,7 @@ alias grep='grep --color=always'
 
 # some more ls aliases
 alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+alias la='ls -a'
 
 # application aliases
 alias v="$EDITOR"
@@ -38,3 +35,6 @@ alias gt="git ls-tree -r master --name-only"
 alias grm="git remote"
 alias gb="git branch"
 alias gf="git fetch"
+
+# search for packages
+alias parus="paru -Slq | fzf --multi --preview 'paru -Sii {1}' --preview-window=up:75% | xargs -ro paru -S"

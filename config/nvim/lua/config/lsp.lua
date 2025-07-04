@@ -1,5 +1,33 @@
 ---@module 'snacks'
 
+vim.lsp.enable({
+  "lua_ls",
+  "basedpyright",
+  "gopls",
+})
+
+
+-- Diagnostic configuration
+vim.diagnostic.config({
+  virtual_text = true,
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "",
+    },
+    numhl = {
+      [vim.diagnostic.severity.WARN] = "WarningMsg",
+      [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+    },
+  },
+})
+
+
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("lsp-attach", { clear = true }),
   callback = function(args)
@@ -65,32 +93,4 @@ vim.api.nvim_create_autocmd("LspAttach", {
       end,
     })
   end
-})
-
-
-
--- Diagnostic configuration
-vim.diagnostic.config({
-  virtual_text = true,
-  signs = {
-    text = {
-      [vim.diagnostic.severity.ERROR] = "",
-      [vim.diagnostic.severity.WARN] = "",
-      [vim.diagnostic.severity.INFO] = "",
-      [vim.diagnostic.severity.HINT] = "",
-    },
-    numhl = {
-      [vim.diagnostic.severity.WARN] = "WarningMsg",
-      [vim.diagnostic.severity.ERROR] = "ErrorMsg",
-      [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-      [vim.diagnostic.severity.HINT] = "DiagnosticHint",
-    },
-  },
-  severity_sort = true,
-})
-
-vim.lsp.enable({
-  "lua_ls",
-  "basedpyright",
-  "gopls",
 })
