@@ -20,7 +20,7 @@ install_deps() {
         zsh eza zoxide atuin bat fzf jq fd \
         man-db man-pages \
         ttf-jetbrains-mono-nerd noto-fonts-emoji \
-        hyprland hyprpaper hypridle hyprlock hyprpicker waybar swaync \
+        hyprland hyprpaper hypridle hyprlock hyprpicker hyprshot waybar swaync \
         xdg-desktop-portal-hyprland qt5-wayland qt6-wayland \
         rofi-wayland nautilus gnome-keyring seahorse \
         pavucontrol network-manager-applet blueman udiskie \
