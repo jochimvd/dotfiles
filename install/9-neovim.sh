@@ -5,7 +5,7 @@ paru -S --noconfirm --needed base-devel cmake ninja curl
 # Install Neovim from source
 mkdir -p ~/.local/share/src
 
-if [ ! -d mkdir -p ~/.local/share/src/neovim ]; then
+if [ ! -d ~/.local/share/src/neovim ]; then
     git clone https://github.com/neovim/neovim ~/.local/share/src/neovim
 fi
 
