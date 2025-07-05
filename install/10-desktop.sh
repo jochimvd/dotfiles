@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 paru -S --noconfirm --needed \
-    brightnessctl playerctl wireplumber \
+    brightnessctl playerctl wireplumber power-profiles-daemon \
     pavucontrol network-manager-applet blueman udiskie \
     nautilus gnome-calculator gnome-keyring \
     seahorse gearlever \
