@@ -3,8 +3,8 @@
 paru -S --noconfirm --needed \
     brightnessctl playerctl wireplumber power-profiles-daemon \
     pavucontrol network-manager-applet blueman udiskie \
-    nautilus gnome-calculator gnome-keyring \
-    seahorse gearlever \
+    nautilus gnome-calculator gnome-keyring seahorse \
+    gearlever \
     zen-browser-bin
 
 sudo systemctl enable --now NetworkManager.service
