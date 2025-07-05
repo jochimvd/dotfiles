@@ -21,7 +21,7 @@
     "battery",
     "custom/notification",
     "privacy",
-    "custom/power"
+    "power-profiles-daemon"
   ],
   "hyprland/workspaces": {
     "disable-scroll": true,
@@ -215,10 +215,15 @@
       }
     ]
   },
-  "custom/power": {
-    "format": "󰐥",
-    "tooltip-format": "Power menu",
-    "on-click": "sleep 0.15 && powermenu"
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}",
+    "tooltip": true,
+    "format-icons": {
+      "power-saver": "󰡳",
+      "balanced":    "󰊚",
+      "performance": "󰡴"
+    }
   },
   "cpu": {
     "format": "󰍛 {usage}%",
