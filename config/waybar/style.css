@@ -81,38 +81,26 @@ tooltip {
 #pulseaudio,
 #battery,
 #custom-notification,
-#privacy,
-#power-profiles-daemon {
+#power-profiles-daemon,
+#privacy {
     margin: 0 10px;
     transition: color 200ms ease-in-out;
 }
 
 /* attemt to nicely space out the icons */
 #idle_inhibitor {
-    padding: 0 3px 0 2px;
+    padding-left: 2px;
+    padding-right: 3px;
 }
 
 #bluetooth {
-    padding: 0 3px 0 1px;
+    padding-left: 1px;
+    padding-right: 3px;
 }
 
 #network {
-    padding: 0 5px 0 0px;
+    padding-right: 5px;
 }
-
-#network.upload,
-#network.download {
-    padding: 0;
-}
-
-#custom-notification {
-    padding: 0 3px 0 0px;
-}
-
-#power-profiles-daemon {
-    margin-right: 20px;
-}
-
 
 #clock {
     /* prevent elements from touching the clock */
@@ -162,6 +150,17 @@ tooltip {
     animation: blink-accent 1s steps(10) infinite alternate;
 }
 
+#custom-notification {
+    padding-right: 3px;
+}
+
+#power-profiles-daemon {
+    margin-right: 20px;
+}
+
 #privacy {
+    padding-left: 3px;
+    margin-left: 0;
+    margin-right: 20px;
     color: @accent_color;
 }
