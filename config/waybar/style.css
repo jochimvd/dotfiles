@@ -82,7 +82,7 @@ tooltip {
 #battery,
 #custom-notification,
 #privacy,
-#custom-power {
+#power-profiles-daemon {
     margin: 0 10px;
     transition: color 200ms ease-in-out;
 }
@@ -109,8 +109,8 @@ tooltip {
     padding: 0 3px 0 0px;
 }
 
-#custom-power {
-    padding: 0 3px 0 1px;
+#power-profiles-daemon {
+    margin-right: 20px;
 }
 
 
@@ -164,9 +164,4 @@ tooltip {
 
 #privacy {
     color: @accent_color;
-}
-
-#custom-power {
-    margin-right: 20px;
-    color: @powerbutton;
 }
