@@ -20,8 +20,8 @@
     "pulseaudio#output",
     "battery",
     "custom/notification",
-    "privacy",
-    "power-profiles-daemon"
+    "power-profiles-daemon",
+    "privacy"
   ],
   "hyprland/workspaces": {
     "disable-scroll": true,
@@ -119,6 +119,14 @@
     "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL -e nmtui'",
     "on-right-click": "hyprctl dispatch exec nm-applet"
   },
+  "cpu": {
+    "format": "󰍛 {usage}%",
+    "tooltip": false
+  },
+  "memory": {
+    "format": "󰘚 {percentage}%",
+    "tooltip": false
+  },
   "pulseaudio#input": {
     "format": "{format_source} {source_volume}%",
     "format-source": "󰍬",
@@ -198,6 +206,16 @@
     "on-click-right": "swaync-client -d -sw",
     "escape": true
   },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}",
+    "tooltip": true,
+    "format-icons": {
+      "power-saver": "󰡳",
+      "balanced":    "󰊚",
+      "performance": "󰡴"
+    }
+  },
   "privacy": {
     "icon-spacing": 4,
     "icon-size": 14,
@@ -214,31 +232,5 @@
         "tooltip-icon-size": 18
       }
     ]
-  },
-  "power-profiles-daemon": {
-    "format": "{icon}",
-    "tooltip-format": "Power profile: {profile}",
-    "tooltip": true,
-    "format-icons": {
-      "power-saver": "󰡳",
-      "balanced":    "󰊚",
-      "performance": "󰡴"
-    }
-  },
-  "cpu": {
-    "format": "󰍛 {usage}%",
-    "tooltip": false
-  },
-  "memory": {
-    "format": "󰘚 {percentage}%",
-    "tooltip": false
-  },
-  "network#upload": {
-    "format": " {bandwidthUpBytes}",
-    "tooltip": false
-  },
-  "network#download": {
-    "format": " {bandwidthDownBytes}",
-    "tooltip": false
   }
 }
