@@ -9,6 +9,7 @@ COMPILE=false
 
 if [ -d "$NVIM_SRC_DIR" ]; then
     read -t 5 -p "Neovim source directory found. Recompile? (y/N) " -n 1 -r
+    echo
 
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         COMPILE=true
