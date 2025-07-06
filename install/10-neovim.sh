@@ -8,7 +8,7 @@ mkdir -p "$(dirname "$NVIM_SRC_DIR")"
 COMPILE=false
 
 if [ -d "$NVIM_SRC_DIR" ]; then
-    read -p "Neovim source directory found. Recompile? (y/N) " -n 1 -r
+    read -t 5 -p "Neovim source directory found. Recompile? (y/N) " -n 1 -r
 
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         COMPILE=true
