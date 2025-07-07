@@ -80,7 +80,6 @@ tooltip {
 #network,
 #pulseaudio,
 #battery,
-#power-profiles-daemon,
 #custom-notification,
 #privacy {
     margin: 0 10px;
@@ -148,10 +147,6 @@ tooltip {
 /* Using steps() instead of linear as a timing function to limit cpu usage */
 #battery.warning:not(.charging) {
     animation: blink-accent 1s steps(10) infinite alternate;
-}
-
-#power-profiles-daemon {
-    padding-right: 4px;
 }
 
 #custom-notification {
