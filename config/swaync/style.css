@@ -17,7 +17,7 @@
     border-radius: 0.5rem;
     background-color: alpha(#000000, 0.75);
     color: #FFFFFF;
-    border: 1px solid alpha(#E7CE47, 0.75);
+    border: 1px solid alpha(#FFFFFF, 0.75);
 }
 
 .floating-notifications.background .notification-row .notification-background .notification {
@@ -100,7 +100,7 @@
 }
 
 .control-center .widget-title {
-    color: #E7CE47;
+    color: #FFFFFF;
     font-weight: bold;
 }
 
@@ -242,7 +242,7 @@ trough {
 }
 
 .widget-dnd>switch:checked slider {
-    background: #E7CE47;
+    background: #FFFFFF;
 }
 
 .widget-dnd>switch slider {
