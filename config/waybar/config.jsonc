@@ -19,7 +19,6 @@
     "pulseaudio#input",
     "pulseaudio#output",
     "battery",
-    "power-profiles-daemon",
     "custom/notification",
     "privacy"
   ],
@@ -187,16 +186,6 @@
       "discharging-warning": "󰂃"
     },
     "tooltip-format": "{timeTo}"
-  },
-  "power-profiles-daemon": {
-    "format": "{icon}",
-    "tooltip-format": "Power profile: {profile}",
-    "tooltip": true,
-    "format-icons": {
-      "power-saver": "󰡳",
-      "balanced":    "󰊚",
-      "performance": "󰡴"
-    }
   },
   "custom/notification": {
     "tooltip": "{}",
