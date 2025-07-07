@@ -45,8 +45,8 @@
         "months": "<span color='#FFF'><b>{}</b></span>",
         "days": "<span color='#FFF'>{}</span>",
         "weeks": "<span color='#FFF'><b> {}</b></span>",
-        "weekdays": "<span color='#E7CE47'><b>{}</b></span>",
-        "today": "<span color='#E7CE47'><b><u>{}</u></b></span>"
+        "weekdays": "<span color='#9ECE6A'><b>{}</b></span>",
+        "today": "<span color='#9ECE6A'><b><u>{}</u></b></span>"
       }
     },
     "actions": {
@@ -191,13 +191,13 @@
     "tooltip": "{}",
     "format": "{icon}",
     "format-icons": {
-      "notification": "󰂚<span color='#E7CE47'><sup></sup></span>",
+      "notification": "󰂚<span color='#9ECE6A'><sup></sup></span>",
       "none": "󰂚",
-      "dnd-notification": "󰂛<span color='#E7CE47'><sup></sup></span>",
+      "dnd-notification": "󰂛<span color='#9ECE6A'><sup></sup></span>",
       "dnd-none": "󰂛",
-      "inhibited-notification": "󰂚<span color='#E7CE47'><sup></sup></span>",
+      "inhibited-notification": "󰂚<span color='#9ECE6A'><sup></sup></span>",
       "inhibited-none": "󰂚",
-      "dnd-inhibited-notification": "󰂛<span color='#E7CE47'><sup></sup></span>",
+      "dnd-inhibited-notification": "󰂛<span color='#9ECE6A'><sup></sup></span>",
       "dnd-inhibited-none": "󰂛"
     },
     "return-type": "json",
