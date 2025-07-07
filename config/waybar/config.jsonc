@@ -19,8 +19,8 @@
     "pulseaudio#input",
     "pulseaudio#output",
     "battery",
-    "custom/notification",
     "power-profiles-daemon",
+    "custom/notification",
     "privacy"
   ],
   "hyprland/workspaces": {
@@ -121,11 +121,13 @@
   },
   "cpu": {
     "format": "󰍛 {usage}%",
-    "tooltip": false
+    "tooltip": false,
+    "on-click": "$TERMINAL -e btop"
   },
   "memory": {
     "format": "󰘚 {percentage}%",
-    "tooltip": false
+    "tooltip": false,
+    "on-click": "$TERMINAL -e btop"
   },
   "pulseaudio#input": {
     "format": "{format_source} {source_volume}%",
@@ -186,6 +188,16 @@
     },
     "tooltip-format": "{timeTo}"
   },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}",
+    "tooltip": true,
+    "format-icons": {
+      "power-saver": "󰡳",
+      "balanced":    "󰊚",
+      "performance": "󰡴"
+    }
+  },
   "custom/notification": {
     "tooltip": "{}",
     "format": "{icon}",
@@ -205,16 +217,6 @@
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true
-  },
-  "power-profiles-daemon": {
-    "format": "{icon}",
-    "tooltip-format": "Power profile: {profile}",
-    "tooltip": true,
-    "format-icons": {
-      "power-saver": "󰡳",
-      "balanced":    "󰊚",
-      "performance": "󰡴"
-    }
   },
   "privacy": {
     "icon-spacing": 4,
