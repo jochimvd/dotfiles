@@ -58,7 +58,7 @@ DEVICES=$(gdbus introspect \
 
 if [[ -z "$DEVICES" ]]; then
     echo "No paired devices"
-    exit 1
+    exit 0
 fi
 
 readarray -t DEVICES_ARR <<< "$DEVICES"
@@ -196,7 +196,7 @@ for ID in "${DEVICES_ARR[@]}"; do
             else
                 BATTERY_LEVEL=$((16#$VALUE))
                 VALUE="$BATTERY_LEVEL%"
-                
+
                 # Check if threshold is set and battery level is below threshold
                 if [[ -n "$THRESHOLD" && "$BATTERY_LEVEL" != "N/A" && "$BATTERY_LEVEL" -lt "$THRESHOLD" ]]; then
                     notify-send -u critical "Keyboard Battery Low" "The $NAME keyboard $TYPE half battery is at $VALUE."
