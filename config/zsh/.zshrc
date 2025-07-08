@@ -36,6 +36,7 @@ zinit cdreplay -q
 
 # Vi mode
 bindkey -v
+bindkey -v '^?' backward-delete-char  # Make backspace work again in vi mode
 export KEYTIMEOUT=1
 
 # Function to change cursor style based on ZLE keymap
