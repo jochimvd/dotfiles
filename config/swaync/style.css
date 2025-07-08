@@ -10,14 +10,14 @@
 } */
 
 .floating-notifications.background .notification-row {
-    margin: 25px;
+    margin: 8px;
 }
 
 .floating-notifications.background .notification-row .notification-background {
-    border-radius: 0.5rem;
+    border-radius: 5px;
     background-color: alpha(#000000, 0.75);
     color: #FFFFFF;
-    border: 1px solid alpha(#FFFFFF, 0.75);
+    border: 2px solid alpha(#FFFFFF, 0.75);
 }
 
 .floating-notifications.background .notification-row .notification-background .notification {
@@ -91,12 +91,12 @@
 }
 
 .control-center {
-    border-radius: 0.5rem;
-    margin: 25px;
+    border-radius: 5px;
+    margin: 8px;
     background-color: alpha(#000000, 0.75);
     color: #FFFFFF;
     padding: 1rem;
-    border: 1px solid alpha(#FFFFFF, 0.25);
+    border: 2px solid alpha(#FFFFFF, 0.25);
 }
 
 .control-center .widget-title {
