@@ -32,8 +32,7 @@ window#waybar {
 }
 
 tooltip {
-    opacity: 0.9;
-    background-color: @secondary_color;
+    background-color: #000000;
     border: 1px solid @tertiary_color;
 }
 
