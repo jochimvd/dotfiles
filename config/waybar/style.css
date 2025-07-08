@@ -11,10 +11,6 @@
     }
 
     50% {
-        color: inherit;
-    }
-
-    100% {
         color: @accent_color;
     }
 }
@@ -69,7 +65,7 @@ tooltip {
 }
 
 #workspaces button.urgent {
-    animation: blink-accent 1s steps(10) infinite alternate;
+    animation: blink-accent 2s steps(2) infinite;
 }
 
 #cpu,
@@ -132,7 +128,7 @@ tooltip {
 
 #bluetooth.discoverable,
 #bluetooth.discovering {
-    animation: blink-accent 1s steps(10) infinite alternate;
+    animation: blink-accent 2s steps(2) infinite;
 }
 
 #bluetooth.disabled {
@@ -145,7 +141,7 @@ tooltip {
 
 /* Using steps() instead of linear as a timing function to limit cpu usage */
 #battery.warning:not(.charging) {
-    animation: blink-accent 1s steps(10) infinite alternate;
+    animation: blink-accent 2s steps(2) infinite;
 }
 
 #custom-notification {
