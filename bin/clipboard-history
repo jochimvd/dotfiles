@@ -3,4 +3,4 @@
 # clipboard manager using rofi
 # requires rofi, cliphist and wl-clipboard to function
 
-cliphist list | rofi -dmenu -theme "$XDG_CONFIG_HOME/rofi/config.rasi" | cliphist decode | wl-copy
+cliphist list | rofi -dmenu -display-columns 2 -theme "$XDG_CONFIG_HOME/rofi/config.rasi" | cliphist decode | wl-copy
