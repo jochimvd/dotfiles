@@ -10,4 +10,4 @@ if [ -z "$selection" ]; then
     exit 0
 fi
 
-echo "$selection" | cliphist decode | wl-copy
+echo -n "$selection" | cliphist decode | wl-copy
