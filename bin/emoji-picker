@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-EMOJI=$(sed '1,/^### DATA ###$/d' "$0" | rofi -dmenu -theme "$HOME/.config/rofi/config.rasi" "$@" | cut -d ' ' -f 1 | tr -d '\n')
-echo -n "$EMOJI" | wl-copy
-exit
+emoji=$(sed '1,/^### DATA ###$/d' "$0" | rofi -dmenu -theme "$HOME/.config/rofi/config.rasi" "$@" | cut -d ' ' -f 1 | tr -d '\n')
+
+if [ -z "$emoji" ]; then
+    exit 0
+fi
+
+echo -n "$emoji" | wl-copy
+exit 0
 
 ### DATA ###
 😀 grinning face face smile happy joy :D grin
