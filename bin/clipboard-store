@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 
-# for some reason wl-clipboard does not set CLIPBOARD_STATE=sensitive
-# this script is a temporary workaround
+# we need this script until the wl-clipboard implementation of it is released
+# see commit https://github.com/bugaevc/wl-clipboard/commit/1e50b65d5ef94d2e595cfaf30a81f933ba80b1f9
 
-if ! wl-paste --list-types | grep -q "x-kde-passwordManagerHint"; then
-    # hint was not found, so it's safe to store the clipboard content
-    cliphist store
+if wl-paste --list-types | grep -q "x-kde-passwordManagerHint"; then
+    CLIPBOARD_STATE=sensitive
 fi
 
-# for testing
-# echo $CLIPBOARD_STATE
+cliphist store
