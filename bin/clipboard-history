@@ -1,6 +1,13 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 # clipboard manager using rofi
 # requires rofi, cliphist and wl-clipboard to function
 
-cliphist list | rofi -i -dmenu -display-columns 2 -theme "$XDG_CONFIG_HOME/rofi/config.rasi" | cliphist decode | wl-copy
+selection=$(cliphist list | rofi -i -dmenu -display-columns 2 -theme "$XDG_CONFIG_HOME/rofi/config.rasi")
+
+# exit if rofi was cancelled
+if [ -z "$selection" ]; then
+    exit 0
+fi
+
+echo "$selection" | cliphist decode | wl-copy
