@@ -1,5 +1,14 @@
+# Style configuration
+font-family = "JetBrainsMono Nerd Font"
 theme = tokyonight
+
+# Window settings
 window-padding-color = extend
 window-decoration = false
+
+# Cursor settings
 shell-integration-features = no-cursor
+
+# Window behavior
 confirm-close-surface = false
+resize-overlay = never
