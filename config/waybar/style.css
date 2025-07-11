@@ -15,25 +15,28 @@
     }
 }
 
-* {
-    font-family: 'JetBrainsMono Nerd Font';
-}
-
 window#waybar {
+    font-family: 'JetBrainsMono Nerd Font Propo';
     font-weight: normal;
     font-size: 14px;
     color: @primary_color;
-    background-color: @secondary_color;
+    background: @secondary_color;
     transition: background-color .5s;
 }
 
 tooltip {
-    background-color: #000000;
+    font-family: 'JetBrainsMono Nerd Font';
+    background: #000000;
     border: 1px solid @tertiary_color;
 }
 
-#workspaces {
+.modules-left,
+.modules-center,
+.modules-right {
     margin: 0 10px;
+}
+
+#workspaces {
     font-weight: bold;
     /* set color on button parent to make "color: inherit" work for the .urgent animation */
     color: @tertiary_color;
@@ -43,9 +46,9 @@ tooltip {
     border: none;
     border-radius: 5px;
     padding: 0 5px;
-    margin: 4px 2px 4px 0;
+    margin: 4px 1px;
     color: @tertiary_color;
-    transition: color 200ms ease-in-out, background 200ms ease-in-out;
+    transition: color 200ms ease-in-out, background-color 200ms ease-in-out;
 }
 
 /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
@@ -68,11 +71,28 @@ tooltip {
     animation: blink-accent 2s steps(2) infinite;
 }
 
-#cpu,
-#memory,
+#window {
+    margin: 0 10px 0 15px;
+}
+
+#clock {
+    font-weight: bold;
+}
+
+#clock.date {
+    margin-right: 8px;
+}
+
+#clock.time {
+    margin-left: 8px;
+}
+
+#tray,
 #idle_inhibitor,
 #bluetooth,
 #network,
+#cpu,
+#memory,
 #pulseaudio,
 #battery,
 #custom-notification,
@@ -81,76 +101,21 @@ tooltip {
     transition: color 200ms ease-in-out;
 }
 
-/* attemt to nicely space out the icons */
-#idle_inhibitor {
-    padding-left: 2px;
-    padding-right: 3px;
-}
-
-#bluetooth {
-    padding-left: 1px;
-    padding-right: 3px;
-}
-
-#network {
-    padding-right: 5px;
-}
-
-#clock {
-    /* prevent elements from touching the clock */
-    margin: 0 10px;
-    font-weight: bold;
-}
-
-#clock.date {
-    margin-right: 7px;
-}
-
-#clock.time {
-    margin-left: 7px;
-}
-
-#idle_inhibitor.deactivated {
-    color: @tertiary_color;
-}
-
-#tray {
-    margin-right: 10px;
-}
-
-#pulseaudio.input.source-muted {
-    color: @tertiary_color;
-}
-
+#idle_inhibitor.deactivated,
+#bluetooth.disabled,
+#network.disconnected,
+#pulseaudio.input.source-muted,
 #pulseaudio.output.muted {
     color: @tertiary_color;
 }
 
 #bluetooth.discoverable,
-#bluetooth.discovering {
-    animation: blink-accent 2s steps(2) infinite;
-}
-
-#bluetooth.disabled {
-    color: @tertiary_color;
-}
-
-#network.disconnected {
-    color: @tertiary_color;
-}
-
-/* Using steps() instead of linear as a timing function to limit cpu usage */
+#bluetooth.discovering,
 #battery.warning:not(.charging) {
+    /* Using steps() instead of linear as a timing function to limit cpu usage */
     animation: blink-accent 2s steps(2) infinite;
-}
-
-#custom-notification {
-    padding-right: 2px;
-    margin-right: 20px;
 }
 
 #privacy {
-    margin-left: 0;
-    margin-right: 20px;
     color: @accent_color;
 }
