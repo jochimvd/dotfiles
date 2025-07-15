@@ -5,7 +5,7 @@ paru -S --noconfirm --needed \
     pavucontrol network-manager-applet blueman udiskie \
     nautilus gnome-calculator gnome-keyring seahorse \
     gearlever \
-    zen-browser-bin
+    chromium zen-browser-bin
 
 sudo systemctl enable --now NetworkManager.service
 sudo systemctl enable --now bluetooth.service
