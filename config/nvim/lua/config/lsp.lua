@@ -11,6 +11,9 @@ vim.lsp.enable({
 vim.diagnostic.config({
   virtual_text = true,
   severity_sort = true,
+  virtual_lines = {
+    current_line = true,
+  },
   signs = {
     text = {
       [vim.diagnostic.severity.ERROR] = "",
