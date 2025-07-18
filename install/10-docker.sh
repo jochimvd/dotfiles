@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-paru -S --noconfirm --needed docker docker-compose
+paru -S --noconfirm --needed docker docker-compose docker-buildx
 
 sudo mkdir -p /etc/docker
 
