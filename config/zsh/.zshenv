@@ -11,8 +11,8 @@ export XDG_BIN_HOME="$HOME/.local/bin"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
 
-# adds ~/bin, ~/.local/bin and ~/.local/share/dotfiles/bin to $PATH
-export PATH="$HOME/bin:$HOME/.local/bin:$HOME/.local/share/dotfiles/bin:$PATH"
+# adds ~/.local/bin and ~/.local/share/dotfiles/bin to $PATH
+export PATH="$HOME/.local/bin:$HOME/.local/share/dotfiles/bin:$PATH"
 
 # cleaning up the home folder
 export LESSHISTFILE="-"
