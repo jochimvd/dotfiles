@@ -1,14 +1,14 @@
 #!/bin/sh
 
-# Power menu script using rofi
+# Power menu script using walker
 
-CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | rofi -i -dmenu -theme "$XDG_CONFIG_HOME/rofi/config.rasi")
+CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --new --dmenu --theme dmenu_small)
 
 case "$CHOSEN" in
-	"Lock") lockscreen ;;
-	"Suspend") systemctl suspend ;;
-	"Reboot") reboot ;;
-	"Shutdown") poweroff ;;
-	"Log Out") uwsm stop ;;
-	*) exit 1 ;;
+    "Lock") lockscreen ;;
+    "Suspend") systemctl suspend ;;
+    "Reboot") reboot ;;
+    "Shutdown") poweroff ;;
+    "Log Out") uwsm stop ;;
+    *) exit 1 ;;
 esac
