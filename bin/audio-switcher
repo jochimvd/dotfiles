@@ -74,9 +74,9 @@ play_chime() {
 
 # Function to select a sink using a menu
 select_sink() {
-    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | rofi -dmenu -theme $XDG_CONFIG_HOME/rofi/config.rasi)
+    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | walker --new --dmenu --theme dmenu_small)
 
-    if [ -z "$selected_nick" ]; then
+    if [ "$selection" = "CNCLD" ] || [ -z "$selected_nick" ]; then
         exit 1
     fi
 
