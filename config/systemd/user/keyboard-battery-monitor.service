@@ -4,4 +4,4 @@ After=graphical-session.target
 
 [Service]
 Type=oneshot
-ExecStart=%h/.local/share/dotfiles/bin/keyboard-battery-monitor 20
+ExecStart=%h/.local/share/dotfiles/bin/dot-cmd-keyboard-battery-monitor 20
