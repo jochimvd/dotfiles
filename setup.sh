@@ -2,7 +2,7 @@
 
 echo "Installing dotfiles..."
 
-pacman -Q git &>/dev/null || sudo pacman -Sy --noconfirm --needed git
+sudo pacman -Sy --noconfirm --needed git
 
 echo "Cloning repo..."
 rm -rf ~/.local/share/dotfiles/
