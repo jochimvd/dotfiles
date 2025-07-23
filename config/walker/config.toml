@@ -79,6 +79,7 @@ show_icon_when_single = true
 show_generic = true
 history = false
 icon = ""
+switcher_only = false
 hidden = true
 
 [builtins.applications.actions]
@@ -93,21 +94,6 @@ name = "bookmarks"
 icon = "bookmark"
 switcher_only = true
 hidden = true
-
-[[builtins.bookmarks.entries]]
-label = "Walker"
-url = "https://github.com/abenz1267/walker"
-keywords = ["walker", "github"]
-
-[[builtins.bookmarks.entries]]
-label = "Omarchy - Github"
-url = "https://github.com/basecamp/omarchy"
-keywords = ["omarchy", "github"]
-
-[[builtins.bookmarks.entries]]
-label = "Omarchy Manual"
-url = "https://manuals.omamix.org/2/the-omarchy-manual"
-keywords = ["omarchy"]
 
 [builtins.xdph_picker]
 hidden = true
@@ -135,10 +121,12 @@ prompt = "You are a helpful general assistant. Keep your answers short and preci
 [builtins.calc]
 require_number = true
 weight = 5
-name = "Calculator"
+name = "calculator"
 icon = "accessories-calculator"
 placeholder = "Calculator"
 min_chars = 3                   # Min chars to calculate. 3 allows "3+3"
+switcher_only = true
+hidden = false
 
 [builtins.windows]
 weight = 5
@@ -158,15 +146,15 @@ avoid_line_breaks = true
 placeholder = "Clipboard"
 image_height = 300
 max_entries = 10
-switcher_only = true
+switcher_only = false
 hidden = true
 
 [builtins.commands]
 weight = 5
 icon = "utilities-terminal"
-switcher_only = true
 name = "commands"
 placeholder = "Commands"
+switcher_only = true
 hidden = true
 
 [builtins.custom_commands]
@@ -177,25 +165,26 @@ placeholder = "Custom Commands"
 hidden = true
 
 [builtins.emojis]
+prefix = ":"
 exec = "wl-copy"
 weight = 5
-name = "Emojis"
+name = "emojis"
 placeholder = "Emojis"
-switcher_only = true
 history = true
 typeahead = true
 show_unqualified = false
-prefix = ":"
+switcher_only = true
+hidden = false
 
 [builtins.symbols]
 after_copy = ""
 weight = 5
 name = "symbols"
 placeholder = "Symbols"
-switcher_only = true
 history = true
 typeahead = true
-hidden = true
+switcher_only = true
+hidden = false
 
 [builtins.finder]
 use_fd = false
@@ -205,12 +194,12 @@ weight = 5
 icon = "file"
 name = "finder"
 placeholder = "Finder"
-switcher_only = true
 ignore_gitignore = true
 refresh = true
 concurrency = 8
 show_icon_when_single = true
 preview_images = false
+switcher_only = true
 hidden = true
 
 [builtins.runner]
@@ -233,9 +222,9 @@ weight = 5
 icon = "preferences-system-network"
 name = "ssh"
 placeholder = "SSH"
-switcher_only = true
 history = true
 refresh = true
+switcher_only = true
 hidden = true
 
 [builtins.switcher]
@@ -253,32 +242,13 @@ placeholder = "Websearch"
 switcher_only = true
 hidden = true
 
-[[builtins.websearch.entries]]
-name = "Google"
-url = "https://www.google.com/search?q=%TERM%"
-
-[[builtins.websearch.entries]]
-name = "DuckDuckGo"
-url = "https://duckduckgo.com/?q=%TERM%"
-switcher_only = true
-
-[[builtins.websearch.entries]]
-name = "Ecosia"
-url = "https://www.ecosia.org/search?q=%TERM%"
-switcher_only = true
-
-[[builtins.websearch.entries]]
-name = "Yandex"
-url = "https://yandex.com/search/?text=%TERM%"
-switcher_only = true
-
 [builtins.dmenu]
-hidden = true
 weight = 5
 name = "dmenu"
 placeholder = "Dmenu"
-switcher_only = true
 show_icon_when_single = true
+switcher_only = true
+hidden = true
 
 [builtins.translation]
 delay = 1000
@@ -286,6 +256,6 @@ weight = 5
 name = "translation"
 icon = "accessories-dictionary"
 placeholder = "Translation"
-switcher_only = true
 provider = "googlefree"
-hidden = true
+switcher_only = true
+hidden = false

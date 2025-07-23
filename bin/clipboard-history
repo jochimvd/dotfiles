@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
-# clipboard manager using rofi
-# requires rofi, cliphist and wl-clipboard to function
+# Clipboard manager using walker
 
-selection=$(cliphist list | rofi -i -dmenu -display-columns 2 -theme "$XDG_CONFIG_HOME/rofi/config.rasi")
+selection=$(cliphist list | walker --new --dmenu -p Clipboard -l 2)
 
-# exit if rofi was cancelled
-if [ -z "$selection" ]; then
+# exit if walker was cancelled
+if [ "$selection" = "CNCLD" ] || [ -z "$selection" ]; then
     exit 0
 fi
 

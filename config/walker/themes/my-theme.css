@@ -119,7 +119,7 @@ child:hover {
 }
 
 #label {
-  font-weight: normal;
+  font-weight: 400;
 }
 
 /* Selected state */
@@ -128,6 +128,7 @@ child:selected #label,
 child:hover #text,
 child:hover #label {
   color: @selected-text;
+  font-weight: 600;
 }
 
 /* Hide sub text */
