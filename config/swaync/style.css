@@ -18,25 +18,21 @@
     margin: 4px 0;
 }
 
-.notification-background {
+.notification {
+    padding: 0.5rem;
     border-radius: 5px;
-    background-color: alpha(#000000, 0.75);
     color: #FFFFFF;
+    background-color: alpha(#000000, 0.75);
     border: 2px solid alpha(#FFFFFF, 0.75);
 }
 
-.control-center .notification-background {
+.control-center .notification {
     background-color: #000000;
     border: 2px solid alpha(#FFFFFF, 0.25);
 }
 
-.notification {
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-}
-
 .notification.critical {
-    border: 2px solid #F38BA8;
+    border: 2px solid alpha(#ff0000, 0.5);
 }
 
 .image {
