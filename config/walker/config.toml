@@ -119,7 +119,7 @@ name = "calculator"
 icon = "accessories-calculator"
 placeholder = "Calculator"
 min_chars = 3                   # Min chars to calculate. 3 allows "3+3"
-switcher_only = true
+switcher_only = false
 hidden = false
 
 [builtins.windows]
@@ -171,6 +171,7 @@ switcher_only = true
 hidden = false
 
 [builtins.symbols]
+prefix = "."
 after_copy = ""
 weight = 5
 name = "symbols"
