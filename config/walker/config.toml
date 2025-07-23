@@ -99,8 +99,8 @@ hidden = true
 hidden = true
 weight = 5
 placeholder = "Screen/Window Picker"
-show_sub_when_single = true
 name = "xdphpicker"
+show_sub_when_single = true
 switcher_only = true
 
 [builtins.ai]
@@ -108,15 +108,9 @@ weight = 5
 placeholder = "AI"
 name = "ai"
 icon = "help-browser"
-switcher_only = true
 show_sub_when_single = true
-
-[[builtins.ai.anthropic.prompts]]
-model = "claude-3-7-sonnet-20250219"
-temperature = 1
-max_tokens = 1_000
-label = "General Assistant"
-prompt = "You are a helpful general assistant. Keep your answers short and precise."
+switcher_only = true
+hidden = true
 
 [builtins.calc]
 require_number = true
@@ -146,7 +140,7 @@ avoid_line_breaks = true
 placeholder = "Clipboard"
 image_height = 300
 max_entries = 10
-switcher_only = false
+switcher_only = true
 hidden = true
 
 [builtins.commands]
