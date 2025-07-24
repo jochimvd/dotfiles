@@ -5,7 +5,7 @@
 CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --new --dmenu --theme dmenu_small)
 
 case "$CHOSEN" in
-    "Lock") lockscreen ;;
+    "Lock") dot-cmd-lockscreen ;;
     "Suspend") systemctl suspend ;;
     "Reboot") reboot ;;
     "Shutdown") poweroff ;;
