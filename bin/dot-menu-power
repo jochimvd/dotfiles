@@ -2,7 +2,7 @@
 
 # Power menu script using walker
 
-CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --new --dmenu --theme dmenu_small)
+CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --dmenu --theme dmenu_small)
 
 case "$CHOSEN" in
     "Lock") dot-cmd-lockscreen ;;

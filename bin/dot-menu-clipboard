@@ -2,7 +2,7 @@
 
 # Clipboard manager using walker
 
-selection=$(cliphist list | walker --new --dmenu -p Clipboard -l 2)
+selection=$(cliphist list | walker --dmenu -p Clipboard -l 2)
 
 # exit if walker was cancelled
 if [ "$selection" = "CNCLD" ] || [ -z "$selection" ]; then
