@@ -74,7 +74,7 @@ play_chime() {
 
 # Function to select a sink using a menu
 select_sink() {
-    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | walker --new --dmenu --theme dmenu_small)
+    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | walker --dmenu --theme dmenu_small)
 
     if [ "$selection" = "CNCLD" ] || [ -z "$selected_nick" ]; then
         exit 1
