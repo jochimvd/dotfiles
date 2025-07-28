@@ -2,13 +2,13 @@
 
 # Power menu script using walker
 
-CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --dmenu --theme dmenu_small)
+CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --dmenu -p "Power menu" --theme dmenu_small)
 
 case "$CHOSEN" in
     "Lock") dot-cmd-lockscreen ;;
     "Suspend") systemctl suspend ;;
-    "Reboot") reboot ;;
-    "Shutdown") poweroff ;;
+    "Reboot") systemctl reboot ;;
+    "Shutdown") systemctl poweroff ;;
     "Log Out") uwsm stop ;;
     *) exit 1 ;;
 esac
