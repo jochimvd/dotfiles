@@ -113,6 +113,7 @@ switcher_only = true
 hidden = true
 
 [builtins.calc]
+prefix = "="
 require_number = true
 weight = 5
 name = "calculator"
@@ -246,6 +247,7 @@ switcher_only = true
 hidden = true
 
 [builtins.translation]
+prefix = ">"
 delay = 1000
 weight = 5
 name = "translation"
