@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+walker -m hyprland_keybinds --theme keybindings
