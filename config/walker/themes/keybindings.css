@@ -1,0 +1,10 @@
+@import url("file://~/.local/share/dotfiles/config/walker/themes/my_theme.css");
+
+#sub {
+  opacity: .5;
+  font-size: 14px;
+}
+
+#activationlabel {
+  opacity: 0;
+}
