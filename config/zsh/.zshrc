@@ -96,11 +96,9 @@ setopt inc_append_history   # write to the history file immediately, not when th
 setopt share_history        # share history between terminals
 setopt extended_history     # save timestamp of command
 
-# Load nvm
-source /usr/share/nvm/init-nvm.sh
-
 # Shell integrations
 eval "$(fzf --zsh)"
 eval "$(zoxide init --cmd cd zsh)"
 eval "$(oh-my-posh init zsh --config ${XDG_CONFIG_HOME:-$HOME/.config}/ohmyposh/config.toml)"
 eval "$(atuin init zsh)"
+eval "$(mise activate zsh)"
