@@ -12,3 +12,7 @@ cp ~/.local/share/dotfiles/share/applications/*.desktop ~/.local/share/applicati
 cp ~/.local/share/dotfiles/share/applications/hidden/*.desktop ~/.local/share/applications/
 
 update-desktop-database ~/.local/share/applications
+
+# Prevent systemd-networkd-wait-online timeout on boot
+sudo systemctl disable systemd-networkd-wait-online.service
+sudo systemctl mask systemd-networkd-wait-online.service
