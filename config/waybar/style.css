@@ -93,7 +93,7 @@ tooltip {
 #network,
 #cpu,
 #memory,
-#pulseaudio,
+#wireplumber,
 #battery,
 #custom-notification,
 #privacy {
@@ -104,8 +104,8 @@ tooltip {
 #idle_inhibitor.deactivated,
 #bluetooth.disabled,
 #network.disconnected,
-#pulseaudio.input.source-muted,
-#pulseaudio.output.muted {
+#wireplumber.source.muted,
+#wireplumber.sink.muted {
     color: @tertiary_color;
 }
 
