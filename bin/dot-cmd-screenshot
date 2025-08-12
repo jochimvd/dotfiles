@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pkill hyprshot || hyprshot -m ${1:-region} --freeze --raw |
+pkill slurp || hyprshot -m ${1:-region} --freeze --raw |
     satty --filename - \
         --early-exit \
         --save-after-copy \
