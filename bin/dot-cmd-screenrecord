@@ -3,22 +3,21 @@
 OUTPUT_DIR="${XDG_VIDEOS_DIR:-$HOME/Videos}"
 
 if [[ ! -d "$OUTPUT_DIR" ]]; then
-    notify-send "Screen recording directory does not exist: $OUTPUT_DIR" -u critical -t 3000
+    notify-send "Screen Recording Error" "Directory does not exist: $OUTPUT_DIR" -u critical -t 3000
     exit 1
 fi
 
 record() {
     filename="$OUTPUT_DIR/screenrecording_$(date '+%Y-%m-%d_%H%M%S').mp4"
-    notify-send "Screen recording starting..." -t 1000
+    notify-send "Screen Recording" "Starting in 1 second..." -t 1000
     sleep 1
 
     wl-screenrec -f "$filename" --ffmpeg-encoder-options="-c:v libx264 -crf 23 -preset medium -movflags +faststart" "$@"
 }
 
-if pgrep -x wl-screenrec >/dev/null || pgrep -x wf-recorder >/dev/null; then
+if pgrep -x wl-screenrec >/dev/null; then
     pkill -x wl-screenrec
-    pkill -x wf-recorder
-    notify-send "Screen recording saved to $OUTPUT_DIR" -t 2000
+    notify-send "Screen Recording Complete" "Video saved to $OUTPUT_DIR" -t 2000
 elif [[ "$1" == "output" ]]; then
     record
 else
