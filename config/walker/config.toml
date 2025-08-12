@@ -6,6 +6,7 @@ hotreload_theme = true
 force_keyboard_focus = true
 
 [list]
+cycle = true
 max_entries = 200
 
 [search]
