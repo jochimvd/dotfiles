@@ -3,8 +3,8 @@
 paru -S --noconfirm --needed \
     brightnessctl playerctl wireplumber power-profiles-daemon \
     pavucontrol network-manager-applet blueman udiskie \
-    nautilus gnome-calculator gnome-keyring seahorse \
-    slurp wl-screenrec \
+    nautilus papers gnome-calculator gnome-keyring seahorse \
+    slurp wl-screenrec satty \
     gearlever \
     chromium zen-browser-bin
 
