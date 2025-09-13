@@ -1,3 +1,8 @@
+:root {
+    --notification-icon-size: 32px;
+}
+
+
 * {
     all: unset;
     font-family: JetBrainsMono Nerd Font Propo;
@@ -9,8 +14,12 @@
     background: transparent;
 }
 
+.floating-notifications {
+    margin-top: 100px;
+}
+
 .floating-notifications .notification-row {
-    margin: 8px 8px 0 0;
+    margin: 8px 24px 0 0;
 }
 
 .control-center .notification-row,
@@ -23,7 +32,7 @@
     border-radius: 5px;
     color: #FFFFFF;
     background-color: alpha(#000000, 0.75);
-    border: 2px solid alpha(#FFFFFF, 0.75);
+    border: 2px solid #FFFFFF;
 }
 
 .control-center .notification {
@@ -73,7 +82,7 @@
     background-color: alpha(#000000, 0.75);
     color: #FFFFFF;
     padding: 1rem;
-    border: 2px solid alpha(#FFFFFF, 0.25);
+    border: 2px solid #FFFFFF;
 }
 
 .control-center .widget-title {
@@ -90,11 +99,11 @@
 }
 
 .control-center .widget-title button:hover {
-    background-color: #595959;
+    background-color: alpha(#FFFFFF, 0.1);
 }
 
 .control-center .widget-title button:active {
-    background-color: alpha(#FFFFFF, 0.25);
+    background-color: alpha(#FFFFFF, 0.05);
 }
 
 .notification-group-buttons,
