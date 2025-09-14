@@ -16,7 +16,7 @@ EOF
 
 # Function to cycle to the next sink
 cycle_to_next_sink() {
-    sinks=$(pactl -f json list sinks)
+    sinks=$(pactl -f json list sinks | jq '[.[] | select((.ports | length == 0) or ([.ports[]? | .availability != "not available"] | any))]')
     sinks_count=$(echo "$sinks" | jq '. | length')
 
     if [ "$sinks_count" -eq 0 ]; then
