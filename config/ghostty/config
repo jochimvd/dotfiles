@@ -1,6 +1,6 @@
 # Style configuration
 font-family = "JetBrainsMono Nerd Font"
-theme = tokyonight
+theme = TokyoNight
 
 # Window settings
 window-padding-color = extend
