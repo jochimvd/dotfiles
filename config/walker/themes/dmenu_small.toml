@@ -1,7 +1,0 @@
-[ui.window.box]
-width = 300
-
-[ui.window.box.scroll.list]
-max_width = 300
-min_width = 300
-width = 300

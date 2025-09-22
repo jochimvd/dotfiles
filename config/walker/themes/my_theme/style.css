@@ -1,0 +1,124 @@
+@define-color window_bg_color #000000;
+@define-color accent_bg_color #FFFFFF;
+@define-color theme_fg_color #FFFFFF;
+
+* {
+  all: unset;
+}
+
+.normal-icons {
+  -gtk-icon-size: 16px;
+}
+
+.large-icons {
+  -gtk-icon-size: 24px;
+}
+
+scrollbar {
+  opacity: 0;
+}
+
+.box-wrapper {
+  background: alpha(@window_bg_color, 0.75);
+  border-radius: 5px;
+}
+
+.preview-box,
+.elephant-hint,
+.placeholder {
+  color: @theme_fg_color;
+}
+
+.box {
+}
+
+.search-container {
+}
+
+.input placeholder {
+  opacity: 0.5;
+}
+
+.input {
+  caret-color: @theme_fg_color;
+  background: lighter(@window_bg_color);
+  padding: 10px;
+  color: @theme_fg_color;
+}
+
+.input:focus,
+.input:active {
+}
+
+.content-container {
+}
+
+.placeholder {
+}
+
+.scroll {
+}
+
+.list {
+  color: @theme_fg_color;
+}
+
+child {
+}
+
+.item-box {
+  padding: 10px;
+}
+
+.item-quick-activation {
+  opacity: 0.5;
+  margin-left: 10px;
+}
+
+child:hover .item-box,
+child:selected .item-box {
+  background: alpha(@accent_bg_color, 0.1);
+}
+
+.item-text-box {
+}
+
+.item-text {
+}
+
+.item-subtext {
+  font-size: 12px;
+  opacity: 0.5;
+}
+
+.item-image {
+  margin-right: 10px;
+}
+
+.keybind-hints {
+  font-size: 12px;
+  opacity: 0.5;
+  color: @theme_fg_color;
+}
+
+.preview {
+  border: 1px solid alpha(@accent_bg_color, 0.25);
+  padding: 10px;
+  border-radius: 10px;
+  color: @theme_fg_color;
+}
+
+.calc .item-text {
+  font-size: 24px;
+}
+
+.calc .item-subtext {
+}
+
+.symbols .item-image {
+  font-size: 24px;
+}
+
+.preview .large-icons {
+  -gtk-icon-size: 64px;
+}
