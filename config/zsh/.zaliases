@@ -6,8 +6,8 @@ alias ls="eza --group-directories-first"
 alias grep="grep --color=always"
 
 # some more ls aliases
-alias ll="ls -alF"
 alias la="ls -a"
+alias ll="ls -al -F=auto"
 alias lt="eza --tree --level=2 --long --icons --git"
 
 # directories
