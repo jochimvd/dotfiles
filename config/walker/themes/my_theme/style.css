@@ -4,6 +4,8 @@
 
 * {
   all: unset;
+  font-size: 18px;
+  font-family: 'JetBrainsMono Nerd Font Propo', monospace;
 }
 
 .normal-icons {
@@ -77,7 +79,7 @@ child {
 
 child:hover .item-box,
 child:selected .item-box {
-  background: alpha(@accent_bg_color, 0.1);
+  background: alpha(@accent_bg_color, 0.08);
 }
 
 .item-text-box {
