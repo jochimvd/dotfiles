@@ -7,11 +7,8 @@ window-padding-color = extend
 window-decoration = false
 
 # Cursor settings
-shell-integration-features = no-cursor
+shell-integration-features = no-cursor, ssh-env
 
 # Window behavior
 confirm-close-surface = false
 resize-overlay = never
-
-# Terminal settings
-term = xterm-256color
