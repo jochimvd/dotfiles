@@ -1,5 +1,6 @@
 force_keyboard_focus = false    # forces keyboard forcus to stay in Walker
 close_when_open = true          # close walker when invoking while already opened
+click_to_close = true           # closes walker if clicking outside of the main content area
 selection_wrap = true           # wrap list if at bottom or top
 global_argument_delimiter = "#" # query: firefox#https://benz.dev => part after delimiter will be ignored when querying. this should be the same as in the elephant config
 keep_open_modifier = "shift"    # won't close on activation, but rather select the next item in the list
@@ -76,7 +77,7 @@ delete = "ctrl d"
 [providers.websearch]
 default = "search"
 search = "Return"
-remove_history = "ctrl BackSpace"
+remove_history = "ctrl h"
 
 [providers.providerlist]
 default = "activate"
@@ -94,7 +95,7 @@ toggle_images_only = "ctrl i"
 default = "start"
 start = "Return"
 start_keep_open = "shift Return"
-remove_history = "ctrl BackSpace"
+remove_history = "ctrl h"
 toggle_pin = "ctrl p"
 
 [providers.files]
@@ -116,7 +117,7 @@ clear = "ctrl x"
 default = "start"
 start = "Return"
 start_terminal = "shift Return"
-remove_history = "ctrl BackSpace"
+remove_history = "ctrl h"
 
 [providers.dmenu]
 default = "select"
@@ -125,14 +126,14 @@ select = "Return"
 [providers.symbols]
 default = "copy"
 copy = "Return"
-remove_history = "ctrl BackSpace"
+remove_history = "ctrl h"
 
 [providers.unicode]
 default = "copy"
 copy = "Return"
-remove_history = "ctrl BackSpace"
+remove_history = "ctrl h"
 
 [providers.menus]
 default = "activate"
 activate = "Return"
-remove_history = "ctrl BackSpace"
+remove_history = "ctrl h"
