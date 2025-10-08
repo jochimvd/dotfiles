@@ -1,10 +1,11 @@
 @define-color window_bg_color #000000;
 @define-color accent_bg_color #FFFFFF;
 @define-color theme_fg_color #FFFFFF;
+@define-color error_bg_color #C34043;
+@define-color error_fg_color #DCD7BA;
 
 * {
   all: unset;
-  font-size: 18px;
   font-family: 'JetBrainsMono Nerd Font Propo', monospace;
 }
 
@@ -32,6 +33,7 @@ scrollbar {
 }
 
 .box {
+  -gtk-spacing: 0;
 }
 
 .search-container {
@@ -46,6 +48,7 @@ scrollbar {
   background: lighter(@window_bg_color);
   padding: 10px;
   color: @theme_fg_color;
+  font-size: 18px;
 }
 
 .input:focus,
@@ -63,6 +66,7 @@ scrollbar {
 
 .list {
   color: @theme_fg_color;
+  font-size: 18px;
 }
 
 child {
@@ -123,4 +127,30 @@ child:selected .item-box {
 
 .preview .large-icons {
   -gtk-icon-size: 64px;
+}
+
+.keybinds-wrapper {
+  padding: 0 10px 5px 10px;
+  opacity: 0.25;
+  color: @theme_fg_color;
+  font-size: 12px;
+}
+
+.keybinds {
+}
+
+.keybind {
+}
+
+.keybind-bind {
+}
+
+.keybind-label {
+  font-weight: bold;
+}
+
+.error {
+  padding: 10px;
+  background: @error_bg_color;
+  color: @error_fg_color;
 }
