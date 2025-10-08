@@ -29,9 +29,6 @@ quick_activate = ["alt h", "alt t", "alt n", "alt s", "alt a", "alt e", "alt i",
 default = [
   "desktopapplications",
   "calc",
-  "runner",
-  "menus",
-  "websearch",
 ] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty
 max_results = 200 # global max results
@@ -40,16 +37,16 @@ max_results = 200 # global max results
 [providers.max_results_provider] # define max results per provider in here
 
 [[providers.prefixes]]
-prefix = ";"
+prefix = "/"
 provider = "providerlist"
 
 [[providers.prefixes]]
-prefix = "/"
+prefix = ";"
 provider = "files"
 
 [[providers.prefixes]]
 prefix = "."
-provider = "symbols"
+provider = "unicode"
 
 [[providers.prefixes]]
 prefix = "!"
@@ -63,9 +60,13 @@ provider = "calc"
 prefix = "@"
 provider = "websearch"
 
-[[providers.prefixes]]
-prefix = ":"
-provider = "clipboard"
+# [[providers.prefixes]]
+# prefix = ":"
+# provider = "symbols"
+
+# [[providers.prefixes]]
+# prefix = ":"
+# provider = "clipboard"
 
 [providers.clipboard]
 time_format = "%d.%m. - %H:%M" # format for the clipboard item date
