@@ -5,3 +5,7 @@ Requires=keyboard-battery-monitor.service
 [Timer]
 OnBootSec=1min
 OnUnitActiveSec=1h
+AccuracySec=10sec
+
+[Install]
+WantedBy=timers.target
