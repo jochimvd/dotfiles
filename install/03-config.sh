@@ -13,6 +13,9 @@ cp ~/.local/share/dotfiles/share/applications/hidden/*.desktop ~/.local/share/ap
 
 update-desktop-database ~/.local/share/applications
 
+# Symlink resolved stub-resolv to /etc/resolv.conf
+sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+
 # Prevent systemd-networkd-wait-online timeout on boot
 sudo systemctl disable systemd-networkd-wait-online.service
 sudo systemctl mask systemd-networkd-wait-online.service
