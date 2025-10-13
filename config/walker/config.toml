@@ -26,10 +26,7 @@ resume_last_query = ["ctrl r"]
 quick_activate = ["alt h", "alt t", "alt n", "alt s", "alt a", "alt e", "alt i", "alt c"]
 
 [providers]
-default = [
-  "desktopapplications",
-  "calc",
-] # providers to be queried by default
+default = ["desktopapplications"] # providers to be queried by default
 empty = ["desktopapplications"] # providers to be queried when query is empty
 max_results = 200 # global max results
 
