@@ -10,5 +10,6 @@ window-decoration = false
 shell-integration-features = no-cursor, ssh-env
 
 # Window behavior
+window-inherit-working-directory = false
 confirm-close-surface = false
 resize-overlay = never
