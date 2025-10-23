@@ -6,7 +6,7 @@ paru -S --noconfirm --needed \
     oh-my-posh-bin \
     man-db man-pages tlrc-bin \
     wget curl inetutils \
-    cliphist btop \
+    wl-clipboard cliphist btop \
     rate-mirrors
 
 # change shell
