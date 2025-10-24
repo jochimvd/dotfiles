@@ -14,10 +14,10 @@
     "group/tray-icons",
     "bluetooth",
     "network",
+    // "wireplumber#source",
+    "wireplumber#sink",
     "cpu",
     "memory",
-    "wireplumber#source",
-    "wireplumber#sink",
     "battery",
     "custom/notification",
     "privacy"
@@ -112,21 +112,12 @@
     "format-ethernet": "󰈀",
     "format-disconnected": "󰤭",
     "tooltip-format": "󰛳 {ifname} via {gwaddr}",
-    "tooltip-format-wifi": "󰣸  {essid} ({signalStrength}%)\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
+    "tooltip-format-wifi": "󰣸  {essid} ({frequency} GHz, {signalStrength}%)\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-ethernet": "  {ifname}\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-disconnected": "Disconnected",
     "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL -e nmtui'",
-    "on-right-click": "hyprctl dispatch exec nm-applet"
-  },
-  "cpu": {
-    "format": "󰍛 {usage}%",
-    "tooltip": false,
-    "on-click": "$TERMINAL -e btop"
-  },
-  "memory": {
-    "format": "󰘚 {percentage}%",
-    "tooltip": false,
-    "on-click": "$TERMINAL -e btop"
+    "on-right-click": "hyprctl dispatch exec nm-applet",
+    "interval": 5
   },
   "wireplumber#source": {
     "node-type": "Audio/Source",
@@ -156,6 +147,16 @@
         "󰕾"
       ]
     }
+  },
+  "cpu": {
+    "format": "󰍛 {usage}%",
+    "on-click": "$TERMINAL -e btop",
+    "interval": 5
+  },
+  "memory": {
+    "format": "󰘚 {percentage}%",
+    "on-click": "$TERMINAL -e btop",
+    "interval": 5
   },
   "battery": {
     "states": {
