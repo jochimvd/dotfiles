@@ -4,7 +4,7 @@ paru -S --noconfirm --needed \
     brightnessctl playerctl wireplumber power-profiles-daemon \
     pavucontrol network-manager-applet blueman udiskie \
     nautilus papers gnome-calculator gnome-keyring seahorse \
-    slurp wl-screenrec satty \
+    grim slurp wayfreeze-git satty wl-screenrec \
     gearlever \
     chromium zen-browser-bin
 

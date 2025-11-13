@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 paru -S --noconfirm --needed \
-    hyprland hyprpaper hypridle hyprlock hyprpicker hyprshot hyprpolkitagent hyprland-guiutils \
+    hyprland hyprpaper hypridle hyprlock hyprpicker hyprpolkitagent hyprland-guiutils \
     xdg-desktop-portal-gtk xdg-desktop-portal-hyprland qt5-wayland qt6-wayland \
     walker elephant elephant-providerlist elephant-desktopapplications elephant-calc elephant-clipboard elephant-unicode elephant-symbols \
     waybar swaync \
