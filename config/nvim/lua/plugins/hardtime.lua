@@ -6,6 +6,12 @@ return {
     opts = {
       disable_mouse = false,
       disabled_filetypes = { "lazy", "mason", "minifiles" },
+      disabled_keys = {
+        ["<Up>"] = false,
+        ["<Down>"] = false,
+        ["<Left>"] = false,
+        ["<Right>"] = false,
+      },
     },
     config = function(_, opts)
       require("hardtime").setup(opts)
