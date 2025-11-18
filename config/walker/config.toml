@@ -38,32 +38,20 @@ prefix = "/"
 provider = "providerlist"
 
 [[providers.prefixes]]
-prefix = ";"
-provider = "files"
-
-[[providers.prefixes]]
 prefix = "."
 provider = "unicode"
 
 [[providers.prefixes]]
-prefix = "!"
-provider = "todo"
+prefix = ":"
+provider = "symbols"
 
 [[providers.prefixes]]
 prefix = "="
 provider = "calc"
 
 [[providers.prefixes]]
-prefix = "@"
-provider = "websearch"
-
-# [[providers.prefixes]]
-# prefix = ":"
-# provider = "symbols"
-
-# [[providers.prefixes]]
-# prefix = ":"
-# provider = "clipboard"
+prefix = "!"
+provider = "clipboard"
 
 [providers.clipboard]
 time_format = "%d.%m. - %H:%M" # format for the clipboard item date
@@ -71,6 +59,8 @@ time_format = "%d.%m. - %H:%M" # format for the clipboard item date
 [providers.actions] # This will be MERGED/OVEWRITTEN with what the user specifies
 fallback = [
   { action = "menus:open", label = "open", after = "Nothing" },
+  { action = "menus:default", label = "run", after = "Close" },
+  { action = "menus:parent", label = "back", bind = "Escape", after = "Nothing" },
   { action = "erase_history", label = "clear hist", bind = "ctrl h", after = "AsyncReload" },
 ]
 
@@ -80,31 +70,15 @@ providerlist = [
   { action = "activate", default = true, bind = "Return", after = "ClearReload" },
 ]
 
-bluetooth = [
-  { action = "find", global = true, bind = "ctrl f", after = "AsyncClearReload" },
-  { action = "trust", bind = "ctrl t", after = "AsyncReload" },
-  { action = "untrust", bind = "ctrl t", after = "AsyncReload" },
-  { action = "pair", bind = "Return", after = "AsyncReload" },
-  { action = "remove", bind = "ctrl d", after = "AsyncReload" },
-  { action = "connect", bind = "Return", after = "AsyncReload" },
-  { action = "disconnect", bind = "Return", after = "AsyncReload" },
-]
-
-archlinuxpkgs = [
-  { action = "install", bind = "Return", default = true },
-  { action = "remove", bind = "Return" },
-]
-
 calc = [
   { action = "copy", default = true, bind = "Return" },
   { action = "delete", bind = "ctrl d", after = "AsyncReload" },
   { action = "save", bind = "ctrl s", after = "AsyncClearReload" },
 ]
 
-websearch = [{ action = "search", default = true, bind = "Return" }]
-
 desktopapplications = [
   { action = "start", default = true, bind = "Return" },
+  { action = "new_instance", label = "new instance", bind = "ctrl Return" },
   { action = "pin", bind = "ctrl p", after = "AsyncReload" },
   { action = "unpin", bind = "ctrl p", after = "AsyncReload" },
   { action = "pinup", bind = "ctrl n", after = "AsyncReload" },
@@ -116,15 +90,6 @@ files = [
   { action = "opendir", label = "open dir", bind = "ctrl Return" },
   { action = "copypath", label = "copy path", bind = "ctrl shift c" },
   { action = "copyfile", label = "copy file", bind = "ctrl c" },
-]
-
-todo = [
-  { action = "save", default = true, bind = "Return", after = "ClearReload" },
-  { action = "delete", bind = "ctrl d", after = "ClearReload" },
-  { action = "active", bind = "Return", after = "ClearReload" },
-  { action = "inactive", bind = "Return", after = "ClearReload" },
-  { action = "done", bind = "ctrl f", after = "ClearReload" },
-  { action = "clear", bind = "ctrl x", after = "ClearReload", global = true },
 ]
 
 runner = [
@@ -142,8 +107,13 @@ unicode = [
 
 clipboard = [
   { action = "copy", default = true, bind = "Return" },
-  { action = "remove", bind = "ctrl d", after = "ClearReload" },
-  { action = "remove_all", global = true, label = "clear", bind = "ctrl shift d", after = "ClearReload" },
-  { action = "toggle_images", global = true, label = "toggle images", bind = "ctrl i", after = "ClearReload" },
+  { action = "remove", bind = "ctrl d", after = "AsyncClearReload" },
+  { action = "remove_all", label = "clear", bind = "ctrl shift d", after = "AsyncClearReload" },
+  { action = "show_images_only", label = "only images", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "show_text_only", label = "only text", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "show_combined", label = "show all", bind = "ctrl i", after = "AsyncClearReload" },
+  { action = "pause", bind = "ctrl p" },
+  { action = "unpause", bind = "ctrl p" },
   { action = "edit", bind = "ctrl o" },
+  { action = "localsend", bind = "ctrl l" },
 ]
