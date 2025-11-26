@@ -152,12 +152,12 @@
   },
   "cpu": {
     "format": "󰍛 {usage}%",
-    "on-click": "$TERMINAL -e btop",
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e btop'",
     "interval": 5
   },
   "memory": {
     "format": "󰘚 {percentage}%",
-    "on-click": "$TERMINAL -e btop",
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e btop'",
     "interval": 5
   },
   "battery": {
