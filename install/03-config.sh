@@ -16,6 +16,9 @@ update-desktop-database ~/.local/share/applications
 # Symlink resolved stub-resolv to /etc/resolv.conf
 sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
+sudo systemctl enable --now systemd-networkd
+sudo systemctl enable --now systemd-resolved
+
 # Prevent systemd-networkd-wait-online timeout on boot
 sudo systemctl disable systemd-networkd-wait-online.service
 sudo systemctl mask systemd-networkd-wait-online.service
