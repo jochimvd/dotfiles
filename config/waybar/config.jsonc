@@ -92,12 +92,14 @@
   },
   "bluetooth": {
     "format": "󰂯",
-    "format-connected": "󰂯",
+    "format-disabled": "󰂲",
+    "format-connected": "󰂱",
+    "format-no-controller": "",
     "tooltip-format": "{controller_alias}\t{controller_address}\n{num_connections} connected",
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-    "on-click": "hyprctl dispatch exec '[float]' blueman-manager"
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e bluetui'"
   },
   "network": {
     "format": "{ifname}",
@@ -115,7 +117,7 @@
     "tooltip-format-wifi": "󰣸  {essid} ({frequency} GHz, {signalStrength}%)\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-ethernet": "  {ifname}\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-disconnected": "Disconnected",
-    "on-click": "hyprctl dispatch exec '[float]' '$TERMINAL -e nmtui'",
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e nmtui'",
     "on-right-click": "hyprctl dispatch exec nm-applet",
     "interval": 5
   },

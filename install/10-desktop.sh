@@ -2,7 +2,7 @@
 
 paru -S --noconfirm --needed \
     brightnessctl playerctl wireplumber power-profiles-daemon \
-    pavucontrol network-manager-applet blueman udiskie \
+    pavucontrol network-manager-applet bluetui udiskie \
     nautilus papers gnome-calculator gnome-keyring seahorse \
     grim slurp wayfreeze-git satty wl-screenrec \
     gearlever \
