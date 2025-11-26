@@ -99,7 +99,8 @@
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e bluetui'"
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e bluetui'",
+    "interval": 5
   },
   "network": {
     "format": "{ifname}",
@@ -117,8 +118,7 @@
     "tooltip-format-wifi": "󰣸  {essid} ({frequency} GHz, {signalStrength}%)\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-ethernet": "  {ifname}\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-disconnected": "Disconnected",
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e nmtui'",
-    "on-right-click": "hyprctl dispatch exec nm-applet",
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e impala'",
     "interval": 5
   },
   "wireplumber#source": {
@@ -185,7 +185,8 @@
       "discharging-warning": "󰂃"
     },
     "tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%\n{timeTo}",
-    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%\n{timeTo}"
+    "tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%\n{timeTo}",
+    "interval": 5
   },
   "custom/notification": {
     "tooltip": "{}",
