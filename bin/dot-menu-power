@@ -7,8 +7,8 @@ CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --dmenu -p "
 case "$CHOSEN" in
     "Lock") dot-cmd-lockscreen ;;
     "Suspend") systemctl suspend ;;
-    "Reboot") systemctl reboot --no-wall ;;
-    "Shutdown") systemctl poweroff --no-wall ;;
+    "Reboot") dot-hyprland-window-close-all; sleep 0.5; systemctl reboot --no-wall ;;
+    "Shutdown") dot-hyprland-window-close-all; sleep 0.5; systemctl poweroff --no-wall ;;
     "Log Out") uwsm stop ;;
     *) exit 1 ;;
 esac
