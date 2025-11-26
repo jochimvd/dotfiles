@@ -12,3 +12,7 @@ systemctl --user enable --now swaync.service
 systemctl --user enable --now hypridle.service
 systemctl --user enable --now hyprpaper.service
 systemctl --user enable --now hyprpolkitagent.service
+
+if ! systemctl --user is-enabled --quiet elephant.service; then
+    elephant service enable
+fi
