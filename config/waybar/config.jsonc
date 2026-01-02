@@ -124,7 +124,7 @@
   "wireplumber#source": {
     "node-type": "Audio/Source",
     "reverse-scrolling": true,
-    "on-click": "pavucontrol -t 4",
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' 'pavucontrol -t 4'",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
     "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-",
@@ -137,7 +137,7 @@
   "wireplumber#sink": {
     "node-type": "Audio/Sink",
     "reverse-scrolling": true,
-    "on-click": "pavucontrol -t 3",
+    "on-click": "hyprctl dispatch exec '[tag +floating-window]' 'pavucontrol -t 3'",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "on-click-middle": "dot-menu-audio-switcher --cycle",
     "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
