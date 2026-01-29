@@ -13,6 +13,9 @@ cp ~/.local/share/dotfiles/share/applications/hidden/*.desktop ~/.local/share/ap
 
 update-desktop-database ~/.local/share/applications
 
+xdg-mime default smart-browser.desktop x-scheme-handler/http
+xdg-mime default smart-browser.desktop x-scheme-handler/https
+
 # Symlink resolved stub-resolv to /etc/resolv.conf
 sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 

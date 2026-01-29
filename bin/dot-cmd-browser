@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# Script to open URLs in the most recently focussed browser
+
+DEFAULT_BROWSER="zen-browser"
+URL="$1"
+
+# find PID of the most recently used window with tag "*browser*"
+TARGET_PID=$(hyprctl clients -j | jq -r '
+  [ .[] | select((.tags // []) | join(" ") | test("browser"; "i")) ] 
+  | sort_by(.focusHistoryID) 
+  | .[0].pid
+')
+
+found_binary=""
+target_profile=""
+
+# extract launch binary and profile from the process
+if [[ "$TARGET_PID" != "null" && -n "$TARGET_PID" ]]; then
+
+    if [ -f "/proc/$TARGET_PID/cmdline" ]; then
+        cmd_output=$(tr '\0' '\n' < /proc/"$TARGET_PID"/cmdline)
+
+        is_first_line=true
+        use_next=false
+
+        while IFS= read -r line; do
+            if $is_first_line; then
+                found_binary="$line"
+                is_first_line=false
+                continue
+            fi
+
+            # look for the Firefox based browser profile (-P flag)
+            if $use_next; then
+                target_profile="$line"
+                break
+            fi
+
+            if [[ "$line" == "-P" ]]; then
+                use_next=true
+            fi
+        done <<< "$cmd_output"
+    fi
+fi
+
+# launch Logic
+if [[ -n "$found_binary" ]]; then
+    if [[ -n "$target_profile" ]]; then
+        # Firefox based
+        exec "$found_binary" -P "$target_profile" "$URL"
+    else
+        # Chromium based or Firefox default profile
+        # no "" around binary due to original arguments returned on the first line by cmdline
+        exec $found_binary "$URL"
+    fi
+else
+    exec "$DEFAULT_BROWSER" "$URL"
+fi
