@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Smart Browser Opener
+Exec=dot-cmd-browser %u
+Type=Application
+Terminal=false
+Hidden=true
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
