@@ -153,18 +153,24 @@
     }
   },
   "cpu": {
+    "states": {
+      "critical": 90
+    },
     "format": "󰍛 {usage}%",
     "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e btop'",
     "interval": 5
   },
   "memory": {
+    "states": {
+      "critical": 80
+    },
     "format": "󰘚 {percentage}%",
     "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e btop'",
     "interval": 5
   },
   "battery": {
     "states": {
-      "warning": 20
+      "critical": 20
     },
     "format": "{icon} {capacity}%",
     "format-icons": {

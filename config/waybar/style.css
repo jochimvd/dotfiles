@@ -5,6 +5,16 @@
 @define-color powerbutton #F38BA8;
 
 
+@keyframes blink-critical {
+    0% {
+        color: inherit;
+    }
+
+    50% {
+        color: @powerbutton;
+    }
+}
+
 @keyframes blink-accent {
     0% {
         color: inherit;
@@ -110,10 +120,15 @@ tooltip {
 }
 
 #bluetooth.discoverable,
-#bluetooth.discovering,
-#battery.warning:not(.charging) {
+#bluetooth.discovering {
     /* Using steps() instead of linear as a timing function to limit cpu usage */
     animation: blink-accent 2s steps(2) infinite;
+}
+
+#cpu.critical,
+#memory.critical,
+#battery.critical:not(.charging) {
+    animation: blink-critical 2s steps(2) infinite;
 }
 
 #privacy {
