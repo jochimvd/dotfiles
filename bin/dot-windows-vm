@@ -1,0 +1,200 @@
+#!/usr/bin/env bash
+
+COMPOSE_FILE="$HOME/.config/windows/docker-compose.yml"
+CONTAINER_NAME="dotfiles-windows"
+
+install_windows() {
+  # Check KVM
+  if [[ ! -e /dev/kvm ]]; then
+    echo "Error: KVM not available. Enable virtualization in BIOS or run:"
+    echo "  sudo modprobe kvm-intel  # Intel"
+    echo "  sudo modprobe kvm-amd    # AMD"
+    exit 1
+  fi
+
+  # Defaults
+  local ram="4G" cores="2" disk="64G" username="docker" password="admin"
+
+  # System info
+  local total_ram_gb=$(awk 'NR==1 {printf "%d", $2/1024/1024}' /proc/meminfo)
+  local total_cores=$(nproc)
+  echo "System: ${total_ram_gb}G RAM, ${total_cores} CPU cores"
+  echo ""
+
+  read -p "RAM [$ram]: " input; [[ -n $input ]] && ram="$input"
+  read -p "CPU cores [$cores]: " input; [[ -n $input ]] && cores="$input"
+  read -p "Disk size [$disk]: " input; [[ -n $input ]] && disk="$input"
+  read -p "Username [$username]: " input; [[ -n $input ]] && username="$input"
+  read -sp "Password [$password]: " input; echo; [[ -n $input ]] && password="$input"
+
+  # Check disk space
+  local disk_num=${disk%G}
+  local required=$((disk_num + 10))
+  local available=$(df "$HOME" | awk 'NR==2 {print int($4/1024/1024)}')
+  if (( available < required )); then
+    echo "Error: Need ${required}G free, only ${available}G available"
+    exit 1
+  fi
+
+  echo ""
+  echo "Config: RAM=$ram, CPU=$cores, Disk=$disk, User=$username"
+  read -p "Proceed? [Y/n] " confirm
+  [[ $confirm =~ ^[Nn] ]] && echo "Cancelled." && exit 1
+
+  mkdir -p "$HOME/.windows" "$HOME/.config/windows" "$HOME/Windows"
+
+  cat > "$COMPOSE_FILE" <<EOF
+services:
+  windows:
+    image: dockurr/windows
+    container_name: $CONTAINER_NAME
+    environment:
+      VERSION: "11"
+      RAM_SIZE: "$ram"
+      CPU_CORES: "$cores"
+      DISK_SIZE: "$disk"
+      USERNAME: "$username"
+      PASSWORD: "$password"
+      TZ: "$(timedatectl show -p Timezone --value 2>/dev/null || echo UTC)"
+      ARGUMENTS: "-rtc base=localtime,clock=host,driftfix=slew"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 127.0.0.1:8006:8006
+      - 127.0.0.1:3389:3389/tcp
+      - 127.0.0.1:3389:3389/udp
+    volumes:
+      - $HOME/.windows:/storage
+      - $HOME/Windows:/shared
+    restart: unless-stopped
+    stop_grace_period: 2m
+EOF
+
+  echo ""
+  echo "Starting Windows 11 download and installation..."
+  echo "This may take 10-15 minutes."
+
+  if ! docker compose -f "$COMPOSE_FILE" up -d 2>&1; then
+    echo "Error: Failed to start. Check: docker is running, ports are free, you're in docker group."
+    exit 1
+  fi
+
+  echo ""
+  echo "Monitor install progress at: http://127.0.0.1:8006"
+  echo "Once done, connect with: dot-windows-vm launch"
+}
+
+launch_windows() {
+  local keep_alive=false
+  [[ $1 == "--keep-alive" || $1 == "-k" ]] && keep_alive=true
+
+  if [[ ! -f $COMPOSE_FILE ]]; then
+    echo "Not installed. Run: dot-windows-vm install"
+    exit 1
+  fi
+
+  local win_user=$(grep "USERNAME:" "$COMPOSE_FILE" | sed 's/.*USERNAME: "\(.*\)"/\1/')
+  local win_pass=$(grep "PASSWORD:" "$COMPOSE_FILE" | sed 's/.*PASSWORD: "\(.*\)"/\1/')
+  : "${win_user:=docker}" "${win_pass:=admin}"
+
+  local status=$(docker inspect --format='{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null)
+
+  if [[ $status != "running" ]]; then
+    echo "Starting Windows VM..."
+    if ! docker compose -f "$COMPOSE_FILE" up -d 2>&1; then
+      echo "Error: Failed to start VM."
+      exit 1
+    fi
+
+    echo "Waiting for Windows to boot..."
+    local i=0
+    until docker logs "$CONTAINER_NAME" 2>&1 | grep -qi "windows started successfully"; do
+      sleep 2
+      ((i++))
+      if (( i > 60 )); then
+        echo "Error: Timed out after 2 minutes. Check: docker logs $CONTAINER_NAME"
+        exit 1
+      fi
+    done
+  fi
+
+  # Detect Hyprland display scale for RDP
+  local rdp_scale=""
+  if command -v hyprctl &>/dev/null; then
+    local scale_pct=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .scale' | awk '{print int($1 * 100)}')
+    if (( scale_pct >= 170 )); then
+      rdp_scale="/scale:180"
+    elif (( scale_pct >= 130 )); then
+      rdp_scale="/scale:140"
+    fi
+  fi
+
+  echo "Connecting via RDP..."
+  xfreerdp3 /u:"$win_user" /p:"$win_pass" /v:127.0.0.1:3389 \
+    -grab-keyboard /sound /microphone /clipboard /cert:ignore \
+    /title:"Windows VM" /dynamic-resolution /gfx:AVC444 \
+    /floatbar:sticky:off,default:visible,show:fullscreen $rdp_scale
+
+  if [[ $keep_alive == false ]]; then
+    echo "Stopping Windows VM..."
+    docker compose -f "$COMPOSE_FILE" down
+  else
+    echo "VM still running. Stop with: dot-windows-vm stop"
+  fi
+}
+
+stop_windows() {
+  if [[ ! -f $COMPOSE_FILE ]]; then
+    echo "Not installed."
+    exit 1
+  fi
+  echo "Stopping Windows VM..."
+  docker compose -f "$COMPOSE_FILE" down
+  echo "Stopped."
+}
+
+remove_windows() {
+  read -p "Remove Windows VM and all data? [y/N] " confirm
+  [[ ! $confirm =~ ^[Yy] ]] && echo "Cancelled." && exit 1
+
+  docker compose -f "$COMPOSE_FILE" down 2>/dev/null || true
+  docker rmi dockurr/windows 2>/dev/null || true
+  rm -rf "$HOME/.config/windows" "$HOME/.windows"
+  echo "Removed. ~/Windows shared folder was kept."
+}
+
+status_windows() {
+  if [[ ! -f $COMPOSE_FILE ]]; then
+    echo "Not installed. Run: dot-windows-vm install"
+    exit 1
+  fi
+
+  local status=$(docker inspect --format='{{.State.Status}}' "$CONTAINER_NAME" 2>/dev/null)
+  if [[ -z $status ]]; then
+    echo "Container not found. Run: dot-windows-vm launch"
+  elif [[ $status == "running" ]]; then
+    echo "Running (web: http://127.0.0.1:8006, RDP: 3389)"
+  else
+    echo "Stopped (status: $status). Run: dot-windows-vm launch"
+  fi
+}
+
+case "${1:-help}" in
+  install)        install_windows ;;
+  launch|start)   launch_windows "$2" ;;
+  stop|down)      stop_windows ;;
+  remove)         remove_windows ;;
+  status)         status_windows ;;
+  *)
+    echo "Usage: dot-windows-vm <command>"
+    echo ""
+    echo "  install          Set up Windows 11 VM"
+    echo "  launch [-k]      Start VM and connect via RDP (-k keeps VM running after)"
+    echo "  stop             Stop the VM"
+    echo "  remove           Delete VM and all data"
+    echo "  status           Show VM status"
+    ;;
+esac
