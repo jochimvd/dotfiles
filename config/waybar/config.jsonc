@@ -99,7 +99,7 @@
     "tooltip-format-connected": "{controller_alias}\t{controller_address}\n{num_connections} connected\n\n{device_enumerate}",
     "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
     "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e bluetui'",
+    "on-click": "hyprctl dispatch 'hl.dsp.exec_cmd(\"$TERMINAL -e bluetui\", { tag = \"+floating-window\" })'",
     "interval": 5
   },
   "network": {
@@ -118,13 +118,13 @@
     "tooltip-format-wifi": "󰣸  {essid} ({frequency} GHz, {signalStrength}%)\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-ethernet": "  {ifname}\n󰛳  {ipaddr}/{cidr}\n  {bandwidthUpBytes}     {bandwidthDownBytes}",
     "tooltip-format-disconnected": "Disconnected",
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e impala'",
+    "on-click": "hyprctl dispatch 'hl.dsp.exec_cmd(\"$TERMINAL -e impala\", { tag = \"+floating-window\" })'",
     "interval": 5
   },
   "wireplumber#source": {
     "node-type": "Audio/Source",
     "reverse-scrolling": true,
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' 'pavucontrol -t 4'",
+    "on-click": "hyprctl dispatch 'hl.dsp.exec_cmd(\"pavucontrol -t 4\", { tag = \"+floating-window\" })'",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
     "on-scroll-up": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%+",
     "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-",
@@ -137,7 +137,7 @@
   "wireplumber#sink": {
     "node-type": "Audio/Sink",
     "reverse-scrolling": true,
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' 'pavucontrol -t 3'",
+    "on-click": "hyprctl dispatch 'hl.dsp.exec_cmd(\"pavucontrol -t 3\", { tag = \"+floating-window\" })'",
     "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
     "on-click-middle": "dot-menu-audio-switcher --cycle",
     "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+",
@@ -157,7 +157,7 @@
       "critical": 90
     },
     "format": "󰍛 {usage}%",
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e btop'",
+    "on-click": "hyprctl dispatch 'hl.dsp.exec_cmd(\"$TERMINAL -e btop\", { tag = \"+floating-window\" })'",
     "interval": 5
   },
   "memory": {
@@ -165,7 +165,7 @@
       "critical": 80
     },
     "format": "󰘚 {percentage}%",
-    "on-click": "hyprctl dispatch exec '[tag +floating-window]' '$TERMINAL -e btop'",
+    "on-click": "hyprctl dispatch 'hl.dsp.exec_cmd(\"$TERMINAL -e btop\", { tag = \"+floating-window\" })'",
     "interval": 5
   },
   "battery": {
