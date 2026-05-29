@@ -197,23 +197,22 @@
     "interval": 5
   },
   "custom/notification": {
-    "tooltip": "{}",
     "format": "{icon}",
     "format-icons": {
       "notification": "󰂚<span color='#9ECE6A'><sup></sup></span>",
       "none": "󰂚",
       "dnd-notification": "󰂛<span color='#9ECE6A'><sup></sup></span>",
-      "dnd-none": "󰂛",
-      "inhibited-notification": "󰂚<span color='#9ECE6A'><sup></sup></span>",
-      "inhibited-none": "󰂚",
-      "dnd-inhibited-notification": "󰂛<span color='#9ECE6A'><sup></sup></span>",
-      "dnd-inhibited-none": "󰂛"
+      "dnd-none": "󰂛"
     },
     "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
+    "exec-if": "which makoctl",
+    "exec": "dot-cmd-notify status",
+    "interval": 2,
+    "signal": 8,
+    "on-click": "dot-cmd-notify toggle",
+    "on-click-right": "dot-cmd-notify dnd",
+    "on-click-middle": "dot-cmd-notify clear",
+    "tooltip": true,
     "escape": true
   },
   "privacy": {

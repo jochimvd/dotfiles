@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+#
+# dot-cmd-notify
+#
+#   status   Emit waybar JSON describing the bell state (default).
+#   toggle   Show all from history, or hide them again if any are on screen.
+#   show     Restore every notification from mako's history (show all).
+#   dnd      Toggle do-not-disturb mode.
+#   clear    Dismiss everything and empty the history.
+
+
+set -uo pipefail
+
+# Waybar custom-module signal used for an instant refresh after an action.
+# Must match "signal" in the waybar module.
+WAYBAR_SIGNAL=8
+
+
+mako_count() {
+    local n
+    n=$(makoctl "$1" -j 2>/dev/null | jq -r 'length' 2>/dev/null)
+    if [ -n "$n" ] && [ "$n" -eq "$n" ] 2>/dev/null; then
+        printf '%s' "$n"
+    else
+        printf '0'
+    fi
+}
+
+mako_up() {
+    makoctl list >/dev/null 2>&1
+}
+
+dnd_active() {
+    makoctl mode 2>/dev/null | grep -qx 'do-not-disturb'
+}
+
+refresh_bar() {
+    pkill -RTMIN+"$WAYBAR_SIGNAL" waybar 2>/dev/null || true
+}
+
+# Pull every notification back out of the history buffer (capped so a
+# misbehaving makoctl can never spin forever).
+drain_history() {
+    local i=0
+    while [ "$(mako_count history)" -gt 0 ] && [ "$i" -lt 100 ]; do
+        makoctl restore >/dev/null 2>&1 || break
+        i=$((i + 1))
+    done
+}
+
+cmd_status() {
+    local active history total dnd alt tooltip
+
+    if ! mako_up; then
+        printf '{"text":"","alt":"none","class":"none","tooltip":"No notifications"}\n'
+        return
+    fi
+
+    active=$(mako_count list)
+    history=$(mako_count history)
+    total=$((active + history))
+
+    if dnd_active; then
+        dnd="dnd-"
+    else
+        dnd=""
+    fi
+
+    if [ "$total" -gt 0 ]; then
+        alt="${dnd}notification"
+    else
+        alt="${dnd}none"
+    fi
+
+    if [ -n "$dnd" ]; then
+        tooltip="Do Not Disturb"
+        [ "$total" -gt 0 ] && tooltip="$tooltip — $total notification(s)"
+    elif [ "$total" -gt 0 ]; then
+        tooltip="$total notification(s)"
+    else
+        tooltip="No notifications"
+    fi
+
+    printf '{"text":"%s","alt":"%s","class":"%s","tooltip":"%s"}\n' \
+        "$total" "$alt" "$alt" "$tooltip"
+}
+
+cmd_show() {
+    drain_history
+    refresh_bar
+}
+
+cmd_toggle() {
+    # If anything is currently on screen, hide it back into history;
+    # otherwise restore everything from history (show all).
+    if [ "$(mako_count list)" -gt 0 ]; then
+        makoctl dismiss --all >/dev/null 2>&1 || true
+    else
+        drain_history
+    fi
+    refresh_bar
+}
+
+cmd_dnd() {
+    makoctl mode -t do-not-disturb >/dev/null 2>&1
+    refresh_bar
+}
+
+cmd_clear() {
+    # Pull history back into the active set, then discard everything WITHOUT
+    # re-archiving it (plain dismiss re-adds to history on current mako).
+    drain_history
+    makoctl dismiss --all --no-history >/dev/null 2>&1 \
+        || makoctl dismiss --all >/dev/null 2>&1 || true
+    refresh_bar
+}
+
+case "${1:-status}" in
+status) cmd_status ;;
+toggle) cmd_toggle ;;
+show) cmd_show ;;
+dnd) cmd_dnd ;;
+clear) cmd_clear ;;
+*)
+    echo "usage: $(basename "$0") {status|toggle|show|dnd|clear}" >&2
+    exit 1
+    ;;
+esac
