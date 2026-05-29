@@ -20,11 +20,11 @@ hl.window_rule({
 -- cannot start with a digit (1password).
 require("conf/rules/1password")
 require("conf/rules/chromium")
+require("conf/rules/mako")
 require("conf/rules/pip")
 require("conf/rules/runelite")
 require("conf/rules/selection")
 require("conf/rules/sidecar")
-require("conf/rules/swaync")
 require("conf/rules/system")
 require("conf/rules/walker")
 require("conf/rules/waybar")
