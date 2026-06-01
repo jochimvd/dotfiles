@@ -12,6 +12,8 @@ sudo systemctl enable --now iwd.service
 sudo systemctl enable --now bluetooth.service
 sudo systemctl enable --now power-profiles-daemon
 
-# set locale
-sudo localectl set-locale LANG=en_US.UTF-8
-sudo localectl set-locale LC_TIME=en_GB.UTF-8
+sudo localectl set-locale \
+    LANG=en_US.UTF-8 \
+    LC_TIME=en_GB.UTF-8 \
+    LC_MEASUREMENT=en_GB.UTF-8 \
+    LC_PAPER=en_GB.UTF-8
