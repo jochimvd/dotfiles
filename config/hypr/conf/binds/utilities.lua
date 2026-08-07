@@ -1,8 +1,7 @@
 -- Menus
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("walker"),              { description = "App launcher" })
-hl.bind("SUPER + E",     hl.dsp.exec_cmd("walker -m symbols"),   { description = "Emoji menu" })
-hl.bind("SUPER + V",     hl.dsp.exec_cmd("walker -m clipboard"), { description = "Clipboard menu" })
-hl.bind("SUPER + SLASH", hl.dsp.exec_cmd("dot-menu-keybinds"),   { description = "Keybinds menu" })
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("varde launcher"),           { description = "App launcher" })
+hl.bind("SUPER + V",     hl.dsp.exec_cmd("varde launcher clipboard"), { description = "Clipboard menu" })
+hl.bind("SUPER + SLASH", hl.dsp.exec_cmd("dot-menu-keybinds"),        { description = "Keybinds menu" })
 
 -- Session/power options
 hl.bind("SUPER + ESCAPE",         hl.dsp.exec_cmd("dot-menu-power"),     { description = "Power menu" })

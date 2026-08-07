@@ -65,13 +65,14 @@ play_chime() {
 
 # Function to select a sink using a menu
 select_sink() {
-    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | walker --dmenu --theme dmenu_small)
+    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | varde launcher --dmenu -p "Audio output")
 
-    if [ "$selection" = "CNCLD" ] || [ -z "$selected_nick" ]; then
+    if [ -z "$selected_nick" ]; then
         exit 1
     fi
 
-    sink_name=$(pactl --format=json list sinks | jq -r ".[] | select(.properties.\"node.nick\" == \"$selected_nick\") | .name")
+    sink_name=$(pactl --format=json list sinks | jq -r --arg nick "$selected_nick" \
+        '.[] | select(.properties."node.nick" == $nick) | .name')
 
     if [ -n "$sink_name" ]; then
         pactl set-default-sink "$sink_name"

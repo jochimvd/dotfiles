@@ -1,5 +1,4 @@
 hl.on("hyprland.start", function()
-    hl.exec_cmd("uwsm-app -- walker --gapplication-service")
     hl.exec_cmd("uwsm-app -- wl-paste --watch cliphist store")
 
     -- Tray items

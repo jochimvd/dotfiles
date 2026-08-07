@@ -1,8 +1,6 @@
 #!/bin/sh
 
-# Power menu script using walker
-
-CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | walker --dmenu -p "System..." --theme my_theme --width 300 --minheight 200)
+CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | varde launcher --dmenu -p "System...")
 
 case "$CHOSEN" in
     "Lock") dot-cmd-lockscreen ;;
