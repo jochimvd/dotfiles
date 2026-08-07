@@ -107,9 +107,6 @@ dynamic_bindings() {
 parse_bindings() {
   awk -F, '
 {
-    # Skip entries with description starting with underscore
-    if (match($3, /^_/)) next;
-
     # Combine the modifier and key (first two fields)
     key_combo = $1 " + " $2;
 
@@ -133,8 +130,11 @@ parse_bindings() {
         gsub(/[ \t]+/, " ", key_combo);  # Collapse multiple spaces to one
     }
 
+    # Skip private descriptions and fallback actions
+    if (action ~ /^_/) next;
+
     if (action != "" && key_combo != "") {
-        printf "%-30s → %s\n", key_combo, action;
+        printf "%-24s → %s\n", key_combo, action;
     }
 }'
 }
