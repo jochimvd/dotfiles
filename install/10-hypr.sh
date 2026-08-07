@@ -14,3 +14,4 @@ systemctl --user enable --now varde.service
 systemctl --user enable --now hypridle.service
 systemctl --user enable --now hyprpaper.service
 systemctl --user enable --now hyprpolkitagent.service
+systemctl --user restart varde.service
