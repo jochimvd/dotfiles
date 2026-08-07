@@ -3,19 +3,14 @@
 paru -S --noconfirm --needed \
     hyprland hyprpaper hypridle hyprlock hyprshutdown hyprpicker hyprpolkitagent hyprland-guiutils \
     xdg-desktop-portal-gtk xdg-desktop-portal-hyprland qt5-wayland qt6-wayland \
-    walker elephant elephant-providerlist elephant-desktopapplications elephant-calc elephant-clipboard elephant-unicode elephant-symbols \
-    waybar mako \
+    gtk4 gtk4-layer-shell \
     uwsm
 
-# Migrate away from swaync if it was previously enabled
-systemctl --user disable --now swaync.service 2>/dev/null || true
+cargo install --locked --force --root "$HOME/.local" \
+    --git ssh://git@github.com/jochimvd/varde.git varde
 
-systemctl --user enable --now waybar.service
-systemctl --user enable --now mako.service
+systemctl --user daemon-reload
+systemctl --user enable --now varde.service
 systemctl --user enable --now hypridle.service
 systemctl --user enable --now hyprpaper.service
 systemctl --user enable --now hyprpolkitagent.service
-
-if ! systemctl --user is-enabled --quiet elephant.service; then
-    elephant service enable
-fi

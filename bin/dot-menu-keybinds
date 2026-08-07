@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-# A script to display Hyprland keybindings defined in your configuration
-# using walker for an interactive search menu.
+# A script to display Hyprland keybindings in an interactive search menu.
 
 declare -A KEYCODE_SYM_MAP
 
@@ -108,6 +107,9 @@ dynamic_bindings() {
 parse_bindings() {
   awk -F, '
 {
+    # Skip entries with description starting with underscore
+    if (match($3, /^_/)) next;
+
     # Combine the modifier and key (first two fields)
     key_combo = $1 " + " $2;
 
@@ -137,12 +139,9 @@ parse_bindings() {
 }'
 }
 
-monitor_height=$(hyprctl monitors -j | jq -r '.[] | select(.focused == true) | .height')
-menu_height=$((monitor_height * 40 / 100))
-
 build_keymap_cache
 
 dynamic_bindings |
   parse_keycodes |
   parse_bindings |
-  walker --nohints --dmenu -p 'Keybindings' --width 800 --height "$menu_height"
+  varde launcher --dmenu -p 'Keybindings'
