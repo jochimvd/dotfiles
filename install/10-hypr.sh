@@ -7,7 +7,7 @@ paru -S --noconfirm --needed \
     uwsm
 
 cargo install --locked --force --root "$HOME/.local" \
-    --git ssh://git@github.com/jochimvd/varde.git varde
+    --git https://github.com/jochimvd/varde.git varde
 
 systemctl --user daemon-reload
 systemctl --user enable --now varde.service
