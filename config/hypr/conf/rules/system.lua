@@ -4,7 +4,7 @@ hl.window_rule({ match = { tag = "floating-window" }, center = true })
 hl.window_rule({ match = { tag = "floating-window" }, size = { 875, 600 } })
 
 -- Float and center settings, dialogs, ...
-hl.window_rule({ match = { class = "(com.gabm.satty|imv|mpv)" }, tag = "+floating-window" })
+hl.window_rule({ match = { class = "(com.gabm.satty|imv|mpv|org.gnome.NautilusPreviewer)" }, tag = "+floating-window" })
 hl.window_rule({
     match = {
         class = "(xdg-desktop-portal-gtk|org.gnome.Nautilus)",
