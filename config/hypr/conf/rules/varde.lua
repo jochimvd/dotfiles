@@ -1,7 +1,20 @@
-hl.layer_rule({ match = { namespace = "varde" }, blur = true })
-hl.layer_rule({ match = { namespace = "varde-launcher" }, blur = true })
-hl.layer_rule({ match = { namespace = "varde-launcher" }, ignore_alpha = 0 })
-hl.layer_rule({ match = { namespace = "varde-notification-popups" }, blur = true })
-hl.layer_rule({ match = { namespace = "varde-notification-popups" }, ignore_alpha = 0.1 })
-hl.layer_rule({ match = { namespace = "varde-notification-popups" }, no_screen_share = true })
-hl.layer_rule({ match = { namespace = "varde-notification-popups" }, animation = "slide right" })
+hl.layer_rule({
+    match = { namespace = "varde" },
+    blur = true,
+    blur_popups = true,
+    ignore_alpha = 0.1,
+})
+
+hl.layer_rule({
+    match = { namespace = "varde-launcher" },
+    blur = true,
+    ignore_alpha = 0.1,
+})
+
+hl.layer_rule({
+    match = { namespace = "varde-notification-popups" },
+    blur = true,
+    ignore_alpha = 0.1,
+    no_screen_share = true,
+    animation = "slide right",
+})
