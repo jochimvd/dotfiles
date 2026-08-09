@@ -1,7 +1,10 @@
 -- Floating windows
-hl.window_rule({ match = { tag = "floating-window" }, float = true })
-hl.window_rule({ match = { tag = "floating-window" }, center = true })
-hl.window_rule({ match = { tag = "floating-window" }, size = { 875, 600 } })
+hl.window_rule({
+    match = { tag = "floating-window" },
+    float = true,
+    center = true,
+    size = { 875, 600 },
+})
 
 -- Float and center settings, dialogs, ...
 hl.window_rule({ match = { class = "(com.gabm.satty|imv|mpv|org.gnome.NautilusPreviewer)" }, tag = "+floating-window" })
