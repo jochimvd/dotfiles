@@ -144,4 +144,4 @@ build_keymap_cache
 dynamic_bindings |
   parse_keycodes |
   parse_bindings |
-  varde launcher --dmenu -p 'Keybindings'
+  varde dmenu -p 'Keybindings'
