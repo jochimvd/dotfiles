@@ -1,6 +1,6 @@
 #!/bin/sh
 
-CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | varde launcher --dmenu -p "System...")
+CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | varde dmenu -p "System...")
 
 case "$CHOSEN" in
     "Lock") dot-cmd-lockscreen ;;

@@ -1,6 +1,6 @@
 -- Menus
 hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("varde launcher"),           { description = "App launcher" })
-hl.bind("SUPER + V",     hl.dsp.exec_cmd("varde launcher clipboard"), { description = "Clipboard menu" })
+hl.bind("SUPER + V",     hl.dsp.exec_cmd("varde clipboard"),          { description = "Clipboard menu" })
 hl.bind("SUPER + SLASH", hl.dsp.exec_cmd("dot-menu-keybinds"),        { description = "Keybinds menu" })
 
 -- Session/power options

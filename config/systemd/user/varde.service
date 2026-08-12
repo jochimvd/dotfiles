@@ -6,7 +6,7 @@ Requisite=graphical-session.target
 
 [Service]
 Type=exec
-ExecStart=%h/.local/bin/varde
+ExecStart=%h/.local/bin/varde start
 Restart=on-failure
 Slice=app-graphical.slice
 
