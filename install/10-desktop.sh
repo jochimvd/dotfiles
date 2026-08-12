@@ -8,7 +8,7 @@ paru -S --noconfirm --needed \
     grim slurp wayfreeze-git satty wl-screenrec \
     gearlever \
     chromium zen-browser-bin \
-    tailscale syncthing
+    imv mpv tailscale syncthing
 
 sudo systemctl enable --now iwd.service
 sudo systemctl enable --now bluetooth.service
