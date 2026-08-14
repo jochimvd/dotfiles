@@ -49,6 +49,7 @@ hl.config({
             enabled = true,
             size = 8,
             passes = 2,
+            special = true,
         },
         shadow = {
             enabled = false,
