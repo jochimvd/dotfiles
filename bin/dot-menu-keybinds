@@ -1,147 +1,194 @@
-#!/usr/bin/env bash
+#!/usr/bin/env python3
+import collections
+import json
+from pathlib import Path
+import subprocess
+import sys
+import unicodedata
 
-# A script to display Hyprland keybindings in an interactive search menu.
 
-declare -A KEYCODE_SYM_MAP
+def render_bindings():
+    def hyprctl(*args):
+        return subprocess.check_output(["hyprctl", *args], text=True)
 
-build_keymap_cache() {
-  local keymap
-  keymap="$(xkbcli compile-keymap)" || {
-    echo "Failed to compile keymap" >&2
-    return 1
-  }
+    binds = json.loads(hyprctl("-j", "binds"))
+    # Registered with each mode's entry binding; never infer targets from Lua IDs.
+    edges = {}
+    for line in hyprctl("repl", """(function()
+        local rows = {}
+        for name, edge in pairs(dot_submap_paths or {}) do
+            rows[#rows + 1] = name .. '\\t' .. edge.parent .. '\\t' .. edge.key
+        end
+        return table.concat(rows, '\\n')
+    end)()""").splitlines():
+        fields = line.split("\t")
+        if len(fields) == 3:
+            edges[fields[0]] = (fields[1], fields[2])
 
-  while IFS=, read -r code sym; do
-    [[ -z "$code" || -z "$sym" ]] && continue
-    KEYCODE_SYM_MAP["$code"]="$sym"
-  done < <(
-    awk '
-      BEGIN { sec = "" }
-      /xkb_keycodes/ { sec = "codes"; next }
-      /xkb_symbols/  { sec = "syms";  next }
-      sec == "codes" {
-        if (match($0, /<([A-Za-z0-9_]+)>\s*=\s*([0-9]+)\s*;/, m)) code_by_name[m[1]] = m[2]
-      }
-      sec == "syms" {
-        if (match($0, /key\s*<([A-Za-z0-9_]+)>\s*\{\s*\[\s*([^, \]]+)/, m)) sym_by_name[m[1]] = m[2]
-      }
-      END {
-        for (k in code_by_name) {
-          c = code_by_name[k]
-          s = sym_by_name[k]
-          if (c != "" && s != "" && s != "NoSymbol") print c "," s
-        }
-      }
-    ' <<<"$keymap"
-  )
-}
+    modifiers = [(64, "Super"), (4, "Ctrl"), (8, "Alt"), (1, "Shift"),
+                 (32, "Mod3"), (128, "Mod5")]
+    key_names = {"LEFT": "←", "DOWN": "↓", "UP": "↑", "RIGHT": "→",
+                 "ESCAPE": "Esc", "RETURN": "Enter", "SPACE": "Space", "TAB": "Tab",
+                 "MOUSE:272": "LMB", "MOUSE:273": "RMB",
+                 "MOUSE_DOWN": "󰍽↓", "MOUSE_UP": "󰍽↑",
+                 "XF86AUDIORAISEVOLUME": "Volume↑", "XF86AUDIOLOWERVOLUME": "Volume↓",
+                 "XF86AUDIOMUTE": "Mute", "XF86AUDIOMICMUTE": "MicMute",
+                 "XF86AUDIOSTOP": "MediaStop", "XF86AUDIOPLAY": "Play/Pause",
+                 "XF86AUDIONEXT": "NextTrack", "XF86AUDIOPREV": "PreviousTrack",
+                 "XF86MONBRIGHTNESSUP": "Brightness↑", "XF86MONBRIGHTNESSDOWN": "Brightness↓"}
 
-lookup_keycode_cached() {
-  printf '%s\n' "${KEYCODE_SYM_MAP[$1]}"
-}
+    def key_name(key):
+        return key_names.get(key.upper(), key.upper() if len(key) == 1 else key)
 
-parse_keycodes() {
-  local start end elapsed
-  [[ "${DEBUG:-0}" == "1" ]] && start=$(date +%s.%N)
-  while IFS= read -r line; do
-    if [[ "$line" =~ code:([0-9]+) ]]; then
-      code="${BASH_REMATCH[1]}"
-      symbol=$(lookup_keycode_cached "$code" "$XKB_KEYMAP_CACHE")
-      echo "${line/code:${code}/$symbol}"
-    else
-      echo "$line"
-    fi
-  done
+    def key_set(keys):
+        remaining = list(dict.fromkeys(keys))
+        # Hide Vim aliases only when the same action also has its matching arrow.
+        for letter, arrow in zip("HJKL", ("LEFT", "DOWN", "UP", "RIGHT")):
+            if letter in remaining and arrow in remaining:
+                remaining.remove(letter)
+        parts = []
+        for group, label in [(list("HJKL"), "HJKL"),
+                             (["LEFT", "DOWN", "UP", "RIGHT"], "←↓↑→")]:
+            if all(key in remaining for key in group):
+                remaining = [key for key in remaining if key not in group]
+                parts.append(label)
+        digits = sorted(int(key) for key in remaining if key in "0123456789" and len(key) == 1)
+        if len(digits) >= 3 and digits == list(range(digits[0], digits[-1] + 1)):
+            remaining = [key for key in remaining if key not in {str(n) for n in digits}]
+            parts.append(f"{digits[0]}–{digits[-1]}")
+        return "/".join(parts + [key_name(key) for key in remaining])
 
-  if [[ "$DEBUG" == "1" ]]; then
-    end=$(date +%s.%N)
-    # fall back to awk if bc is missing
-    if command -v bc >/dev/null 2>&1; then
-      elapsed=$(echo "$end - $start" | bc)
-    else
-      elapsed=$(awk -v s="$start" -v e="$end" 'BEGIN{printf "%.6f", (e - s)}')
-    fi
-    echo "[DEBUG] parse_keycodes elapsed: ${elapsed}s" >&2
-  fi
-}
+    def chord(modmask, keys):
+        return "+".join([name for mask, name in modifiers if modmask & mask] + [key_set(keys)])
 
-# Fetch dynamic keybindings from Hyprland
-#
-# Also do some pre-processing:
-# - Remove uwsm prefix
-# - Map numeric modifier key mask to a textual rendition
-# - Output comma-separated values that the parser can understand
-dynamic_bindings() {
-  hyprctl -j binds |
-    jq -r '.[] | {modmask, key, keycode, description, dispatcher, arg} | "\(.modmask),\(.key)@\(.keycode),\(.description),\(.dispatcher),\(.arg)"' |
-    sed -r \
-      -e 's/null//' \
-      -e 's,uwsm-app -- ,,' \
-      -e 's/@0//' \
-      -e 's/,@/,code:/' \
-      -e 's/^0,/,/' \
-      -e 's/^1,/SHIFT,/' \
-      -e 's/^4,/CTRL,/' \
-      -e 's/^5,/SHIFT CTRL,/' \
-      -e 's/^8,/ALT,/' \
-      -e 's/^9,/SHIFT ALT,/' \
-      -e 's/^12,/CTRL ALT,/' \
-      -e 's/^13,/SHIFT CTRL ALT,/' \
-      -e 's/^64,/SUPER,/' \
-      -e 's/^65,/SUPER SHIFT,/' \
-      -e 's/^68,/SUPER CTRL,/' \
-      -e 's/^69,/SUPER SHIFT CTRL,/' \
-      -e 's/^72,/SUPER ALT,/' \
-      -e 's/^73,/SUPER SHIFT ALT,/' \
-      -e 's/^76,/SUPER CTRL ALT,/' \
-      -e 's/^77,/SUPER SHIFT CTRL ALT,/'
-}
+    def entry_chord(keys):
+        return "+".join(key_name(part.strip()) if part.strip().upper() not in
+                        {"SUPER", "CTRL", "ALT", "SHIFT"} else part.strip().title()
+                        for part in keys.split("+"))
 
-# Parse and format keybindings
-#
-# `awk` does the heavy lifting:
-# - Set the field separator to a comma ','.
-# - Joins the key combination (e.g., "SUPER + Q").
-# - Joins the command that the key executes.
-# - Prints everything in a nicely aligned format.
-parse_bindings() {
-  awk -F, '
-{
-    # Combine the modifier and key (first two fields)
-    key_combo = $1 " + " $2;
+    groups = collections.OrderedDict()
+    for index, bind in enumerate(binds):
+        key = bind.get("key") or (f"code:{bind['keycode']}" if bind.get("keycode") else "")
+        description = bind.get("description") or ""
+        if not key or bind.get("catch_all") or description.startswith("_") or key.startswith("switch:"):
+            continue
+        if bind.get("submap") not in (None, "", "reset") and description == "Exit":
+            continue
+        group = (bind.get("submap", ""), bind.get("modmask", 0), description,
+                 bool(bind.get("release")), bool(bind.get("longPress")), bool(bind.get("mouse")),
+                 index if not description else None)
+        groups.setdefault(group, []).append(key.upper())
 
-    # Clean up: strip leading "+" if present, trim spaces
-    gsub(/^[ \t]*\+?[ \t]*/, "", key_combo);
-    gsub(/[ \t]+$/, "", key_combo);
-
-    # Use description, if set
-    action = $3;
-
-    if (action == "") {
-        # Reconstruct the command from the remaining fields
-        for (i = 4; i <= NF; i++) {
-            action = action $i (i < NF ? "," : "");
-        }
-
-        # Clean up trailing commas, remove leading "exec, ", and trim
-        sub(/,$/, "", action);
-        gsub(/(^|,)[[:space:]]*exec[[:space:]]*,?/, "", action);
-        gsub(/^[ \t]+|[ \t]+$/, "", action);
-        gsub(/[ \t]+/, " ", key_combo);  # Collapse multiple spaces to one
+    categories = ["Windows", "Workspaces", "Apps & menus", "Groups", "Monitors",
+                  "Capture", "Session", "Other", "Media & brightness"]
+    mode_categories = {"Window": "Windows", "Resize": "Windows", "Desktops": "Workspaces",
+                       "Apps": "Apps & menus", "Groups": "Groups", "Outputs": "Monitors",
+                       "Capture": "Capture", "Session": "Session", "Media": "Media & brightness"}
+    # Common actions first; unspecified actions retain their order in the config.
+    direct_categories = {
+        "Windows": ["Focus", "Close", "Full width", "Fullscreen", "Floating", "Swap",
+                    "Window", "Resize", "Move window", "Resize window"],
+        "Workspaces": ["Workspace", "Move and follow", "Previous workspace", "Next workspace",
+                       "Scratchpad", "Move to scratchpad", "Desktops"],
+        "Groups": ["Groups", "Next group member", "Previous group member"],
+        "Apps & menus": ["Terminal", "Launcher", "Apps", "Clipboard", "Keybinding help"],
+        "Media & brightness": ["Media"],
     }
+    entries = {(parent, entry_chord(key)): name for name, (parent, key) in edges.items()}
 
-    # Skip private descriptions and fallback actions
-    if (action ~ /^_/) next;
+    def category_for(mode, target, keys, description):
+        if mode or target:
+            return mode_categories.get((mode or target).split(" / ", 1)[0], "Other")
+        if all(key.startswith("XF86AUDIO") or key.startswith("XF86MONBRIGHTNESS") for key in keys):
+            return "Media & brightness"
+        for category, actions in direct_categories.items():
+            if description in actions:
+                return category
+        return "Other"
 
-    if (action != "" && key_combo != "") {
-        printf "%-24s → %s\n", key_combo, action;
-    }
-}'
-}
+    Row = collections.namedtuple("Row", "category key action mode target")
+    rows = []
+    for (mode, modmask, description, release, held, mouse, _), keys in groups.items():
+        mode = "" if mode == "reset" else mode
+        target = entries.get((mode, chord(modmask, keys)))
+        sequence = chord(modmask, keys).replace("+", " ")
+        if release:
+            sequence += " (release)"
+        if held:
+            sequence += " (hold)"
+        action = description or "Action"
+        category = category_for(mode, target, keys, description)
+        rows.append(Row(category, sequence, action, mode, target))
 
-build_keymap_cache
+    # Each entry owns its children inside the same category, including nested modes.
+    mode_rows = collections.defaultdict(list)
+    for index, row in enumerate(rows):
+        mode_rows[row.mode].append(index)
+    display_rows = []
+    visited = set()
 
-dynamic_bindings |
-  parse_keycodes |
-  parse_bindings |
-  varde dmenu -p 'Keybindings'
+    def append_row(index, depth=0, category=None):
+        if index in visited:
+            return
+        visited.add(index)
+        row = rows[index]
+        category = category or row.category
+        display_rows.append((category, row.key, row.action, depth))
+        if row.target:
+            for child in mode_rows[row.target]:
+                append_row(child, depth + 1, category)
+
+    def root_priority(index):
+        row = rows[index]
+        actions = direct_categories.get(row.category, [])
+        return actions.index(row.action) if row.action in actions else len(actions)
+
+    for index in sorted(mode_rows[""], key=root_priority):
+        append_row(index)
+    # Keep unregistered modes visible with enough context to identify their keys.
+    for mode, indices in list(mode_rows.items()):
+        remaining = [index for index in indices if index not in visited]
+        if remaining:
+            category = rows[remaining[0]].category
+            display_rows.append((category, f"[{mode}]", mode, 0))
+            for index in remaining:
+                append_row(index, 1, category)
+    display_rows.sort(key=lambda row: categories.index(row[0]))
+
+    def width(text):
+        return sum(0 if unicodedata.combining(char) else
+                   2 if unicodedata.east_asian_width(char) in "WF" else 1 for char in text)
+
+    column = max((depth * 2 + width(key) for _, key, _, depth in display_rows), default=0)
+    section = None
+    lines = []
+    for category, key, description, depth in display_rows:
+        if category != section:
+            lines.append(f"── {category} ──")
+            section = category
+        label = "  " * depth + key
+        lines.append("  " + label + " " * (column - width(label) + 3) + description)
+    return "".join(line + "\n" for line in lines)
+
+
+def main():
+    option = sys.argv[1] if len(sys.argv) > 1 else ""
+    if option in ("--help", "-h"):
+        print(f"Usage: {Path(sys.argv[0]).name} [--list]")
+        print("Indented keys belong to the submap above; release its shortcut before the next key.")
+        return 0
+    if option not in ("", "--list"):
+        print(f"Unknown option: {option}", file=sys.stderr)
+        return 2
+
+    bindings = render_bindings()
+    if option == "--list":
+        sys.stdout.write(bindings)
+        return 0
+    return subprocess.run(
+        ["varde", "dmenu", "-p", "Keybindings"], input=bindings, text=True
+    ).returncode
+
+
+if __name__ == "__main__":
+    sys.exit(main())
