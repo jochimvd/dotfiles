@@ -11,6 +11,9 @@ enabled = true
 autostart = true
 
 [pty_proxy]
+enabled = false
+
+[tmux]
 enabled = true
 
 [search]
