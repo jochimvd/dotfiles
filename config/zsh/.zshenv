@@ -2,6 +2,7 @@
 export EDITOR="nvim"
 export VISUAL="nvim"
 export TERMINAL="ghostty"
+export BROWSER="dot-cmd-browser"
 
 # default folders
 export XDG_CONFIG_HOME="$HOME/.config"
