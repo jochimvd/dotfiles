@@ -28,7 +28,7 @@ def render_bindings():
     modifiers = [(64, "Super"), (4, "Ctrl"), (8, "Alt"), (1, "Shift"),
                  (32, "Mod3"), (128, "Mod5")]
     key_names = {"LEFT": "←", "DOWN": "↓", "UP": "↑", "RIGHT": "→",
-                 "ESCAPE": "Esc", "RETURN": "Enter", "SPACE": "Space", "TAB": "Tab",
+                 "ESCAPE": "Esc", "RETURN": "Enter", "SPACE": "Space", "TAB": "Tab", "PRINT": "Print",
                  "MOUSE:272": "LMB", "MOUSE:273": "RMB",
                  "MOUSE_DOWN": "󰍽↓", "MOUSE_UP": "󰍽↑",
                  "XF86AUDIORAISEVOLUME": "Volume↑", "XF86AUDIOLOWERVOLUME": "Volume↓",
@@ -81,17 +81,19 @@ def render_bindings():
 
     categories = ["Windows", "Workspaces", "Apps & menus", "Groups", "Monitors",
                   "Capture", "Session", "Other", "Media & brightness"]
-    mode_categories = {"Window": "Windows", "Resize": "Windows", "Desktops": "Workspaces",
+    mode_categories = {"Window": "Windows", "Resize": "Windows", "Workspaces": "Workspaces",
                        "Apps": "Apps & menus", "Groups": "Groups", "Outputs": "Monitors",
                        "Capture": "Capture", "Session": "Session", "Media": "Media & brightness"}
     # Common actions first; unspecified actions retain their order in the config.
     direct_categories = {
         "Windows": ["Focus", "Close", "Full width", "Fullscreen", "Floating", "Swap",
                     "Window", "Resize", "Move window", "Resize window"],
-        "Workspaces": ["Workspace", "Move and follow", "Previous workspace", "Next workspace",
-                       "Scratchpad", "Move to scratchpad", "Desktops"],
+        "Workspaces": ["Workspace", "Move and follow", "Previous workspace",
+                       "Next occupied workspace", "Previous occupied workspace",
+                       "Scratchpad", "Move to scratchpad", "Workspaces"],
         "Groups": ["Groups", "Next group member", "Previous group member"],
         "Apps & menus": ["Terminal", "Launcher", "Apps", "Clipboard", "Keybinding help"],
+        "Capture": ["Capture", "Screenshot", "Copy screenshot"],
         "Media & brightness": ["Media"],
     }
     entries = {(parent, entry_chord(key)): name for name, (parent, key) in edges.items()}
