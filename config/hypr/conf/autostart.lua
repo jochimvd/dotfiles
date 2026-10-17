@@ -5,9 +5,6 @@ hl.on("hyprland.start", function()
     hl.exec_cmd("uwsm-app -- udiskie --tray")
     hl.exec_cmd("uwsm-app -- 1password --silent")
 
-    -- Activitywatch
-    hl.exec_cmd("uwsm-app -- awatcher")
-
     -- Set cursor theme
     hl.exec_cmd("gsettings set org.gnome.desktop.interface cursor-theme 'Adwaita'")
 end)
