@@ -1,5 +1,13 @@
 -- See https://wiki.hypr.land/Configuring/Basics/Window-Rules/
 
+-- Default scratchpad windows to floating, both when opened and moved there
+hl.window_rule({ match = { workspace = "special:scratchpad" }, float = true })
+hl.on("window.move_to_workspace", function(window, workspace)
+    if workspace.name == "special:scratchpad" and not window.floating then
+        hl.dispatch(hl.dsp.window.float({ window = window, action = "set" }))
+    end
+end)
+
 -- Prevent windows from being maximized
 hl.window_rule({ match = { class = ".*" }, suppress_event = "maximize" })
 
