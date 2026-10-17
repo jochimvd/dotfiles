@@ -1,3 +1,5 @@
+local hints = require("conf.binds.hints")
+
 local M = {}
 local current = ""
 local reset = hl.dsp.submap("reset")
@@ -56,6 +58,9 @@ end
 
 function M.enter(keys, name, description)
     dot_submap_paths[name] = { parent = current, key = keys }
+    if current ~= "" then
+        hints.record(current, keys, description or name)
+    end
     hl.bind(keys, hl.dsp.submap(name), {
         description = description or name,
         submap_universal = current == "",
@@ -68,6 +73,7 @@ function M.define(name, configure)
     hl.define_submap(name, function()
         local function bind(keys, action, description, options)
             options = options or {}
+            hints.record(name, keys, description, options)
             local bind_options = { description = description }
             for option, value in pairs(options) do
                 if option ~= "stay" then
@@ -79,10 +85,13 @@ function M.define(name, configure)
         configure(bind)
         hl.bind("ESCAPE", reset, { description = "Exit" })
         hl.bind("RETURN", reset, { description = "Exit" })
+        hints.record(name, "ESCAPE", "Exit")
+        hints.record(name, "RETURN", "Exit")
         -- Lua catchalls can also run after a matching bind in Hyprland 0.56.
         -- Ignore unbound keys without cancelling a staying action or nested mode.
         hl.bind("catchall", function() end)
     end)
+    hints.build(name)
     current = parent
 end
 
