@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 paru -S --noconfirm --needed \
+    kernel-modules-hook \
     iwd wireless-regdb \
     brightnessctl playerctl wireplumber power-profiles-daemon \
     pavucontrol impala bluetui udiskie \
@@ -10,6 +11,7 @@ paru -S --noconfirm --needed \
     chromium zen-browser-bin \
     imv mpv tailscale syncthing
 
+sudo systemctl enable linux-modules-cleanup.service
 sudo systemctl enable --now iwd.service
 sudo systemctl enable --now bluetooth.service
 sudo systemctl enable --now power-profiles-daemon
