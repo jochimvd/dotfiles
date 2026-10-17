@@ -60,6 +60,11 @@ hl.config({
         enabled = true,
     },
 
+    layout = {
+        -- Center a lone tiled window at full height, with room on either side.
+        single_window_aspect_ratio = { 1, 1 },
+    },
+
     dwindle = {
         preserve_split = true,
     },
