@@ -19,7 +19,8 @@ if pgrep -x wl-screenrec >/dev/null; then
     pkill -x wl-screenrec
     notify-send "Screen Recording Complete" "Video saved to $OUTPUT_DIR" -t 2000
 elif [[ "$1" == "output" ]]; then
-    record
+    output=$(hyprctl -j monitors | jq -er '.[] | select(.focused) | .name') || exit 1
+    record --output "$output"
 else
     region=$(slurp) || exit 1
     record -g "$region"
