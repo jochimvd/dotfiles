@@ -82,7 +82,8 @@ hl.config({
     },
 })
 
--- Disable the entire animation tree, then re-enable only fadeLayersIn
+-- Disable the entire animation tree, then re-enable only fadeLayersIn and window movement
 hl.animation({ leaf = "global",       enabled = false })
 hl.animation({ leaf = "layersIn",     enabled = true, speed = 4, bezier = "default", style = "fade" })
 hl.animation({ leaf = "fadeLayersIn", enabled = true, speed = 2, bezier = "default" })
+hl.animation({ leaf = "windowsMove",  enabled = true, speed = 2.5, bezier = "default" })

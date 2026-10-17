@@ -31,6 +31,9 @@ mode.define("Resize", function(bind)
         bind(key, hl.dsp.window.resize({ x = d.x * 80, y = d.y * 80, relative = true }), "Resize", { stay = true, repeating = true })
         bind("SHIFT + " .. key, hl.dsp.window.resize({ x = d.x * 20, y = d.y * 20, relative = true }), "Precise", { stay = true, repeating = true })
     end
+    -- Scrolling layout only: steps through scrolling.explicit_column_widths.
+    bind("W", hl.dsp.layout("colresize +conf"), "Wider column", { stay = true })
+    bind("N", hl.dsp.layout("colresize -conf"), "Narrower column", { stay = true })
 end)
 
 local function swap_current_workspace_with(target_id)
@@ -55,6 +58,16 @@ local function swap_current_workspace_with(target_id)
     end
 end
 
+-- Runtime workspace rules override the default layout until the next config reload.
+local function toggle_layout()
+    local workspace = hl.get_active_workspace()
+    if not workspace then
+        return
+    end
+    local layout = workspace.tiled_layout == "scrolling" and hl.get_config("general.layout") or "scrolling"
+    hl.workspace_rule({ workspace = tostring(workspace.id), layout = layout })
+end
+
 for key, id in mode.workspace_keys() do
     hl.bind("SUPER + " .. key, hl.dsp.focus({ workspace = id }), { description = "Workspace", submap_universal = true })
     hl.bind("SUPER + SHIFT + " .. key, hl.dsp.window.move({ workspace = id }), { description = "Move and follow", submap_universal = true })
@@ -64,6 +77,7 @@ mode.enter("SUPER + D", "Workspaces")
 mode.define("Workspaces", function(bind)
     mode.cycle(bind, hl.dsp.focus({ workspace = "e-1" }), hl.dsp.focus({ workspace = "e+1" }))
     bind("TAB", hl.dsp.focus({ workspace = "previous" }), "Previous visited")
+    bind("T", toggle_layout, "Toggle layout")
     for key, id in mode.workspace_keys() do
         bind(key, hl.dsp.focus({ workspace = id }), "Workspace")
     end
