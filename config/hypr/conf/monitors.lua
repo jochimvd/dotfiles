@@ -2,7 +2,7 @@
 
 hl.monitor({ output = "",                                                mode = "preferred",       position = "auto",         scale = 1 })
 hl.monitor({ output = "desc:BOE 0x09DC",                                 mode = "1920x1080@60",    position = "0x0",          scale = 1 }) -- Laptop
-hl.monitor({ output = "desc:GIGA-BYTE TECHNOLOGY CO. LTD. M28U",         mode = "3840x2160@120",   position = "-960x-2160",   scale = 1, vrr = 1 })
+hl.monitor({ output = "desc:ASUSTek COMPUTER INC XG32UCWMG",             mode = "highrr",          position = "-960x-2160",   scale = 1, vrr = 2 })
 
 -- B2 screens
 hl.monitor({ output = "desc:Samsung Electric Company S24C650",           mode = "preferred",       position = "0x-1200",      scale = 1 })
