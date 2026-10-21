@@ -11,6 +11,16 @@ mode.define("Session", function(bind)
     bind("P", hl.dsp.exec_cmd("dot-menu-power"), "Power menu")
 end)
 
+mode.enter("SUPER + N", "Notifications")
+mode.define("Notifications", function(bind)
+    bind("N", hl.dsp.exec_cmd("varde notifications invoke"), "Open latest")
+    bind("A", hl.dsp.exec_cmd("varde notifications actions"), "Actions")
+    bind("D", hl.dsp.exec_cmd("varde notifications dismiss"), "Dismiss latest", { stay = true })
+    bind("SHIFT + D", hl.dsp.exec_cmd("varde notifications clear"), "Dismiss all")
+    bind("C", hl.dsp.exec_cmd("varde notifications"), "Notification center")
+    bind("Z", hl.dsp.exec_cmd("varde notifications dnd"), "Do not disturb")
+end)
+
 mode.universal("PRINT", hl.dsp.exec_cmd("dot-cmd-screenshot"), "Screenshot")
 mode.universal("SHIFT + PRINT", hl.dsp.exec_cmd("dot-cmd-screenshot smart clipboard"), "Copy screenshot")
 
