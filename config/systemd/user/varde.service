@@ -6,6 +6,9 @@ Requisite=graphical-session.target
 
 [Service]
 Type=exec
+# GTK 4.24 binds ext-background-effect with an empty blur region, which makes
+# Hyprland 0.56 skip the blur layer rules. Remove once fixed upstream.
+Environment=GDK_WAYLAND_DISABLE=ext_background_effect_manager_v1
 ExecStart=%h/.local/bin/varde start
 Restart=on-failure
 Slice=app-graphical.slice
