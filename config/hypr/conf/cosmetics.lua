@@ -1,7 +1,7 @@
 -- See https://wiki.hypr.land/Configuring/Variables/
 
-local active_border   = "rgba(FFFFFFee)"
-local inactive_border = "rgba(595959ee)"
+local active_border   = "rgba(FFFFFF80)"
+local inactive_border = "rgba(333333ee)"
 
 hl.config({
     general = {
