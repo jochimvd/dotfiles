@@ -1,12 +1,13 @@
--- Fix RuneLite popups
+-- Float the RuneLite launcher and client
 hl.window_rule({
     match = {
         initial_class = "net-runelite-launcher-Launcher",
-        initial_title = "RuneLite",
+        initial_title = "^RuneLite( Launcher| - .*)?$",
     },
-    pseudo = true,
+    float = true,
 })
 
+-- Fix RuneLite popups
 hl.window_rule({
     match = {
         float = true,
