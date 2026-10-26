@@ -7,6 +7,12 @@ mode.universal("SUPER + B", hl.dsp.exec_cmd("dot-menu-keybinds"), "Keybinding he
 mode.enter("SUPER + X", "Session")
 mode.define("Session", function(bind)
     bind("L", hl.dsp.exec_cmd("dot-cmd-lockscreen"), "Lock")
+    -- The wiki warns against dpms straight from a keybind, so it runs from a timer.
+    bind("D", function()
+        hl.timer(function()
+            hl.dispatch(hl.dsp.dpms({ action = "off" }))
+        end, { timeout = 500, type = "oneshot" })
+    end, "Display off")
     bind("S", hl.dsp.exec_cmd("systemctl suspend"), "Suspend", { release = true })
     bind("P", hl.dsp.exec_cmd("dot-menu-power"), "Power menu")
 end)

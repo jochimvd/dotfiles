@@ -79,6 +79,7 @@ hl.config({
         disable_splash_rendering = true,
         focus_on_activate = true,
         anr_missed_pings = 5,
+        key_press_enables_dpms = true, -- wake the display after Display off; hypridle only wakes it after its own timeout
     },
 
     ecosystem = {
