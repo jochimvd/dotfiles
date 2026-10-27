@@ -3,11 +3,9 @@
 # Disable the internal laptop screen when the lid is closed AND at least
 # one external monitor is connected.
 
-LID_STATE_FILE=/proc/acpi/button/lid/LID/state
-
+# The lid's ACPI name varies (LID, LID0, ...)
 if [ "$1" != "lid-closed" ]; then
-    [ -r "$LID_STATE_FILE" ] || exit 0
-    [ "$(awk '{print $2}' "$LID_STATE_FILE")" = "closed" ] || exit 0
+    grep -qs closed /proc/acpi/button/lid/*/state || exit 0
 fi
 
 [ "$(hyprctl monitors -j | jq 'length')" -gt 1 ] || exit 0
