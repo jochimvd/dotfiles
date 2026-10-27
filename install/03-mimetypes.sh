@@ -9,6 +9,8 @@ xdg-mime default org.gnome.Nautilus.desktop inode/directory
 xdg-settings set default-web-browser smart-browser.desktop
 xdg-mime default smart-browser.desktop x-scheme-handler/http
 xdg-mime default smart-browser.desktop x-scheme-handler/https
+xdg-mime default smart-browser.desktop x-scheme-handler/about
+xdg-mime default smart-browser.desktop x-scheme-handler/unknown
 xdg-mime default smart-browser.desktop text/html
 xdg-mime default smart-browser.desktop application/xhtml+xml
 
