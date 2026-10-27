@@ -5,6 +5,11 @@ mkdir -p ~/.config
 cp -R ~/.local/share/dotfiles/config/* ~/.config/
 echo "source ~/.config/zsh/.zshenv" >~/.zshenv
 
+# Go reads GOPATH from its env file however it's started, but the file takes
+# no variables, so write it with this user's home
+mkdir -p ~/.config/go
+printf 'GOPATH=%s\n' "$HOME/.local/share/go" >~/.config/go/env
+
 systemctl --user enable --now keyboard-battery-monitor.timer
 
 # Copy .desktop files
