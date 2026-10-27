@@ -1,12 +1,14 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 CHOSEN=$(printf "Lock\nSuspend\nReboot\nShutdown\nLog Out" | varde dmenu -p "System...")
 
+# hyprshutdown closes apps gracefully in the background and runs the post command
+# only once they're gone (or force quit), not when cancelled
 case "$CHOSEN" in
     "Lock") dot-cmd-lockscreen ;;
     "Suspend") systemctl suspend ;;
-    "Reboot") hyprshutdown; systemctl reboot --no-wall ;;
-    "Shutdown") hyprshutdown; systemctl poweroff --no-wall ;;
-    "Log Out") uwsm stop ;;
+    "Reboot") hyprshutdown -t "Restarting..." -p "systemctl reboot --no-wall" ;;
+    "Shutdown") hyprshutdown -p "systemctl poweroff --no-wall" ;;
+    "Log Out") hyprshutdown -t "Logging out..." -p "uwsm stop" ;;
     *) exit 1 ;;
 esac
