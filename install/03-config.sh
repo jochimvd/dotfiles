@@ -32,6 +32,14 @@ net.ipv4.conf.all.arp_announce = 2
 EOF
 sudo sysctl --system >/dev/null
 
+# Cap the space the journal and crash dumps can use
+sudo mkdir -p /etc/systemd/journald.conf.d /etc/systemd/coredump.conf.d
+printf '[Journal]\nSystemMaxUse=1G\n' | \
+    sudo tee /etc/systemd/journald.conf.d/dotfiles.conf >/dev/null
+printf '[Coredump]\nMaxUse=1G\n' | \
+    sudo tee /etc/systemd/coredump.conf.d/dotfiles.conf >/dev/null
+sudo systemctl restart systemd-journald
+
 sudo systemctl enable --now systemd-networkd
 sudo systemctl enable --now systemd-resolved
 sudo systemctl reload-or-restart systemd-resolved
