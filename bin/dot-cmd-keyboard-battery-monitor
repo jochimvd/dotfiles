@@ -1,209 +1,56 @@
 #!/usr/bin/env bash
 
-# Initialize THRESHOLD as unset
-unset THRESHOLD
+# Print the battery level of every half of the connected ZMK split keyboards, and
+# notify when one is below the threshold given with -t.
+#
+# ZMK exposes the central's own level as a battery level characteristic without a
+# user description, and proxies each peripheral's level as one described
+# "Peripheral N" (CONFIG_ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_PROXY). With one
+# peripheral the central is the left half; with two the central is a dongle
+# without a battery, and peripheral 0 and 1 are assumed to be left and right.
 
-# Parse command line options
+usage() {
+  echo "Usage: ${0##*/} [-t threshold_percentage]"
+  echo "  -t PERCENT  Notify when a battery is below PERCENT"
+}
+
+THRESHOLD=
 while getopts ":t:h" opt; do
-  case ${opt} in
-    t )
+  case $opt in
+    t)
       THRESHOLD=$OPTARG
-      # Validate threshold is a number between 1 and 100
-      if ! [[ "$THRESHOLD" =~ ^[0-9]+$ ]] || [ "$THRESHOLD" -lt 1 ] || [ "$THRESHOLD" -gt 100 ]; then
-        echo "Error: Threshold must be a number between 1 and 100"
+      if ! [[ $THRESHOLD =~ ^[0-9]+$ ]] || (( THRESHOLD < 1 || THRESHOLD > 100 )); then
+        echo "Threshold must be a number between 1 and 100" >&2
         exit 1
       fi
       ;;
-    h )
-      echo "Usage: $0 [-t threshold_percentage]"
-      echo "Options:"
-      echo "  -t PERCENT  Set battery threshold percentage for notifications"
-      echo "  -h          Display this help message"
-      echo "Example: $0 -t 15 (will notify when battery is below 15%)"
-      echo "If no threshold is set, the script will only display battery levels without notifications."
-      exit 0
-      ;;
-    \? )
-      echo "Invalid option: -$OPTARG" 1>&2
-      echo "Use -h for help"
-      exit 1
-      ;;
-    : )
-      echo "Option -$OPTARG requires an argument" 1>&2
-      echo "Use -h for help"
-      exit 1
-      ;;
+    h) usage; exit 0 ;;
+    *) usage >&2; exit 1 ;;
   esac
 done
 
-if [[ -n "$THRESHOLD" ]]; then
-    echo "Using battery threshold: $THRESHOLD%"
-fi
+busctl --system --json=short call org.bluez / org.freedesktop.DBus.ObjectManager GetManagedObjects |
+  jq -r '
+    .data[0] as $o
+    | [$o | keys[] | select($o[.]["org.bluez.GattDescriptor1"].UUID.data == "00002901-0000-1000-8000-00805f9b34fb")
+        | sub("/desc[^/]*$"; "")] as $described
+    | [$o | keys[] | select($o[.]["org.bluez.GattCharacteristic1"].UUID.data == "00002a19-0000-1000-8000-00805f9b34fb")]
+    | group_by(sub("/service.*"; ""))[]
+    | (.[0] | sub("/service.*"; "")) as $device
+    | select($o[$device]["org.bluez.Device1"].Connected.data)
+    | map(select(IN($described[]))) as $peripherals
+    | (map(select(IN($described[]) | not)) | if ($peripherals | length) > 1 then [] else . end) as $central
+    | if ($peripherals | length) == 0 then $central | map([., ""])
+      elif ($peripherals | length) == 1 then [[$central[0], "left"], [$peripherals[0], "right"]]
+      else $peripherals | to_entries | map([.value, ["left", "right"][.key] // "peripheral \(.key)"])
+      end
+    | .[] | select(.[0]) | [.[0], $o[$device]["org.bluez.Device1"].Alias.data, .[1]] | @tsv' |
+  while IFS=$'\t' read -r path name half; do
+    level=$(busctl --system --json=short call org.bluez "$path" org.bluez.GattCharacteristic1 ReadValue 'a{sv}' 0 |
+      jq '.data[0][0] // empty')
+    echo "$name${half:+ $half}: ${level:-N/A}%"
 
-DBUS_CONN="org.bluez"
-DBUS_PATH="/org/bluez/hci0"
-DBUS_GET_PROP="org.freedesktop.DBus.Properties.Get"
-
-BATTERY_UUID="0000180f-0000-1000-8000-00805f9b34fb"
-BATTERY_LEVEL_UUID="00002a19-0000-1000-8000-00805f9b34fb"
-BATTERY_USER_DESC="00002901-0000-1000-8000-00805f9b34fb"
-
-DEVICES=$(gdbus introspect \
-    --system \
-    --only-properties \
-    --dest "$DBUS_CONN" \
-    --object-path "$DBUS_PATH" \
-    | grep -o 'dev_[A-Z0-9_]*'
-)
-
-if [[ -z "$DEVICES" ]]; then
-    echo "No paired devices"
-    exit 0
-fi
-
-readarray -t DEVICES_ARR <<< "$DEVICES"
-
-for ID in "${DEVICES_ARR[@]}"; do
-    DEVICE_PATH="$DBUS_PATH/$ID"
-    CONNECTED=$(
-    gdbus call \
-        --system \
-        --dest "$DBUS_CONN" \
-        --object-path "$DEVICE_PATH" \
-        --method "$DBUS_GET_PROP" \
-        "org.bluez.Device1" \
-        "Connected" \
-        | grep -o '\(\<.*\>\)'
-    )
-    if [ "$CONNECTED" = "false" ]; then
-        continue
+    if [[ -n $THRESHOLD && -n $level ]] && (( level < THRESHOLD )); then
+      notify-send -u critical "Keyboard Battery Low" "The $name${half:+ $half half} battery is at $level%."
     fi
-
-    NAME=$(
-    gdbus call \
-        --system \
-        --dest "$DBUS_CONN" \
-        --object-path "$DEVICE_PATH" \
-        --method "$DBUS_GET_PROP" \
-        "org.bluez.Device1" \
-        "Alias" \
-        | grep -o '\(\<.*\>\)'
-    )
-
-    echo "Name: $NAME ($ID)"
-    echo "Batteries:"
-
-    CHILD_PATHS=$(
-    gdbus introspect \
-        --system \
-        --only-properties \
-        --dest "$DBUS_CONN" \
-        --object-path "$DEVICE_PATH" \
-        | grep -o 'service00..'
-    )
-    readarray -t CHILD_PATHS_ARR <<< "$CHILD_PATHS"
-
-    for SVC in "${CHILD_PATHS_ARR[@]}"; do
-        UUID=$(
-        gdbus call \
-            --system \
-            --dest "$DBUS_CONN" \
-            --object-path "$DEVICE_PATH/$SVC" \
-            --method "$DBUS_GET_PROP" \
-            "org.bluez.GattService1" \
-            "UUID" \
-            | grep -o '\(\<.*\>\)'
-        )
-        if [ "$UUID" != "$BATTERY_UUID" ]; then
-            continue
-        fi
-        CHILD_PATHS=$(
-        gdbus introspect \
-            --system \
-            --only-properties \
-            --dest "$DBUS_CONN" \
-            --object-path "$DEVICE_PATH/$SVC" \
-            | grep -o 'char00..'
-        )
-        readarray -t CHILD_PATHS_ARR <<< "$CHILD_PATHS"
-
-        LEFT=1
-
-        for CHR in "${CHILD_PATHS_ARR[@]}"; do
-            UUID=$(
-            gdbus call \
-                --system \
-                --dest "$DBUS_CONN" \
-                --object-path "$DEVICE_PATH/$SVC/$CHR" \
-                --method "$DBUS_GET_PROP" \
-                "org.bluez.GattCharacteristic1" \
-                "UUID" \
-                | grep -o '\(\<.*\>\)'
-            )
-            if [ "$UUID" != "$BATTERY_LEVEL_UUID" ]; then
-                continue
-            fi
-            VALUE=$(
-            gdbus call \
-                --system \
-                --dest "$DBUS_CONN" \
-                --object-path "$DEVICE_PATH/$SVC/$CHR" \
-                --method org.bluez.GattCharacteristic1.ReadValue \
-                {} \
-                | grep -o '0x..' \
-                | sed 's/0x//g'
-            )
-            CHILD_PATHS=$(
-            gdbus introspect \
-                --system \
-                --only-properties \
-                --dest "$DBUS_CONN" \
-                --object-path "$DEVICE_PATH/$SVC/$CHR" \
-                | grep -o 'desc00..'
-            )
-            readarray -t CHILD_PATHS_ARR <<< "$CHILD_PATHS"
-
-            for DESC in "${CHILD_PATHS_ARR[@]}"; do
-                UUID=$(
-                gdbus call \
-                    --system \
-                    --dest "$DBUS_CONN" \
-                    --object-path "$DEVICE_PATH/$SVC/$CHR/$DESC" \
-                    --method "$DBUS_GET_PROP" \
-                    "org.bluez.GattDescriptor1" \
-                    "UUID" \
-                    | grep -o '\(\<.*\>\)'
-                )
-                if [ "$UUID" = "$BATTERY_USER_DESC" ]; then
-                    if [ "$LEFT" -eq 1 ]; then
-                        TYPE="left"
-                        LEFT=0
-                    else
-                        TYPE="right"
-                    fi
-                else
-                    TYPE="dongle"
-                fi
-            done
-
-            if [ "$TYPE" = "dongle" ]; then
-                continue
-            fi
-
-            if [[ -z $VALUE ]]; then
-                VALUE="N/A"
-                BATTERY_LEVEL="N/A"
-            else
-                BATTERY_LEVEL=$((16#$VALUE))
-                VALUE="$BATTERY_LEVEL%"
-
-                # Check if threshold is set and battery level is below threshold
-                if [[ -n "$THRESHOLD" && "$BATTERY_LEVEL" != "N/A" && "$BATTERY_LEVEL" -lt "$THRESHOLD" ]]; then
-                    notify-send -u critical "Keyboard Battery Low" "The $NAME keyboard $TYPE half battery is at $VALUE."
-                fi
-            fi
-
-            echo "    $VALUE $TYPE"
-        done
-    done
-done
+  done

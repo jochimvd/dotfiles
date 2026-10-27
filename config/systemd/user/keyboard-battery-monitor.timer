@@ -1,6 +1,5 @@
 [Unit]
 Description=Keyboard Battery Monitor Timer
-Requires=keyboard-battery-monitor.service
 
 [Timer]
 OnBootSec=1min
