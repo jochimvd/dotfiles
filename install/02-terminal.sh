@@ -16,5 +16,5 @@ sudo systemctl enable paccache.timer
 
 # change shell
 if [ "$SHELL" != "/usr/bin/zsh" ]; then
-    chsh -s /usr/bin/zsh || { echo "Failed to change shell to zsh"; exit 1; }
+    sudo chsh -s /usr/bin/zsh "$USER" || { echo "Failed to change shell to zsh"; exit 1; }
 fi
