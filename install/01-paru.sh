@@ -20,3 +20,6 @@ if ! command -v paru &> /dev/null; then
     cd - > /dev/null
     rm -rf /tmp/paru
 fi
+
+# Remove packages that were only needed to build an AUR package
+sudo sed -i 's/^#RemoveMake/RemoveMake/' /etc/paru.conf
