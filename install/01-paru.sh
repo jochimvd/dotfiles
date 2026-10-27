@@ -11,7 +11,10 @@ MAKEFLAGS="-j$(nproc)"
 OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)
 EOF
 
-sudo pacman -S --needed --noconfirm base-devel
+sudo pacman -S --needed --noconfirm base-devel rustup
+
+# paru is built with cargo, which needs a default Rust toolchain
+rustup default stable
 
 if ! command -v paru &> /dev/null; then
     git clone https://aur.archlinux.org/paru.git /tmp/paru || { echo "Failed to clone paru"; exit 1; }
