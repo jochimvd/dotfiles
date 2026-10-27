@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# Color output and parallel downloads
+grep -q '^Color' /etc/pacman.conf || sudo sed -i '/^\[options\]/a Color' /etc/pacman.conf
+sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
+
 sudo pacman -S --needed --noconfirm base-devel
 
 if ! command -v paru &> /dev/null; then
@@ -8,7 +12,4 @@ if ! command -v paru &> /dev/null; then
     makepkg -si
     cd - > /dev/null
     rm -rf /tmp/paru
-
-    # add color to pacman
-    sudo sed -i '/^\[options\]/a Color' /etc/pacman.conf
 fi
