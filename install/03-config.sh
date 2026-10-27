@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Copy config
+mkdir -p ~/.config
 cp -R ~/.local/share/dotfiles/config/* ~/.config/
 echo "source ~/.config/zsh/.zshenv" >~/.zshenv
 
