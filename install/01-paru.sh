@@ -4,10 +4,12 @@
 grep -q '^Color' /etc/pacman.conf || sudo sed -i '/^\[options\]/a Color' /etc/pacman.conf
 sudo sed -i 's/^#ParallelDownloads/ParallelDownloads/' /etc/pacman.conf
 
-# Build AUR packages on all cores, without separate debug packages
+# Build AUR packages on all cores, without separate debug packages or running
+# their test suites
 sudo mkdir -p /etc/makepkg.conf.d
 sudo tee /etc/makepkg.conf.d/dotfiles.conf >/dev/null <<'EOF'
 MAKEFLAGS="-j$(nproc)"
+BUILDENV=(!distcc color !ccache !check !sign)
 OPTIONS=(strip docs !libtool !staticlibs emptydirs zipman purge !debug lto)
 EOF
 
