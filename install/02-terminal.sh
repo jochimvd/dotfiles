@@ -4,7 +4,7 @@ paru -S --noconfirm --needed \
     ghostty tmux \
     zsh eza zoxide atuin bat fzf jq fd \
     oh-my-posh-bin \
-    man-db man-pages tlrc-bin \
+    man-db man-pages \
     wget curl inetutils \
     wl-clipboard cliphist btop \
     rate-mirrors

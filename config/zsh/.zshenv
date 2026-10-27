@@ -16,6 +16,10 @@ export XDG_SCREENSHOTS_DIR="$HOME/Pictures/Screenshots"
 # (GOPATH itself is set in ~/.config/go/env, which Go reads however it is started)
 export PATH="$HOME/.local/bin:$HOME/.local/share/dotfiles/bin:$HOME/.local/share/go/bin:$PATH"
 
+# mise shims, for programs started outside an interactive shell
+# .zshrc's `mise activate` takes precedence
+export PATH="$PATH:$XDG_DATA_HOME/mise/shims"
+
 # cleaning up the home folder
 export LESSHISTFILE="-"
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"

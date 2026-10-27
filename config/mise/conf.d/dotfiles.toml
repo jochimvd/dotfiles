@@ -1,0 +1,14 @@
+# Default tools.
+# `mise use -g` writes to ~/.config/mise/config.toml,
+# which stays out of the repo.
+[tools]
+go = "latest"
+"go:golang.org/x/tools/gopls" = "latest"
+lazydocker = "latest"
+lazygit = "latest"
+lua-language-server = "latest"
+node = "lts"
+tlrc = "latest"
+tree-sitter = "latest"
+ty = "latest"
+uv = "latest"
