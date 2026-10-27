@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-if [[ ! -d "$XDG_SCREENSHOTS_DIR" ]]; then
-  notify-send "Screenshot directory does not exist: $XDG_SCREENSHOTS_DIR" -u critical -t 3000
-  exit 1
-fi
+mkdir -p "$XDG_SCREENSHOTS_DIR"
 
 pkill slurp && exit 0
 
