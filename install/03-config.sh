@@ -19,8 +19,16 @@ xdg-mime default smart-browser.desktop x-scheme-handler/https
 # Symlink resolved stub-resolv to /etc/resolv.conf
 sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 
+# Public servers only when no network provides one
+sudo mkdir -p /etc/systemd/resolved.conf.d
+sudo tee /etc/systemd/resolved.conf.d/30-dns.conf >/dev/null <<'EOF'
+[Resolve]
+FallbackDNS=1.1.1.1 8.8.8.8
+EOF
+
 sudo systemctl enable --now systemd-networkd
 sudo systemctl enable --now systemd-resolved
+sudo systemctl reload-or-restart systemd-resolved
 
 # Prevent systemd-networkd-wait-online timeout on boot
 sudo systemctl disable systemd-networkd-wait-online.service
