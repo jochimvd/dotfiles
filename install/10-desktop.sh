@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# gearlever needs dwarfs; install the prebuilt one first so paru doesn't
+# compile it
+paru -S --noconfirm --needed dwarfs-bin
+
 paru -S --noconfirm --needed \
     kernel-modules-hook \
     iwd wireless-regdb \
