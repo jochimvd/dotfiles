@@ -14,6 +14,9 @@ xdg-mime default smart-browser.desktop x-scheme-handler/unknown
 xdg-mime default smart-browser.desktop text/html
 xdg-mime default smart-browser.desktop application/xhtml+xml
 
+# No mail app, so mailto: links open webmail in the browser.
+xdg-mime default smart-browser.desktop x-scheme-handler/mailto
+
 # Open PDFs with Papers.
 xdg-mime default org.gnome.Papers.desktop application/pdf
 
