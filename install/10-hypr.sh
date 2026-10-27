@@ -13,8 +13,7 @@ cargo install --locked --force --root "$HOME/.local" \
     --git https://github.com/jochimvd/varde.git varde
 
 systemctl --user daemon-reload
-systemctl --user enable --now varde.service
-systemctl --user enable --now hypridle.service
-systemctl --user enable --now hyprpaper.service
-systemctl --user enable --now hyprpolkitagent.service
-systemctl --user restart varde.service
+# These need a Hyprland session, so they start at the next login. Restart varde
+# only if a session is already running it, to pick up the new build
+systemctl --user enable varde.service hypridle.service hyprpaper.service hyprpolkitagent.service
+systemctl --user try-restart varde.service
