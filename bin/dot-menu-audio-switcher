@@ -14,9 +14,32 @@ EOF
     exit 1
 }
 
+# Function to list all sinks as JSON, with whether any of their ports is
+# available (sinks without ports count as available)
+list_sinks() {
+    pw-dump | jq '
+        (map(select(.type == "PipeWire:Interface:Device")) | INDEX(.id)) as $devices
+        | map(select(.info.props."media.class" == "Audio/Sink") | .info.props as $p
+            | [$devices[$p."device.id" // "" | tostring].info.params.EnumRoute[]?
+                | select(.direction == "Output" and (.devices | index($p."card.profile.device")))] as $ports
+            | {
+                id,
+                name: $p."node.name",
+                description: $p."node.description",
+                nick: $p."node.nick",
+                available: (($ports | length == 0) or ($ports | any(.available != "no")))
+            })'
+}
+
+# Function to print the name of the default sink
+get_default_sink() {
+    pw-dump | jq -r '.[] | select(.props."metadata.name" == "default") | .metadata[]
+        | select(.key == "default.audio.sink") | .value.name'
+}
+
 # Function to cycle to the next sink
 cycle_to_next_sink() {
-    sinks=$(pactl -f json list sinks | jq '[.[] | select((.ports | length == 0) or ([.ports[]? | .availability != "not available"] | any))]')
+    sinks=$(list_sinks | jq 'map(select(.available))')
     sinks_count=$(echo "$sinks" | jq '. | length')
 
     if [ "$sinks_count" -eq 0 ]; then
@@ -24,7 +47,7 @@ cycle_to_next_sink() {
         exit 1
     fi
 
-    current_sink_name=$(pactl get-default-sink)
+    current_sink_name=$(get_default_sink)
     current_sink_index=$(echo "$sinks" | jq -r --arg name "$current_sink_name" 'map(.name) | index($name)')
 
     if [ "$current_sink_index" != "null" ]; then
@@ -34,11 +57,12 @@ cycle_to_next_sink() {
     fi
 
     next_sink=$(echo "$sinks" | jq -r ".[$next_sink_index]")
+    next_sink_id=$(echo "$next_sink" | jq -r '.id')
     next_sink_name=$(echo "$next_sink" | jq -r '.name')
     next_sink_description=$(echo "$next_sink" | jq -r '.description')
 
     if [ "$next_sink_name" != "$current_sink_name" ]; then
-        pactl set-default-sink "$next_sink_name"
+        wpctl set-default "$next_sink_id"
     fi
 
     echo "Switched to sink: $next_sink_description ($next_sink_name)"
@@ -46,37 +70,31 @@ cycle_to_next_sink() {
 
 # Function to play a chime sound
 play_chime() {
-    if command -v speaker-test &> /dev/null; then
-        # Send low-freq primer to wake audio
-        speaker-test -t sine -f 50 -l 1 >/dev/null 2>&1 & primer_pid=$!
-        sleep 0.01
-        kill -9 $primer_pid
-
-        sleep 0.2
-        
-        # Main chime
-        speaker-test -t sine -f 800 -l 1 >/dev/null 2>&1 & pid=$!
-        sleep 0.05
-        kill -9 $pid
+    if command -v mpv &> /dev/null; then
+        # 50ms 800 Hz beep after 0.2s of silence to wake the sink, padded at
+        # the end so mpv doesn't cut it short
+        mpv --no-config --really-quiet --no-video \
+            "av://lavfi:sine=frequency=800:duration=0.05,adelay=200,apad=pad_dur=0.1" >/dev/null 2>&1
     else
-        echo "speaker-test command not found."
+        echo "mpv command not found."
     fi
 }
 
 # Function to select a sink using a menu
 select_sink() {
-    selected_nick=$(pactl --format=json list sinks | jq -r '.[].properties."node.nick"' | varde dmenu -p "Audio output")
+    sinks=$(list_sinks)
+    selected_nick=$(echo "$sinks" | jq -r '.[].nick' | varde dmenu -p "Audio output")
 
     if [ -z "$selected_nick" ]; then
         exit 1
     fi
 
-    sink_name=$(pactl --format=json list sinks | jq -r --arg nick "$selected_nick" \
-        '.[] | select(.properties."node.nick" == $nick) | .name')
+    sink_id=$(echo "$sinks" | jq -r --arg nick "$selected_nick" \
+        'first(.[] | select(.nick == $nick) | .id) // empty')
 
-    if [ -n "$sink_name" ]; then
-        pactl set-default-sink "$sink_name"
-        actual_sink=$(pactl get-default-sink)
+    if [ -n "$sink_id" ]; then
+        wpctl set-default "$sink_id"
+        actual_sink=$(get_default_sink)
         echo "Default sink set to: $actual_sink"
     else
         echo "No matching sink found for: $selected_nick"
