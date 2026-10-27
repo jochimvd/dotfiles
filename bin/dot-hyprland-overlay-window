@@ -22,7 +22,7 @@ y=${4:-}
 
 active=$(hyprctl activewindow -j)
 pinned=$(echo "$active" | jq ".pinned")
-addr=$(echo "$active" | jq -r ".address")
+addr=$(echo "$active" | jq -r ".address // empty")
 win="address:$addr"
 
 if [[ $pinned == "true" ]]; then
@@ -31,7 +31,7 @@ if [[ $pinned == "true" ]]; then
     dispatch hl.dsp.window.float({ window = \"$win\", action = \"toggle\" }) ;\
     dispatch hl.dsp.window.tag({ window = \"$win\", tag = \"-overlay\" })"
 elif [[ -n $addr ]]; then
-  hyprctl dispatch "hl.dsp.window.float({ window = \"$win\", action = \"toggle\" })"
+  hyprctl dispatch "hl.dsp.window.float({ window = \"$win\", action = \"set\" })"
   hyprctl dispatch "hl.dsp.window.resize({ window = \"$win\", x = $width, y = $height })"
 
   if [[ -n $x && -n $y ]]; then
