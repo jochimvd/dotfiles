@@ -7,11 +7,12 @@ Usage: $(basename "$0") [OPTIONS]
 
 Options:
   --cycle          Cycle to the next audio sink.
+  --chime          Play the chime on the current sink.
   --help           Display this help message and exit.
 
 If no options are provided, the script will display a sink selection menu.
 EOF
-    exit 1
+    exit "${1:-1}"
 }
 
 # Function to list all sinks as JSON, with whether any of their ports is
@@ -121,7 +122,7 @@ while [ $# -gt 0 ]; do
             exit 0
             ;;
         --help)
-            print_usage
+            print_usage 0
             ;;
         *)
             echo "Unknown option: $1"
