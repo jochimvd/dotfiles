@@ -30,6 +30,9 @@ systemctl --user daemon-reload
 systemctl --user enable tailscale-systray.service
 systemctl --user restart tailscale-systray.service
 
+# Generate the locales set below
+sudo sed -i -E 's/^#(en_(US|GB)\.UTF-8 UTF-8)/\1/' /etc/locale.gen
+sudo locale-gen >/dev/null
 
 sudo localectl set-locale \
     LANG=en_US.UTF-8 \
