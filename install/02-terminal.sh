@@ -7,7 +7,12 @@ paru -S --noconfirm --needed \
     man-db man-pages \
     wget curl inetutils \
     wl-clipboard cliphist btop \
-    rate-mirrors
+    rate-mirrors \
+    unzip zip 7zip rsync openssh ripgrep lsof usbutils openbsd-netcat whois \
+    pacman-contrib
+
+# Trim the pacman package cache weekly
+sudo systemctl enable paccache.timer
 
 # change shell
 if [ "$SHELL" != "/usr/bin/zsh" ]; then

@@ -4,8 +4,8 @@ paru -S --noconfirm --needed \
     kernel-modules-hook \
     iwd wireless-regdb \
     brightnessctl playerctl wireplumber power-profiles-daemon \
-    pavucontrol impala bluetui udiskie \
-    nautilus sushi papers gnome-calculator gnome-keyring seahorse \
+    pavucontrol impala bluez bluez-utils bluetui udiskie \
+    nautilus gvfs-smb webp-pixbuf-loader sushi papers gnome-calculator gnome-keyring seahorse \
     grim slurp wayfreeze-git satty wl-screenrec \
     gearlever \
     chromium zen-browser-bin \

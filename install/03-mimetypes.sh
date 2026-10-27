@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+paru -S --noconfirm --needed xdg-utils
+
 # Open directories in the file manager.
 xdg-mime default org.gnome.Nautilus.desktop inode/directory
 
