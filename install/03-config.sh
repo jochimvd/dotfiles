@@ -26,6 +26,15 @@ sudo tee /etc/systemd/resolved.conf.d/30-dns.conf >/dev/null <<'EOF'
 FallbackDNS=1.1.1.1 8.8.8.8
 EOF
 
+# Answer ARP only on the interface that holds the address, so a machine on
+# Ethernet and Wi-Fi in the same subnet doesn't get its replies sent to the
+# wrong interface
+sudo tee /etc/sysctl.d/90-multihome-arp.conf >/dev/null <<'EOF'
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.conf.all.arp_announce = 2
+EOF
+sudo sysctl --system >/dev/null
+
 sudo systemctl enable --now systemd-networkd
 sudo systemctl enable --now systemd-resolved
 sudo systemctl reload-or-restart systemd-resolved
