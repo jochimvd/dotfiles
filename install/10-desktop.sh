@@ -11,6 +11,12 @@ paru -S --noconfirm --needed \
     chromium zen-browser-bin \
     imv mpv tailscale syncthing
 
+# Change the login keyring's password when using passwd
+if ! grep -q 'pam_gnome_keyring' /etc/pam.d/passwd; then
+    printf 'password\toptional\tpam_gnome_keyring.so\n' | \
+        sudo tee -a /etc/pam.d/passwd >/dev/null
+fi
+
 sudo systemctl enable linux-modules-cleanup.service
 sudo systemctl enable --now iwd.service
 sudo systemctl enable --now bluetooth.service
