@@ -3,9 +3,8 @@
 # First battery, BAT0 or BAT1 depending on the laptop
 battery=(/sys/class/power_supply/BAT*)
 
-# No battery found, exit gracefully with message to stderr
+# No battery found, print nothing so the lock screen label stays empty
 if [ ! -d "${battery[0]}" ]; then
-    >&2 echo "No battery found."
     exit 0
 fi
 
