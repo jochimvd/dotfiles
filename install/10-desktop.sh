@@ -6,7 +6,7 @@ paru -S --noconfirm --needed \
     brightnessctl playerctl wireplumber power-profiles-daemon \
     pavucontrol impala bluez bluez-utils bluetui udiskie \
     nautilus gvfs-smb webp-pixbuf-loader sushi papers gnome-calculator gnome-keyring seahorse \
-    grim slurp wayfreeze-git satty wl-screenrec \
+    grim slurp satty wl-screenrec \
     gearlever \
     chromium zen-browser-bin \
     imv mpv tailscale syncthing
