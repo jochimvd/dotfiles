@@ -1,16 +1,19 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+# First battery, BAT0 or BAT1 depending on the laptop
+battery=(/sys/class/power_supply/BAT*)
 
 # No battery found, exit gracefully with message to stderr
-if [ ! -d /sys/class/power_supply/BAT0 ]; then
+if [ ! -d "${battery[0]}" ]; then
     >&2 echo "No battery found."
     exit 0
 fi
 
 # Get the current battery percentage
-battery_percentage=$(cat /sys/class/power_supply/BAT0/capacity)
+battery_percentage=$(cat "${battery[0]}/capacity")
 
 # Get the battery status (Charging or Discharging)
-battery_status=$(cat /sys/class/power_supply/BAT0/status)
+battery_status=$(cat "${battery[0]}/status")
 
 battery_icons=("󰂃" "󰁺" "󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 charging_icon="󰂄"
