@@ -8,6 +8,7 @@
 # "Peripheral N" (CONFIG_ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_PROXY). With one
 # peripheral the central is the left half; with two the central is a dongle
 # without a battery, and peripheral 0 and 1 are assumed to be left and right.
+# A peripheral that is asleep or out of range is reported as 0%.
 
 usage() {
   echo "Usage: ${0##*/} [-t threshold_percentage]"
@@ -48,9 +49,22 @@ busctl --system --json=short call org.bluez / org.freedesktop.DBus.ObjectManager
   while IFS=$'\t' read -r path name half; do
     level=$(busctl --system --json=short call org.bluez "$path" org.bluez.GattCharacteristic1 ReadValue 'a{sv}' 0 |
       jq '.data[0][0] // empty')
+    if [[ $level == 0 ]]; then
+      echo "$name${half:+ $half}: asleep"
+      continue
+    fi
     echo "$name${half:+ $half}: ${level:-N/A}%"
 
     if [[ -n $THRESHOLD && -n $level ]] && (( level < THRESHOLD )); then
-      notify-send -u critical "Keyboard Battery Low" "The $name${half:+ $half half} battery is at $level%."
+      # The tag makes each check replace the previous notification for this half
+      args=(-a Keyboard -i input-keyboard-symbolic
+        -h "string:image-path:battery-level-$(( level / 10 * 10 ))-symbolic"
+        -h "string:x-dunst-stack-tag:keyboard-battery-$name-$half")
+      if (( level <= 5 )); then
+        notify-send -u critical "${args[@]}" -h string:sound-name:dialog-warning \
+          "$name${half:+ $half half} at $level%" "Charge it now, it will switch off soon."
+      else
+        notify-send "${args[@]}" "$name${half:+ $half half} at $level%" "Charge it soon."
+      fi
     fi
   done
