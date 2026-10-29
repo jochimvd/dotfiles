@@ -6,6 +6,7 @@ hl.config({
         kb_variant = "altgr-intl",
 
         follow_mouse = 1,
+        follow_mouse_shrink = 4,  -- same as gaps
         -- follow_mouse_threshold = 5,
 
         accel_profile = "flat",
