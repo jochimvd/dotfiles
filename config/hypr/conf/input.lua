@@ -19,7 +19,12 @@ hl.config({
     },
 
     cursor = {
-        hide_on_key_press = true,
+        no_warps = true,
+        persistent_warps = true,
+        warp_on_change_workspace = 0,
+        -- warp_on_monitor_change = 2,
+        warp_on_toggle_special = 0,
+        inactive_timeout = 5,
     },
 
     binds = {
