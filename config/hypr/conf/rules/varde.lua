@@ -25,3 +25,9 @@ hl.layer_rule({
     no_screen_share = true,
     animation = "slide right",
 })
+
+hl.layer_rule({
+    match = { namespace = "varde-osd" },
+    blur = true,
+    ignore_alpha = 0.3,
+})
