@@ -26,7 +26,7 @@ hl.config({
         },
         groupbar = {
             blur = true,
-            height = 0,
+            render_titles = false,
             gaps_in = 4,
             gaps_out = 4,
             keep_upper_gap = false,
